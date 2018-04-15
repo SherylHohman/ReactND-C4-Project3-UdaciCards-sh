@@ -1,0 +1,661 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"form",
+				"formattedDate"
+			],
+			[
+				"to",
+				"toLocaleDateString"
+			],
+			[
+				"entr",
+				"entryId"
+			],
+			[
+				"ba",
+				"backgroundColor"
+			],
+			[
+				"p",
+				"primaryColor"
+			],
+			[
+				"U",
+				"UdaciFitnessCalendar"
+			],
+			[
+				"al",
+				"alreadyLogged"
+			],
+			[
+				"Tex",
+				"TextButton"
+			],
+			[
+				"is",
+				"isRequired"
+			],
+			[
+				"fet",
+				"fetchCategories"
+			],
+			[
+				"cl",
+				"cl\tconsole.log()"
+			],
+			[
+				"current",
+				"currentCategoryPath"
+			],
+			[
+				"act",
+				"actionCreators"
+			],
+			[
+				"DEFAULT_SO",
+				"DEFAULT_SORT_ORDER"
+			],
+			[
+				"selec",
+				"selectedCategoryPath"
+			],
+			[
+				"getCaN",
+				"getCategoryNames"
+			],
+			[
+				"com",
+				"Component"
+			],
+			[
+				"selected",
+				"selectedCategoryPath2"
+			],
+			[
+				"rou",
+				"routerProps"
+			],
+			[
+				"caP",
+				"categoryPath"
+			],
+			[
+				"pr",
+				"preventDefault"
+			],
+			[
+				"cateP",
+				"categoriesPaths"
+			],
+			[
+				"cate",
+				"categoryPath"
+			],
+			[
+				"Page",
+				"PageNotFound"
+			],
+			[
+				"change",
+				"changeCategory"
+			],
+			[
+				"Refactor",
+				"REFACTOR"
+			],
+			[
+				"ca",
+				"categories"
+			],
+			[
+				"cuc",
+				"currentCategoryPath"
+			],
+			[
+				"persistent",
+				"persistentCategoryPath"
+			],
+			[
+				"per",
+				"persistentCategoryPath"
+			],
+			[
+				"cu",
+				"currentUrl"
+			],
+			[
+				"up",
+				"updateLocation"
+			],
+			[
+				"ne",
+				"nextProps"
+			],
+			[
+				"n",
+				"nextProps"
+			],
+			[
+				"class",
+				"className"
+			],
+			[
+				"bor",
+				"border-color"
+			],
+			[
+				"title",
+				"titleCase"
+			],
+			[
+				"EDIT_COMMENT_",
+				"EDIT_COMMENT_SUCCESS"
+			],
+			[
+				"A",
+				"ADD_COMMENT_SUCCESS"
+			],
+			[
+				"E",
+				"EDIT_COMMENT_FAILURE"
+			],
+			[
+				"new",
+				"newCommentCount"
+			],
+			[
+				"pa",
+				"parentId"
+			],
+			[
+				"DELETE_COMMENT_",
+				"DELETE_COMMENT_FAILURE"
+			],
+			[
+				"time",
+				"timestamp"
+			],
+			[
+				"D",
+				"DESCENDING"
+			],
+			[
+				"persis",
+				"persistentSort"
+			],
+			[
+				"on",
+				"onSelectCategory"
+			],
+			[
+				"changeViewBy",
+				"ChangeViewByCategory"
+			],
+			[
+				"postd",
+				"postId"
+			],
+			[
+				"Dele",
+				"DELETE_POST_SUCCESS"
+			],
+			[
+				"sele",
+				"selectedCategory"
+			],
+			[
+				"sec",
+				"selectedCategory"
+			],
+			[
+				"cla",
+				"className"
+			],
+			[
+				"co",
+				"console\tconsole.log()"
+			],
+			[
+				"vote",
+				"voteScore"
+			],
+			[
+				"c",
+				"console\tconsole.log()"
+			],
+			[
+				"deep",
+				"deepEquals"
+			],
+			[
+				"mat",
+				"matchSoFar"
+			],
+			[
+				"m",
+				"matchSoFar"
+			],
+			[
+				"la",
+				"largestSum"
+			],
+			[
+				"lar",
+				"largestSum"
+			],
+			[
+				"ch",
+				"cheeseStickConsumption"
+			],
+			[
+				"numb",
+				"numberOfFellows"
+			],
+			[
+				"num",
+				"numberOfFellows"
+			],
+			[
+				"common",
+				"commonCharacters"
+			],
+			[
+				"nth",
+				"nthFibonacci"
+			],
+			[
+				"pairs",
+				"pairsThisMonth"
+			],
+			[
+				"pair",
+				"pairsMonthNMinus2"
+			],
+			[
+				"pairsMont",
+				"pairsMonthNMinus1"
+			],
+			[
+				"google",
+				"googleCommuteData"
+			],
+			[
+				"po",
+				"populateCommuteTimes"
+			],
+			[
+				"goo",
+				"googleCommuteData"
+			],
+			[
+				"cat",
+				"categoryListings"
+			],
+			[
+				"qu",
+				"queryString"
+			],
+			[
+				"sh",
+				"shAPIkey_googleDistanceMatrixAPI"
+			],
+			[
+				"du",
+				"dummyData"
+			],
+			[
+				"for",
+				"format_of_returned_data"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 119.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"i",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"markdown",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"packag",
+				"Package Control: Install Package"
+			],
+			[
+				"p ins",
+				"Package Control: Install Package"
+			],
+			[
+				"pretti",
+				"HTMLPrettify"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 476.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-Project3-UdaciCards/UdaciCards-sh"
+	],
+	"file_history":
+	[
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/node_modules/react-native/Libraries/Renderer/ReactNativeRenderer-dev.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/History.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/MetricCard.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/TextButton.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/utils/helpers.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/utils/api.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/actions/index.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/AddEntry.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/EntryDetail.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/node_modules/react-native/Libraries/BatchedBridge/MessageQueue.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/node_modules/react-native/Libraries/Components/Touchable/Touchable.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/UdaciSlider.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/UdaciSteppers.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/utils/colors.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/DateHeader.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/node_modules/metro/src/lib/polyfills/require.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/node_modules/react-proxy/modules/createPrototypeProxy.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/App.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/node_modules/react-native-scripts/build/bin/crna-entry.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/reducers/index.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/.gitignore",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/NewComment.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/Post.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/NewPost.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/Categories.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/EditPost.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/Posts.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/Comments.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/App.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/PageNotFound.js",
+		"/Users/sherylhohman/Library/Application Support/Sublime Text 3/Packages/User/SH_snippets/console.log.console_log.sublime-snippet",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/Comments-refactor-callsEditComment-NotWorking.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/comments/actionCreators.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/comments/reducers.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/categories/selectors.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/viewData/actionCreators.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/viewData/reducers.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/index.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/FetchStatus.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/utils/helpers.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/viewData/selectors.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/posts/selectors.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/comments/selectors.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/viewData/constants.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/posts/y-posts.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/posts/actionCreators.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/posts/constants.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/posts/reducers.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/comments/constants.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/categories/actionCreators.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/categories/constants.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/categories/reducers.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/EditComment-NotWorking-companionTo-Comments-refactor.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/index.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/utils/api.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/x-viewData.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/viewData.test.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/viewData/selectors-buggy.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/viewData/routes.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/storeCopy/viewData/constants.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/storeCopy/viewData/routes.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/storeCopy/viewData/selectors.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/storeCopy/viewData/reducers.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/storeCopy/viewData/actionCreators.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/storeCopy/viewData/y-viewData.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/storeCopy/x-routes/routes.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store copy/viewData/x-actionTypes.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store copy/categories/categories.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store copy/categories/actionTypes.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/viewData.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/categories.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store copy/viewData/y-viewData.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store copy/viewData/x-operators.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store copy/viewData/actions.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store copy/viewData/actionTypes.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/comments.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/posts.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/store.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/user.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/LICENSE.TXT",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/README.md",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/index.css",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/persistentViewData.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/currentViewData.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/viewData-backup.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/store/message.js",
+		"/Users/sherylhohman/Library/Application Support/Sublime Text 3/Packages/JSHint Gutter/.jshintrc",
+		"/Users/sherylhohman/Library/Application Support/Sublime Text 3/Packages/JSHint Gutter/JSHint.sublime-settings",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/Comments-tyringToPullEditCommentModalToOwnFile.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/EditComment.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/api-server/server.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/api-server/comments.js",
+		"/Users/sherylhohman/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/sherylhohman/Library/Application Support/Sublime Text 3/Packages/User/JavaScript (Babel).sublime-settings",
+		"/Users/sherylhohman/Library/Application Support/Sublime Text 3/Packages/User/JSON (JavaScriptNext).sublime-settings",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/api-server/posts.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/utils/helpers.test.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/viewData/ducks.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/userViewSettings/ducks.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/index.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/store.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/posts/ducks.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/comments/ducks.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/categories/ducks.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/api-server/categories.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/savedSettings/ducks.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/viewData/viewData.test.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/package.json",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/App.test.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/specs/empty.test.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/state/viewData/viewData-test.js",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/api-server/package.json",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/package.json",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C3-Project2-Readable/frontend/src/components/PostHeader.js",
+		"/Users/sherylhohman/MKS/ToyProblems/functionBind_startFile.js",
+		"/Users/sherylhohman/MKS/ToyProblems/MKS-ToyProblems.sublime-project",
+		"/Users/sherylhohman/MKS/ToyProblems/toyProblemTemplate_startFile.js",
+		"/Users/sherylhohman/MKS/ToyProblems/DeepEquality_solution1.js",
+		"/Users/sherylhohman/MKS/ToyProblems/160422_nthFibonacci_toyProblem_W9D5-submitted.js",
+		"/Users/sherylhohman/MKS/ToyProblems/DeepEquality_startFile.js",
+		"/Users/sherylhohman/MKS/ToyProblems/TreeMapping_startHere_W2D4_160309.js",
+		"/Users/sherylhohman/MKS/ToyProblems/DeepEquality_ToyProblem_W9D5_160429_timeout.js",
+		"/Users/sherylhohman/MKS/ToyProblems/SumArray.js",
+		"/Users/sherylhohman/MKS/ToyProblems/temp.js",
+		"/Users/sherylhohman/MKS/ToyProblems/SumArray_wip.js",
+		"/Users/sherylhohman/MKS/ToyProblems/CheeseStickConsumption.js",
+		"/Users/sherylhohman/MKS/ToyProblems/BalancedParenthesis.js",
+		"/Users/sherylhohman/MKS/ToyProblems/BubbleSort_startFile.js"
+	],
+	"find":
+	{
+		"height": 22.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 37.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"output.exec":
+	{
+		"height": 264.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 266.0
+	},
+	"pinned_build_system": "Packages/User/node3.sublime-build",
+	"project": "UdaciCards.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": false,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"cat",
+				"frontend/src/components/Categories.js"
+			],
+			[
+				"pack",
+				"frontend/package.json"
+			],
+			[
+				"posth",
+				"frontend/src/components/PostHeader.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 247.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
