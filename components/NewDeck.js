@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default class App extends React.Component {
+export default class NewDeck extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Welcome to UdaciCards-sh !</Text>
+        <Text>Add a New Deck</Text>
       </View>
     );
   }
