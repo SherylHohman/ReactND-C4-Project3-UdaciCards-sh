@@ -3,6 +3,11 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { Constants } from 'expo';
 import { white, primaryColor } from './utils/colors';
 
+// hide react-native deprecation warnings in emulator
+import {YellowBox} from 'react-native';
+console.disableYellowBox = true;
+
+
 function AppStatusBar({ backgroundColor, ...props }){
   // backgroundColor is blended with default OS statusBarColor;
   //  on ios  (white statusBarColor): ==> background color
