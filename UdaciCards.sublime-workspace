@@ -385,6 +385,10 @@
 	],
 	"file_history":
 	[
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-Project3-UdaciCards/UdaciCards-sh/.gitignore",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-Project3-UdaciCards/UdaciCards-sh/DOCS/ReadMe-ProjectDetails.mhtml",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-Project3-UdaciCards/UdaciCards-sh/ReadMe-GradingRubric-Specs.md",
+		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-Project3-UdaciCards/UdaciCards-sh/.gitignore..gitignore",
 		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/node_modules/react-native/Libraries/Renderer/ReactNativeRenderer-dev.js",
 		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/History.js",
 		"/Users/sherylhohman/coding-classes/Udacity-ReactND/ReactND-C4-UdaciFitness/UdaciFitness/components/MetricCard.js",
@@ -508,15 +512,11 @@
 		"/Users/sherylhohman/MKS/ToyProblems/TreeMapping_startHere_W2D4_160309.js",
 		"/Users/sherylhohman/MKS/ToyProblems/DeepEquality_ToyProblem_W9D5_160429_timeout.js",
 		"/Users/sherylhohman/MKS/ToyProblems/SumArray.js",
-		"/Users/sherylhohman/MKS/ToyProblems/temp.js",
-		"/Users/sherylhohman/MKS/ToyProblems/SumArray_wip.js",
-		"/Users/sherylhohman/MKS/ToyProblems/CheeseStickConsumption.js",
-		"/Users/sherylhohman/MKS/ToyProblems/BalancedParenthesis.js",
-		"/Users/sherylhohman/MKS/ToyProblems/BubbleSort_startFile.js"
+		"/Users/sherylhohman/MKS/ToyProblems/temp.js"
 	],
 	"find":
 	{
-		"height": 22.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -530,6 +530,9 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"1080px",
+			" Deck",
+			" Deck List View"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -537,6 +540,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"250px",
+			"300px",
+			"320px"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -603,7 +609,7 @@
 	"project": "UdaciCards.sublime-project",
 	"replace":
 	{
-		"height": 40.0
+		"height": 70.0
 	},
 	"save_all_on_build": false,
 	"select_file":
