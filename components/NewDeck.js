@@ -1,12 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+// Components
+import NewCard from  '../components/NewCard';
+// Constants, Helpers, Api's
+import { white, primaryColor, primaryColorDark } from '../utils/colors';
+
 
 export default class NewDeck extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Add a New Deck</Text>
-      </View>
+          <Text>New Deck Page</Text>
+          <NewCard />
+        </View>
     );
   }
 }
@@ -14,7 +20,7 @@ export default class NewDeck extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: white,
     alignItems: 'center',
     justifyContent: 'center',
   },

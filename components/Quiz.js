@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { white, primaryColor, primaryColorDark } from '../utils/colors';
 
 export default class Quiz extends React.Component {
   render() {
@@ -15,7 +15,7 @@ export default class Quiz extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: white,
     alignItems: 'center',
     justifyContent: 'center',
   },
