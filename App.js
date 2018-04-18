@@ -1,17 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
+import { StyleSheet, Text, View,
+         StatusBar, Platform,
+         AsyncStorage,
+       } from 'react-native';
+
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+
 // Components
 import DeckList from './components/DeckList';
 import Deck from     './components/Deck';
 import Quiz from     './components/Quiz';
 import NewDeck from  './components/NewDeck';
 import NewCard from  './components/NewCard';
-// Constants, Helpers, Api's
-import { white, primaryColor, primaryColorDark } from './utils/colors';
 
+// Constants, Helpers, Api's
+import { setLocalNotification } from './utils/helpers'
+import { white, primaryColor, primaryColorDark } from './utils/colors';
 
 // hide react-native deprecation warnings in emulator
 import {YellowBox} from 'react-native';
@@ -38,6 +44,11 @@ function AppStatusBar({ backgroundColor, ...props }){
 }
 
 export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     return (
       <View style={{flex:1}}>
