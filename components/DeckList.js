@@ -4,13 +4,14 @@ import { StyleSheet, Text, View , TouchableOpacity} from 'react-native';
 import { Platform } from 'react-native';
 import { AppLoading } from 'expo';
 // Components
+import AppHeader from '../components/AppHeader';
 import Deck from '../components/Deck';
 import Quiz from '../components/Quiz';
 // actionCreators, reducers, selectors
 import { getDeckList, getFetchStatus } from '../store/decks/selectors';
 import { receivedDecks } from '../store/decks/actionCreators';
 // Constants, Helpers, Api's
-import { white, primaryColor, primaryColorDark } from '../utils/colors';
+import { white, gray, primaryColor } from '../utils/colors';
 import { fetchDecks } from '../utils/api';
 
  class DeckList extends React.Component {
@@ -93,27 +94,39 @@ import { fetchDecks } from '../utils/api';
       );
     }
 
+          <Text style={styles.headingText}>
+            Select a Quiz Deck:
+          </Text>
+
+    // temp
+    const tempCardCount = 5;
     return (
       <View style={styles.container}>
-          <Text>Welcome to UdaciCards !!</Text>
-          <Text> by Sheryl Hohman </Text>
-          <Text> {"\n\n"} </Text>
+          <AppHeader>
+            Select a Quiz Deck
+          </AppHeader>
 
-          <Text> Available Quiz Decks: </Text>
           {decks.map((deck) => {
             return (
-              <View key={deck.id} style={styles.item}>
+              <View
+                style={styles.card}
+                key={deck.id}
+                >
                 <Text
+                  style={styles.titleText}
                   key={`${deck.id}-${deck.title}`}
-                  style={styles.noDataText}
                   >
                   {deck.title}
+                </Text>
+                <Text
+                  style={styles.infoText}
+                  key={`${deck.id}-${tempCardCount}`}
+                  >
+                  {tempCardCount}
                 </Text>
               </View>
             )
           })}
-          <Deck />
-          <Quiz />
       </View>
     );
   }
@@ -126,15 +139,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  noDataText: {
-    fontSize: 20,
-    paddingTop:    12,
-    paddingBottom: 10,
-    marginBottom:  Platform.OS === 'ios' ? 12 : 10,
+  card: {
+    flex: 1,
+    backgroundColor: white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    marginBottom: 10,
   },
-  item: {
-    margin: 10,
-    backgroundColor: 'yellow',
+  // Text does not inherit styles (such as color), except from parent Text
+  titleText: {
+    fontSize: 25,
+    color: primaryColor,
+  },
+  infoText: {
+    fontSize: 15,
+    color: gray,
   },
 });
 
