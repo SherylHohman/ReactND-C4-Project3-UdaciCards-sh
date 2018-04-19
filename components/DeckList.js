@@ -109,7 +109,7 @@ import { fetchDecks } from '../utils/api';
           {decks.map((deck) => {
             return (
               <View
-                style={styles.card}
+                style={styles.item}
                 key={deck.id}
                 >
                 <Text
@@ -122,7 +122,7 @@ import { fetchDecks } from '../utils/api';
                   style={styles.infoText}
                   key={`${deck.id}-${tempCardCount}`}
                   >
-                  {tempCardCount}
+                  {tempCardCount} Questions
                 </Text>
               </View>
             )
@@ -135,25 +135,49 @@ import { fetchDecks } from '../utils/api';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: white,
+    backgroundColor: '#eee',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  card: {
+  // card: {
+  //   flex: 1,
+  //   backgroundColor: white,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   alignSelf: 'stretch',
+  //   marginBottom: 10,
+  // },
+  item: {
     flex: 1,
-    backgroundColor: white,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'stretch',
-    marginBottom: 10,
+    backgroundColor: white,
+    padding:     20,
+    marginLeft:  10,
+    marginRight: 10,
+    marginTop:   10,
+    borderRadius: Platform.OS === 'ios' ? 20 : 10,
+
+    shadowRadius: 3,
+    shadowOpacity: 0.8,
+    shadowColor: 'rgba(0, 0, 0, 0.24)',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    // so bottom background of UdaciFitnessCalendar does Not get Cut Off
+    // (difference in numbers accounts for shadow on ios)
+    marginBottom:  Platform.OS === 'ios' ? 12 : 10,
   },
+
   // Text does not inherit styles (such as color), except from parent Text
   titleText: {
-    fontSize: 25,
+    fontSize: 27,
     color: primaryColor,
   },
   infoText: {
-    fontSize: 15,
+    fontSize: 20,
     color: gray,
   },
 });
