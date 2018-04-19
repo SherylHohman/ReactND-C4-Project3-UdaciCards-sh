@@ -108,9 +108,15 @@ import { fetchDecks } from '../utils/api';
 
           {decks.map((deck) => {
             return (
-              <View
+              <TouchableOpacity
                 style={styles.item}
                 key={deck.id}
+                onPress={() => this.props.navigation.navigate(
+                  'Deck',
+                  /* below value will be passed in to the 'EntryDetail' component (above) */
+                  /* as: this.props.navigation.state.params.entryId*/
+                  { deckId: deck.id }
+                )}
                 >
                 <Text
                   style={styles.titleText}
@@ -124,7 +130,7 @@ import { fetchDecks } from '../utils/api';
                   >
                   {tempCardCount} Questions
                 </Text>
-              </View>
+              </TouchableOpacity>
             )
           })}
       </View>
