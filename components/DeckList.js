@@ -98,8 +98,6 @@ import { fetchDecks } from '../utils/api';
             Select a Quiz Deck:
           </Text>
 
-    // temp
-    const tempCardCount = 5;
     return (
       <View style={styles.container}>
           <AppHeader>
@@ -115,20 +113,21 @@ import { fetchDecks } from '../utils/api';
                   'Deck',
                   /* below value will be passed in to the 'EntryDetail' component (above) */
                   /* as: this.props.navigation.state.params.entryId*/
-                  { deckId: deck.id }
+                  /* or could pass deck */
+                  { id: deck.id }
                 )}
                 >
                 <Text
                   style={styles.titleText}
-                  key={`${deck.id}-${deck.title}`}
+                  key={`${deck.id}-title`}
                   >
                   {deck.title}
                 </Text>
                 <Text
                   style={styles.infoText}
-                  key={`${deck.id}-${tempCardCount}`}
+                  key={`${deck.id}-numQuestions`}
                   >
-                  {tempCardCount} Questions
+                  {deck.numCards} Questions
                 </Text>
               </TouchableOpacity>
             )

@@ -1,12 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Text, StyleSheet } from 'react-native';
+// actionCreators, reducers, selectors
+import { getDeckInfo } from '../store/decks/selectors';
 import { white, primaryColor, primaryColorDark } from '../utils/colors';
 
-export default class Deck extends React.Component {
+class Deck extends React.Component {
   render() {
+    const { title, id, numCards } = this.props.deckInfo;
     return (
       <View style={styles.container}>
-        <Text>Deck: {"<TBA>"}</Text>
+        <Text>Deck: {title}</Text>
+        <Text>{numCards} Questions</Text>
       </View>
     );
   }
@@ -20,3 +25,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+function mapStoreToProps(store, ownProps){
+  console.log(ownProps);
+  const deckInfo  = getDeckInfo(store, ownProps.navigation.state.params.id) || null;
+
+  return {
+    deckInfo,
+  }
+}
+
+export default connect(mapStoreToProps)(Deck);
