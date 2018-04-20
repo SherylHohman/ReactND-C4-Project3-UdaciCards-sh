@@ -35,7 +35,7 @@ import { fetchDecks } from '../utils/api';
     if (this.state.isFetchFailure) {return false}  // coin toss
 
     // empty array returned from a fresh fetch
-    return false
+    return false;
   }
 
   componentDidMount(){
@@ -65,12 +65,22 @@ import { fetchDecks } from '../utils/api';
     const haveData = this.canRenderData();
 
     // but if have data from store, show it even while re-fetching
+    // if (true){
     if (this.state.isFetching && !haveData){
         return (
           <View>
             {/* As Per docs - it's a blank screen, not a loading spinner */}
             <AppLoading />
-            <Text style={styles.noDataText}>Loading your data..</Text>
+
+            <AppHeader>
+              {":-)"}
+            </AppHeader>
+
+            <View style={styles.item}>
+              <Text style={styles.titleText}> Loading your data.. </Text>
+            </View>
+
+            <Text style={styles.infoText}>Loading your data..</Text>
           </View>
         );
     }
@@ -78,25 +88,38 @@ import { fetchDecks } from '../utils/api';
     // but if have data from store, show it instead of fetching error
     if (this.state.isFetchFailure && !haveData) {
       return (
-        <View style={styles.container}>
-          <Text> There was an error retrieving your Saved Quizes </Text>
+          <View style={styles.container}>
+            <AppHeader>
+            </AppHeader>
+
+            <View style={styles.item}>
+              <Text style={styles.titleText}>Uh Oh..</Text>
+            <Text style={styles.infoText}>I Could Not Find Your Quiz Decks !</Text>
+            </View>
         </View>
       );
     }
 
-    // TODO: make button for user to click on to create a NewDeck
     if (!haveData){
       return (
         <View style={styles.container}>
-          <Text> You have no Saved Quiz Decks </Text>
-          <TouchableOpacity> Create a New Deck </TouchableOpacity>
+          <AppHeader>
+            Aww... No Decks..
+          </AppHeader>
+
+          <TouchableOpacity
+            style={styles.item}
+            onPress={() => this.props.navigation.navigate(
+              'NewDeck',
+            )}
+            >
+            <Text style={styles.titleText}>
+              Create a New Deck
+            </Text>
+          </TouchableOpacity>
         </View>
       );
     }
-
-          <Text style={styles.headingText}>
-            Select a Quiz Deck:
-          </Text>
 
     return (
       <View style={styles.container}>
@@ -111,9 +134,7 @@ import { fetchDecks } from '../utils/api';
                 key={deck.id}
                 onPress={() => this.props.navigation.navigate(
                   'Deck',
-                  /* below value will be passed in to the 'EntryDetail' component (above) */
-                  /* as: this.props.navigation.state.params.entryId*/
-                  /* or could pass deck */
+                  /* below passes in as: this.props.navigation.state.params.id*/
                   { id: deck.id }
                 )}
                 >
@@ -127,7 +148,7 @@ import { fetchDecks } from '../utils/api';
                   style={styles.infoText}
                   key={`${deck.id}-numQuestions`}
                   >
-                  {deck.numCards} Questions
+                  {deck.numCards} {`${deck.numCards===1?'Question':'Questions'}`}
                 </Text>
               </TouchableOpacity>
             )
@@ -144,14 +165,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // card: {
-  //   flex: 1,
-  //   backgroundColor: white,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   alignSelf: 'stretch',
-  //   marginBottom: 10,
-  // },
   item: {
     flex: 1,
     justifyContent: 'center',
@@ -171,12 +184,10 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
-    // so bottom background of UdaciFitnessCalendar does Not get Cut Off
-    // (difference in numbers accounts for shadow on ios)
     marginBottom:  Platform.OS === 'ios' ? 12 : 10,
   },
 
-  // Text does not inherit styles (such as color), except from parent Text
+  // Text only inherits these styles from other Text components (limited inheritance)
   titleText: {
     fontSize: 27,
     color: primaryColor,
@@ -189,14 +200,9 @@ const styles = StyleSheet.create({
 
 function mapStoreToProps(store){
   const decks  = getDeckList(store) || null;
-  // const status = getFetchStatus(store);
-  // console.log('+++store', store);
-  // console.log('+++decks', decks);
-  // console.log('status', status);
 
   return {
     decks,
-    // status,
   }
 }
 
