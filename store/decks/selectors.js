@@ -62,6 +62,22 @@ export const getDeckInfo = createSelector(
   }
 );
 
+// called as (store, id)
+export const getDeck = createSelector(
+  getDecksAsObjects,
+  (store, id) => id,
+  (deckObjects, id) => {
+    if (!deckObjects){ return []; }
+    // decks object to array of titles and ids, and number of cards in the deck
+    return{
+      id,
+      title:deckObjects[id].title,
+      questions: deckObjects[id].questions,
+      // numCards: deckObjects[id].questions.length,
+    };
+  }
+);
+
 // // pass in (store, id)
 // export const getQuestions = createSelector(
 //   getDecksAsObjects,
