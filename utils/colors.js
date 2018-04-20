@@ -22,5 +22,5 @@ export const primaryColorDarker = orange40;  // 'darkgray'
 // export const secondaryColor      = yellow40; // gray;
 // // export const secondaryColorDark  = yellow40  // 'darkgray'
 
-export const isCorrectColor   ='dark-green';
-export const isIncorrectColor ='dark-red';
+export const isCorrectColor   = 'green';
+export const isIncorrectColor = 'orangered';
