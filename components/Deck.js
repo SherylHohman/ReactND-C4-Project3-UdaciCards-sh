@@ -18,15 +18,23 @@ class Deck extends React.Component {
         </View>
 
         <StyledButton
-        onPress={() => {}}
-        customColor={primaryColor}
+          customColor={primaryColor}
+          onPress={() => this.props.navigation.navigate(
+            'Quiz',
+            /* below passes in as: this.props.navigation.state.params.id*/
+            { id }
+          )}
         >
         Take Quiz !
         </StyledButton>
 
         <StyledButton
-        onPress={() => {}}
-        customColor={primaryColor}
+          customColor={primaryColor}
+          onPress={() => this.props.navigation.navigate(
+            'NewCard',
+            /* below passes in as: this.props.navigation.state.params.id*/
+            { id }
+          )}
         >
         Add a New Question
         </StyledButton>
