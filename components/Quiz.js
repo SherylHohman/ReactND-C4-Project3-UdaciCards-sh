@@ -5,7 +5,6 @@ import { View, Text, TouchableOpacity,
        } from 'react-native';
 // Components
 import StyledButton from '../components/StyledButton';
-import AppHeader from '../components/AppHeader';
 // actionCreators, reducers, selectors
 import { getDeck, getCards } from '../store/decks/selectors';
 // Constants, Helpers, Api's
@@ -86,17 +85,19 @@ class Quiz extends React.Component {
     if (numCards === 0){
       return (
           <View style={styles.container}>
-            <Text  style={[
-              styles.infoText,
-              styles.label,
-              {color: primaryColor, flex: 1, textAlign: 'center'},
-              ]}
-            >
-            Oops..{"\n\n"}
-            You Haven't added any Questions to your{"\n"}
-            {title}  {"\n"}
-            Quiz Deck Yet !
-            </Text>
+            <View style={[styles.cardContainer, {flex: 1}]}>
+              <Text  style={[
+                styles.infoText,
+                styles.label,
+                {color: primaryColor, flex: 1, textAlign: 'center'},
+                ]}
+              >
+              Oops..{"\n\n"}
+              You Haven't added any Questions to your{"\n"}
+              {title}  {"\n"}
+              Quiz Deck Yet !
+              </Text>
+            </View>
 
             <TouchableOpacity
               style={[styles.item, style={flex: 2}]}
@@ -153,7 +154,7 @@ class Quiz extends React.Component {
           </View>
 
           {/* Nav Buttons */}
-          <View style={[styles.buttonsContainer, , {flex: 3}]}>
+          <View style={[styles.buttonsContainer, {flex: 3}]}>
             <TouchableOpacity
               onPress={() => {this.onResetQuiz()}}
               style={styles.buttonContainer}
@@ -271,7 +272,6 @@ const styles = StyleSheet.create({
     flex: 8,
     justifyContent: 'flex-start',
     alignSelf: 'stretch',
-    // alignItems: 'stretch',
     backgroundColor: '#fefefe',
 
     padding:     20,
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
-    marginBottom:20,
+    marginBottom: 20,
   },
   titleText: {
     fontSize: 27,
