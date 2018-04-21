@@ -14,6 +14,7 @@ import { fetchDecks } from '../utils/api';
 import { white, gray, primaryColor, primaryColorDark,
          isCorrectColor, isIncorrectColor,
        } from '../utils/colors';
+import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
 
 export default class NewDeck extends React.Component {
@@ -242,48 +243,12 @@ let myStyles = {
   },
 };
 
-// conditionally add border outlines to styles to aid in UI layout design
-const amTestingLayout = true;
-  if (amTestingLayout){
-
-    const testingContainerStyle = {
-              borderWidth: 2,
-              borderColor: 'red',
-          };
-    const testingTextStyle = {
-              borderWidth: 2,
-              borderColor: 'blue',
-          };
-    const testingUnlabeledStyle = {
-              borderWidth: 3,
-              borderColor: 'yellow',
-          };
-
-    const styleKeys = Object.keys(myStyles);
-    let testingStyles;
-    const augmentedStyles = styleKeys.reduce((acc, key) => {
-
-      if (key.toLowerCase().includes('container')){
-        testingStyles = testingContainerStyle;
-        // console.log('container, key:', key);
-      } else if (key.toLowerCase().includes('text')){
-        // console.log('text, key:', key);
-        testingStyles = testingTextStyle;
-      } else {
-        // console.log('unlabeled, key:', key);
-        testingStyles = testingUnlabeledStyle;
-      }
-      return {
-        ...acc,
-        [key]: {
-          ...acc[key],
-          ...testingStyles,
-        },
-      };
-    }, myStyles);
-
-    myStyles = augmentedStyles;
-  }
+// set to `false` for normal view, and production.
+// set to `true`  to troubleshoot/test/visualize style layouts
+//         Adds border outlines to styles to aid in UI layout design
+//         Use only temporarily for editing styles/layout/UI-design.
+const viewStyleLayout = false;
+if (viewStyleLayout) {myStyles = augmentStylesToVisualizeLayout(myStyles);}
 
 const styles = StyleSheet.create({
   ...myStyles,

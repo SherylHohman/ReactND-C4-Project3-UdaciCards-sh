@@ -64,3 +64,45 @@ export function setLocalNotification () {
       }
     })
 }
+
+// adds border outlines to styles to aid in UI layout design.
+export function augmentStylesToVisualizeLayout(myStyles){
+
+    const testingContainerStyle = {
+              borderWidth: 2,
+              borderColor: 'red',
+          };
+    const testingTextStyle = {
+              borderWidth: 2,
+              borderColor: 'blue',
+          };
+    const testingUnlabeledStyle = {
+              borderWidth: 3,
+              borderColor: 'yellow',
+          };
+
+    const styleKeys = Object.keys(myStyles);
+    let testingStyles;
+    const augmentedStyles = styleKeys.reduce((acc, key) => {
+
+      if (key.toLowerCase().includes('container')){
+        testingStyles = testingContainerStyle;
+        // console.log('container, key:', key);
+      } else if (key.toLowerCase().includes('text')){
+        // console.log('text, key:', key);
+        testingStyles = testingTextStyle;
+      } else {
+        // console.log('unlabeled, key:', key);
+        testingStyles = testingUnlabeledStyle;
+      }
+      return {
+        ...acc,
+        [key]: {
+          ...acc[key],
+          ...testingStyles,
+        },
+      };
+    }, myStyles);
+
+    return augmentedStyles;
+  }

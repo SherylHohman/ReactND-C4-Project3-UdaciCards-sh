@@ -7,12 +7,13 @@ import { AppLoading } from 'expo';
 import AppHeader from '../components/AppHeader';
 import Deck from '../components/Deck';
 import Quiz from '../components/Quiz';
-// actionCreators, reducers, selectors
+// actionCreators, reducers, selectors, Api's
 import { getDeckList, getFetchStatus } from '../store/decks/selectors';
 import { receivedDecks } from '../store/decks/actionCreators';
-// Constants, Helpers, Api's
-import { white, gray, primaryColor } from '../utils/colors';
 import { fetchDecks } from '../utils/api';
+// Constants, Helpers
+import { white, gray, primaryColor } from '../utils/colors';
+import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
  class DeckList extends React.Component {
 
@@ -158,7 +159,7 @@ import { fetchDecks } from '../utils/api';
   }
 }
 
-const styles = StyleSheet.create({
+let componentStyles = {
   container: {
     flex: 1,
     backgroundColor: '#eee',
@@ -168,8 +169,8 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'stretch',
+    alignSelf:      'stretch',
+    alignItems:     'center',
     backgroundColor: white,
     padding:     20,
     marginLeft:  10,
@@ -196,6 +197,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: gray,
   },
+};
+
+// set to `false` for normal view, and production.
+// set to `true`  to troubleshoot/test/visualize style layouts
+//         Adds border outlines to styles to aid in UI layout design
+//         Use only temporarily for editing styles/layout/UI-design.
+const viewStyleLayout = false;
+if (viewStyleLayout) {componentStyles = augmentStylesToVisualizeLayout(componentStyles);}
+
+const styles = StyleSheet.create({
+  ...componentStyles,
 });
 
 function mapStoreToProps(store){
