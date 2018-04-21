@@ -22,19 +22,31 @@ export default class NewDeck extends React.Component {
     title: '',
   }
 
-  isValidInput(){
+  isValidInput(title){
+    // rem setState is asynch, so passed in the would-be value of state.title
+    this.setState({title});
+    return title !== '';
     // TODO: invalid if stripped text is an EmptyString
     // TODO: if inValid, disable Submit Button
     // TODO: if valid, enable the Submit Button
     // no need to highlight fields, as there is only 1, and an empty field is obviously wrong
   }
   onSubmit(){
-    console.log('Submitted:', this.state.title);
+    const title = this.state.title.trim();
+    this.setState({ title });
+    console.log('User sent:', this.state.title);
+    // rem setState is Asynch, so cannot rely on using the updated value immediately
+    // for computations
+    // (it is fine to use immediately for UI because it can always re-render when the value *actually* changes)
+    console.log(this.isValidInput(title));
+    console.log('Submitting:', title);
     // TODO: trim() input string
     // TODO: validate input
     // TODO: send to "DB"
     // TODO: update store
     // TODO: navigate
+
+    // this.setState({title: ''});
   }
 
   render() {
