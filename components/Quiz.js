@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity,
        } from 'react-native';
 // Components
 import StyledButton from '../components/StyledButton';
+import AppHeader from '../components/AppHeader';
 // actionCreators, reducers, selectors
 import { getDeck, getCards } from '../store/decks/selectors';
 import {
@@ -47,13 +48,69 @@ class Quiz extends React.Component {
   }
 
   render() {
+
+    // Error loading deck
+    if (!this.props.deck){
+      return (
+          <View style={styles.container}>
+            <Text  style={[
+              styles.infoText,
+              styles.label,
+              {color: primaryColor, flex: 1, textAlign: 'center'},
+              ]}
+            >
+            Uh Oh....{"\n\n"}
+            I had trouble loading your {"\n"}
+            {this.props.deck.title} Quiz !
+            </Text>
+
+            <TouchableOpacity
+              style={[styles.item, style={flex: 3}]}
+              onPress={() => this.props.navigation.navigate(
+                'DeckList',
+              )}
+              >
+              <Text style={[styles.titleText, {color: primaryColorDark}]}>
+                Return to your List of Quizzes
+              </Text>
+            </TouchableOpacity>
+          </View>
+      );
+    }
+
     const { title, id, questions } = this.props.deck;
     const numCards = questions.length;
     const { index, isQuestionView, numCorrect } = this.state;
 
-    // show error message
-    if (false){
-      // TODO: errors - maybe could not get deck or ZERO questions ?
+    // No Questions in Deck
+    if (numCards === 0){
+      return (
+          <View style={styles.container}>
+            <Text  style={[
+              styles.infoText,
+              styles.label,
+              {color: primaryColor, flex: 1, textAlign: 'center'},
+              ]}
+            >
+            Oops..{"\n\n"}
+            You Haven't added any Questions to your{"\n"}
+            {title}  {"\n"}
+            Quiz Deck Yet !
+            </Text>
+
+            <TouchableOpacity
+              style={[styles.item, style={flex: 2}]}
+              onPress={() => this.props.navigation.navigate(
+                'NewCard',
+                { id }
+              )}
+              >
+              <Text style={[styles.titleText, {color: primaryColorDark}]}>
+                Add a Question Card
+              </Text>
+            </TouchableOpacity>
+          </View>
+      );
     }
 
     // TODO: keep track of incorrect questions
