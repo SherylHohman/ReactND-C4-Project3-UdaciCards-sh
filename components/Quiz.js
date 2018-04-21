@@ -15,10 +15,8 @@ import {
 class Quiz extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
-    // TODO: use the actual title instead of id
-    // TODO: can I also put current card index here too? I think not, but verify..
-    const { id } = navigation.state.params;
-    return { title: `${id} Quiz`}
+    const { title } = navigation.state.params;
+    return { title: `${title} Quiz`}
   }
 
   state = {

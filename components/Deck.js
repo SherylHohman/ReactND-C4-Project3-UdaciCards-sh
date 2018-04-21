@@ -5,11 +5,13 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import StyledButton from '../components/StyledButton';
 // actionCreators, reducers, selectors
 import { getDeckInfo } from '../store/decks/selectors';
+// import { getDeck } from '../store/decks/selectors';
 import { white, gray, primaryColor, primaryColorDark } from '../utils/colors';
 
 class Deck extends React.Component {
   render() {
     const { title, id, numCards } = this.props.deckInfo;
+    // const numCards = this.props.deck.questions.length;
     return (
       <View style={styles.container}>
         <View>
@@ -22,7 +24,7 @@ class Deck extends React.Component {
           onPress={() => this.props.navigation.navigate(
             'Quiz',
             /* below passes in as: this.props.navigation.state.params.id*/
-            { id }
+            { id, title }
           )}
         >
         Take Quiz !
@@ -42,6 +44,18 @@ class Deck extends React.Component {
     );
   }
 }
+
+
+// // TODO: adjust styles to resemble Quiz.
+// //   use below to help with alignment.
+// const testing = false;
+// const borderWidth = testing ? 2 : 0;
+
+//     //TEMP
+//     borderColor: 'red'  (containers)
+//     borderWidth,
+//     borderColor: 'blue' (text)
+//     borderWidth,
 
 const styles = StyleSheet.create({
   container: {
@@ -85,6 +99,10 @@ const styles = StyleSheet.create({
 function mapStoreToProps(store, ownProps){
   console.log(ownProps);
   const deckInfo  = getDeckInfo(store, ownProps.navigation.state.params.id) || null;
+  // const deck  = getDeck(store, ownProps.navigation.state.params.id) || null;
+  // TODO: *maybe* fetch the deck proper (with questions) even though I don't use
+  //       questions in this component.  Then just pass the whole deck to children
+  //       since both children need questions, and they won't have to then get them.
 
   return {
     deckInfo,
