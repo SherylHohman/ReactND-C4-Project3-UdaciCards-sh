@@ -32,9 +32,12 @@ export default function TextButton({ children, onPress, customColor }) {
 const styles = StyleSheet.create({
   txtDefault: {
     textAlign: 'center',
-    fontSize: 15,
+    // because of bleeding of white text to colored background on android,
+    // enlarge text (or increase fontWeight) for better readability
+    fontSize: Platform.OS==='ios' ? 15 : 18,
     padding: 10,
   },
+
   iosBtn: {
     height: 45,
     borderRadius: 7,
@@ -60,9 +63,12 @@ const styles = StyleSheet.create({
     alignItems:     'center',
 
     // android- only settings
-    marginLeft:  30,
-    marginRight: 30,
-    padding: 10,
+    // padding accepts clicks, margin === no-click zone
+    // ..for some reason, padding is much wider than margin, when given the same number (so decreased from 30 to 15)
+    // also enlarge pading to accomodate for larger text to maintain visual balance
+    padding: 20,
+    paddingLeft:  15,
+    paddingRight: 15,
   },
 
 })
