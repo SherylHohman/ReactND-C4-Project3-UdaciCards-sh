@@ -9,6 +9,12 @@ import { getDeckInfo } from '../store/decks/selectors';
 import { white, gray, primaryColor, primaryColorDark } from '../utils/colors';
 
 class Deck extends React.Component {
+
+  static navigationOptions = ({ navigation }) => {
+    const { title } = navigation.state.params;
+    return { title: `${title} Quiz Deck`}
+  }
+
   render() {
     const { title, id, numCards } = this.props.deckInfo;
     // const numCards = this.props.deck.questions.length;

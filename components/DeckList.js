@@ -135,7 +135,7 @@ import { fetchDecks } from '../utils/api';
                 onPress={() => this.props.navigation.navigate(
                   'Deck',
                   /* below passes in as: this.props.navigation.state.params.id*/
-                  { id: deck.id }
+                  { id: deck.id, title: deck.title }
                 )}
                 >
                 <Text
