@@ -160,6 +160,22 @@ export default class NewDeck extends React.Component {
 
 // TODO: DELETE UNUSED STYLES
 
+const amTestingLayout = true;
+const testingContainerLayout = amTestingLayout
+      ? {
+          borderWidth: 2,
+          borderColor: 'red',
+        }
+      : {};
+const testingTextLayout = amTestingLayout
+      ? {
+          borderWidth: 2,
+          borderColor: 'blue',
+        }
+      : {};
+// console.log(amTestingLayout, testingContainerLayout, testingTextLayout);
+
+
 const styles = StyleSheet.create({
   // CONTAINER styles
   wrapper: {
@@ -168,6 +184,7 @@ const styles = StyleSheet.create({
       backgroundColor: white,
       alignItems: 'center',
       justifyContent: 'center',
+      ...testingContainerLayout,
     },
   container: {
     flex: 1,
@@ -178,6 +195,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 30,
     paddingBottom: 5,
+    ...testingContainerLayout,
   },
   everythingExceptProgressBar: {
     flex: 1,
@@ -185,8 +203,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: white,
+    ...testingContainerLayout,
   },
-
   cardContainer: {
     flex: 1,
     justifyContent: 'flex-start',
@@ -208,15 +226,18 @@ const styles = StyleSheet.create({
       height: 3,
     },
     marginBottom:20,
+    ...testingContainerLayout,
   },
   buttonsContainer: {
     flex: 3,
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
+    ...testingContainerLayout,
   },
   buttonContainer: {
     justifyContent: 'center',
     margin: 10,
+    ...testingContainerLayout,
   },
 
   // TEXT Styles
@@ -229,6 +250,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     // marginBottom: 20,
     // paddingBottom: 20,
+    ...testingTextLayout,
   },
 
   // INPUTTEXT styles
@@ -240,5 +262,6 @@ const styles = StyleSheet.create({
     flexWrap:  'wrap',
     textAlign: 'center',
     marginTop: 10,
+    ...testingTextLayout,
   },
 });
