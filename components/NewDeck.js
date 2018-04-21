@@ -160,23 +160,7 @@ export default class NewDeck extends React.Component {
 
 // TODO: DELETE UNUSED STYLES
 
-const amTestingLayout = true;
-const testingContainerLayout = amTestingLayout
-      ? {
-          borderWidth: 2,
-          borderColor: 'red',
-        }
-      : {};
-const testingTextLayout = amTestingLayout
-      ? {
-          borderWidth: 2,
-          borderColor: 'blue',
-        }
-      : {};
-// console.log(amTestingLayout, testingContainerLayout, testingTextLayout);
-
-
-const styles = StyleSheet.create({
+let myStyles = {
   // CONTAINER styles
   wrapper: {
     // this was the previous container style
@@ -184,7 +168,6 @@ const styles = StyleSheet.create({
       backgroundColor: white,
       alignItems: 'center',
       justifyContent: 'center',
-      ...testingContainerLayout,
     },
   container: {
     flex: 1,
@@ -195,7 +178,6 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 30,
     paddingBottom: 5,
-    ...testingContainerLayout,
   },
   everythingExceptProgressBar: {
     flex: 1,
@@ -203,7 +185,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: white,
-    ...testingContainerLayout,
   },
   cardContainer: {
     flex: 1,
@@ -226,18 +207,15 @@ const styles = StyleSheet.create({
       height: 3,
     },
     marginBottom:20,
-    ...testingContainerLayout,
   },
   buttonsContainer: {
     flex: 3,
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
-    ...testingContainerLayout,
   },
   buttonContainer: {
     justifyContent: 'center',
     margin: 10,
-    ...testingContainerLayout,
   },
 
   // TEXT Styles
@@ -250,7 +228,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     // marginBottom: 20,
     // paddingBottom: 20,
-    ...testingTextLayout,
   },
 
   // INPUTTEXT styles
@@ -262,6 +239,52 @@ const styles = StyleSheet.create({
     flexWrap:  'wrap',
     textAlign: 'center',
     marginTop: 10,
-    ...testingTextLayout,
   },
+};
+
+// conditionally add border outlines to styles to aid in UI layout design
+const amTestingLayout = true;
+  if (amTestingLayout){
+
+    const testingContainerStyle = {
+              borderWidth: 2,
+              borderColor: 'red',
+          };
+    const testingTextStyle = {
+              borderWidth: 2,
+              borderColor: 'blue',
+          };
+    const testingUnlabeledStyle = {
+              borderWidth: 3,
+              borderColor: 'yellow',
+          };
+
+    const styleKeys = Object.keys(myStyles);
+    let testingStyles;
+    const augmentedStyles = styleKeys.reduce((acc, key) => {
+
+      if (key.toLowerCase().includes('container')){
+        testingStyles = testingContainerStyle;
+        // console.log('container, key:', key);
+      } else if (key.toLowerCase().includes('text')){
+        // console.log('text, key:', key);
+        testingStyles = testingTextStyle;
+      } else {
+        // console.log('unlabeled, key:', key);
+        testingStyles = testingUnlabeledStyle;
+      }
+      return {
+        ...acc,
+        [key]: {
+          ...acc[key],
+          ...testingStyles,
+        },
+      };
+    }, myStyles);
+
+    myStyles = augmentedStyles;
+  }
+
+const styles = StyleSheet.create({
+  ...myStyles,
 });
