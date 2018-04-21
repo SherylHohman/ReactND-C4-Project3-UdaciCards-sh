@@ -8,9 +8,11 @@ import StyledButton from '../components/StyledButton';
 import AppHeader from '../components/AppHeader';
 // actionCreators, reducers, selectors
 import { getDeck, getCards } from '../store/decks/selectors';
-import {
-  white, gray, primaryColor, primaryColorDark, isCorrectColor, isIncorrectColor,
-} from '../utils/colors';
+// Constants, Helpers, Api's
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers';
+import { white, gray, primaryColor, primaryColorDark,
+         isCorrectColor, isIncorrectColor,
+       } from '../utils/colors';
 
 class Quiz extends React.Component {
 
@@ -121,8 +123,21 @@ class Quiz extends React.Component {
     //         eg: 1 wrong twice is different than 2 wrong once ?
     //         (extrapolate the numbers to find a more relevant example)
 
-    // show quiz results (Score)
+    // Finished Completed the Quiz !
     if (index >= numCards){
+
+      // CLEAR today's REMINDER NOTIFICATION, Set Tomorrow's
+      clearLocalNotification()
+        .then(setLocalNotification)
+        // TODO: Why is `setLocalNotification` not _invoked_ ??
+        //    Also, why not using .then(()=>{}) ??
+        //    Are these two Questions related ?
+        .catch((err) => {
+          console.log('Quiz.render - error clearing or setting localNotifications: ', err);
+          console.error(err);
+        })
+
+      // show quiz results (Score)
       return(
         <View style={styles.container}>
 
