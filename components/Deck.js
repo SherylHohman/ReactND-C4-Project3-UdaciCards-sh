@@ -16,7 +16,9 @@ class Deck extends React.Component {
       <View style={styles.container}>
         <View>
           <Text style={styles.titleText}>Deck: {title}</Text>
-          <Text style={styles.infoText}>{numCards} Questions</Text>
+          <Text style={styles.infoText}>
+          {numCards} {(numCards === 1) ? 'Question' : 'Questions'}
+          </Text>
         </View>
 
         <StyledButton
