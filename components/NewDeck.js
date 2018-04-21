@@ -19,12 +19,13 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
 export default class NewDeck extends React.Component {
 
+  // TODO: static.. add TabNavigator Header (optional)
+
   state = {
     title: '',
   }
 
   isValidInput(title){
-    // rem setState is asynch, so passed in the would-be value of state.title
     this.setState({title});
     return title !== '';
     // TODO: invalid if stripped text is an EmptyString
@@ -35,34 +36,18 @@ export default class NewDeck extends React.Component {
   onSubmit(){
     const title = this.state.title.trim();
     this.setState({ title });
-    console.log('User sent:', this.state.title);
     // rem setState is Asynch, so cannot rely on using the updated value immediately
-    // for computations
-    // (it is fine to use immediately for UI because it can always re-render when the value *actually* changes)
-    console.log(this.isValidInput(title));
+    // for computations (OK for UI because component rerenders when it *is* updated)
+    // update state
+    // enable/disable submit button
     console.log('Submitting:', title);
-    // TODO: trim() input string
-    // TODO: validate input
     // TODO: send to "DB"
     // TODO: update store
     // TODO: navigate
-
-    // this.setState({title: ''});
   }
 
   render() {
-    // return (
-    // TODO:
-    //   <View style={styles.container}>
-    //     <Text>
-    //       - New Deck Page // can add TabNavigator Heador (optional item)
-    //       - Add a New Quiz Deck Title
-    //       - Input Box
-    //       - Submit Button
-    //     </Text>
-    //   </View>
-    // );
-            // <View style={[styles.cardContainer, {flex: 1}]}>
+
       return (
           <View style={styles.container}>
             <View style={[styles.cardContainer, {flex: 1}]}>
@@ -71,7 +56,7 @@ export default class NewDeck extends React.Component {
                 Title for your New Quiz Deck
               </Text>
 
-              <KeyboardAvoidingView {...keyboardAvoidingView}>
+              <KeyboardAvoidingView {...keyboardAvoidingViewProps}>
                 <TextInput
                   style={styles.textInput}
                   placeholder="Quiz Deck Title"
@@ -84,8 +69,7 @@ export default class NewDeck extends React.Component {
             </View>
 
             <KeyboardAvoidingView
-              /* behavior={Platform.OS === 'ios' ? 'padding' : ''} */
-              {...keyboardAvoidingView}
+              {...keyboardAvoidingViewProps}
               style={[styles.buttonsContainer, styles.buttonContainer]}
               >
               <StyledButton
@@ -103,14 +87,22 @@ export default class NewDeck extends React.Component {
   }
 }
 
-  // Paramaters for <TextInput>
-  const textInput = {
+  // Props for <TextInput>
+  const textInputProps = {
     /* onChange={(title) => this.setState({ title })} */  // similar to onChangeText
     maxLength: 25,
     multiline: true,
     autoFocus: true,     /* takes focus at componentDidMount, saves the user a click */
     autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
     returnKeyType: "done",
+    // TODO: pull keyboard up automatically if phone does Not have Physical keyboard
+    // TODO: get height of soft Kyeboard
+    //       - edit layout design to render in the area unoccupied by the
+    //         keyboard (even when it is not showing),
+    //         but allow it to take up more vertical space if needed,
+    //         (but only while keyboard is *not* showing)
+    //         also add scrollView just in case, so user can access hidden content.
+
     /* onEndEditing={(title) => this.setState({title: title.trim()})} */
     /* onBlur={(title) => this.setState({title: title.trim()})} */
     /* clearButtonMode={"while-editing"} */
@@ -128,14 +120,14 @@ export default class NewDeck extends React.Component {
     // Note: Android and iOS both interact with this prop differently.
     // Android may behave better when given no behavior prop at all,
     // whereas iOS is the opposite.
-  const keyboardAvoidingView = {
+  const keyboardAvoidingViewProps = {
     // keyboardVerticalOffset: Platform.OS === 'ios' ? 40 : 0,
     // behavior: Platform.OS === 'ios' ? 'padding' : '',
     // behavior: Platform.OS === 'ios' ? 'padding' : 'height',
     // behavior: Platform.OS === 'ios' ? 'padding' : 'position',
     behavior: 'padding',
   };
-  // TODO: This is still wonky on android.
+  // TODO: keyboardAvoidingView is still wonky on android.
   //   - tried many options, and wrapping various segments both individually,
   //     and in various group combinations.  This is the best so far.
   //     But.. on Nexus 6P emulator, with Android 23,
@@ -161,7 +153,7 @@ export default class NewDeck extends React.Component {
 
 // TODO: DELETE UNUSED STYLES
 
-let myStyles = {
+let componentStyles = {
   // CONTAINER styles
   wrapper: {
     // this was the previous container style
@@ -248,8 +240,8 @@ let myStyles = {
 //         Adds border outlines to styles to aid in UI layout design
 //         Use only temporarily for editing styles/layout/UI-design.
 const viewStyleLayout = false;
-if (viewStyleLayout) {myStyles = augmentStylesToVisualizeLayout(myStyles);}
+if (viewStyleLayout) {componentStyles = augmentStylesToVisualizeLayout(componentStyles);}
 
 const styles = StyleSheet.create({
-  ...myStyles,
+  ...componentStyles,
 });
