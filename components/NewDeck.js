@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity,
-         TextInput,
+         TextInput, KeyboardAvoidingView,
          StyleSheet, Platform ,
        } from 'react-native';
 // Components
@@ -65,29 +65,28 @@ export default class NewDeck extends React.Component {
       return (
           <View style={styles.container}>
             <View style={[styles.cardContainer, {flex: 1}]}>
-              <Text  style={[
-                styles.infoText,
-                styles.label,
-                {flex: 1, textAlign: 'center'},
-                ]}
+              <Text  style={styles.instructionsText}
                 >
                 Title for your New Quiz Deck
               </Text>
 
-              <TextInput
-                placeholder="Quiz Deck Title"
-                maxLength={25}
-                multiline={true}
-                onChangeText={(title) => this.setState({ title })}
-                value={this.state.title}
-                onEndEditing={(title) => this.setState({title: title.trim()})}
-                onSubmitEditing={() => this.onSubmit()}
-                style={styles.textInput}
-                >
-              </TextInput>
+              <KeyboardAvoidingView {...keyboardAvoidingView}>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Quiz Deck Title"
+                  onChangeText={(title) => this.setState({ title })}
+                  value={this.state.title}
+                  onSubmitEditing={() => this.onSubmit()}
+                  >
+                </TextInput>
+              </KeyboardAvoidingView>
             </View>
 
-            <View style={[styles.buttonsContainer, styles.buttonContainer]}>
+            <KeyboardAvoidingView
+              /* behavior={Platform.OS === 'ios' ? 'padding' : ''} */
+              {...keyboardAvoidingView}
+              style={[styles.buttonsContainer, styles.buttonContainer]}
+              >
               <StyledButton
                 style={[styles.item, style={flex: 2}]}
                 onPress={() => this.onSubmit()}
@@ -96,23 +95,68 @@ export default class NewDeck extends React.Component {
                   Submit
                 </Text>
               </StyledButton>
-            </View>
+            </KeyboardAvoidingView>
           </View>
       );
 
   }
 }
 
-// // TODO: adjust styles to resemble Quiz.
-// //   use below to help with alignment.
-// const testing = false;
-// const borderWidth = testing ? 2 : 0;
+  // Paramaters for <TextInput>
+  const textInput = {
+    /* onChange={(title) => this.setState({ title })} */  // similar to onChangeText
+    maxLength: 25,
+    multiline: true,
+    autoFocus: true,     /* takes focus at componentDidMount, saves the user a click */
+    autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
+    returnKeyType: "done",
+    /* onEndEditing={(title) => this.setState({title: title.trim()})} */
+    /* onBlur={(title) => this.setState({title: title.trim()})} */
+    /* clearButtonMode={"while-editing"} */
+    /* returnKeyType = {"next"} */
+    /* returnKeyType = {"done"} */
+    /* ref={ref => {this._emailInput = ref}} */
+    /* placeholder="email@example.com" */
+    /* autoCapitalize="none" */
+    /* keyboardType="email-address" */
+    /* returnKeyType="send" */
+    /* onSubmitEditing={this._submit} */
+  };
 
-//     //TEMP
-//     borderColor: 'red'  (containers)
-//     borderWidth,
-//     borderColor: 'blue' (text)
-//     borderWidth,
+  // Options for `behavior` : enum('height', 'position', 'padding')
+    // Note: Android and iOS both interact with this prop differently.
+    // Android may behave better when given no behavior prop at all,
+    // whereas iOS is the opposite.
+  const keyboardAvoidingView = {
+    // keyboardVerticalOffset: Platform.OS === 'ios' ? 40 : 0,
+    // behavior: Platform.OS === 'ios' ? 'padding' : '',
+    // behavior: Platform.OS === 'ios' ? 'padding' : 'height',
+    // behavior: Platform.OS === 'ios' ? 'padding' : 'position',
+    behavior: 'padding',
+  };
+  // TODO: This is still wonky on android.
+  //   - tried many options, and wrapping various segments both individually,
+  //     and in various group combinations.  This is the best so far.
+  //     But.. on Nexus 6P emulator, with Android 23,
+  //     it Partially covers the infoText/label "Title for your.."
+  //     - it would be better to cover it *completely* (or not at all)
+  //     The next best was to wrap *all* the elements in a single keyboardAvoidingBiew,
+  //     .. but then the infoText/label "Title for your.." Never Shows At All
+  //        on either platform, whether or not the keyboard is visible !
+  //        also, both the input and submit button are at the top with tons of whitespace below.
+  //     This whole keyboard thing seems quite finicky !!
+  //   - keyboardVerticalOffset seemed to have *No* effect, no matter the number
+  //   - despite the docs suggestions, only "padding" seemed to have any effect
+  //       on Android
+  //
+  //   ..Ahh, it seems to be an issue with font size - with large font, the
+  //     input font overlaps the text above.  With a small font, this does not
+  //     happen.  So.. look into options regulating input box, padding/margin,
+  //     in the TextInput documentation.  Not much else to do about *that* in
+  //     keyboardAvoiding..
+  //
+  //   - Additionally, fudge around with all the styles a bit more.
+  //     styles for this component ought to be simplified anyway.
 
 // TODO: DELETE UNUSED STYLES
 
@@ -176,27 +220,15 @@ const styles = StyleSheet.create({
   },
 
   // TEXT Styles
-  titleText: {
-    fontSize: 27,
-    color: primaryColor,
-
-    alignSelf: 'center',
-    flexWrap:  'wrap',
-    textAlign: 'center',
-    // Styling on android buttons uses colored backgrounds.
-    // These large blocks of solod color cause eyes to be drawn naturally to the buttons.
-    // Questions/Answers, *should* take the users/eyes main focus.
-    // make Q/A text bolder on android, to minimize this competition.
-    // Eyes now naturally drawn to Q/A, rather than buttons !
-    fontWeight: Platform.OS === 'ios' ? 'normal' : 'bold',
-  },
-  infoText: {
+  instructionsText: {
+    flex: 1,
     fontSize: 20,
     color: gray,
+
     alignSelf: 'center',
-  },
-  label: {
-    marginBottom: 20,
+    textAlign: 'center',
+    // marginBottom: 20,
+    // paddingBottom: 20,
   },
 
   // INPUTTEXT styles
@@ -207,8 +239,6 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     flexWrap:  'wrap',
     textAlign: 'center',
-
+    marginTop: 10,
   },
-  textInputIos: {},
-  textInputAndroid: {},
 });
