@@ -26,19 +26,87 @@ class Quiz extends React.Component {
     numCorrect: 0,
   }
 
+  onCorrectAnswer() {
+    let { index, numCorrect } = this.state;
+    index++;
+    numCorrect++;
+    this.setState({ index, numCorrect });
+  }
+
+  onIncorrectAnswer() {
+    let { index, numCorrect } = this.state;
+    index++;
+    this.setState({ index });
+  }
+
+  onResetQuiz() {
+    let { index, numCorrect } = this.state;
+    index = 0;
+    numCorrect = 0
+    this.setState({ index, numCorrect });
+  }
+
   render() {
     const { title, id, questions } = this.props.deck;
     const numCards = questions.length;
-    const { index, isQuestionView } = this.state;
+    const { index, isQuestionView, numCorrect } = this.state;
 
     // show error message
     if (false){
-      // TODO
+      // TODO: errors - maybe could not get deck or ZERO questions ?
     }
 
-    // show quiz results
-    if (index >= this.props.numcards){
-      // TODO
+    // TODO: keep track of incorrect questions
+    //       then give user the option to review just those cards
+    //       ...hmm maybe rank number of passes it takes to get 100%
+    //       ..or simply a Congrats! message once completed All correctly
+    //       Score: sum total of number of views (count each repeat)
+    //         score is numCards/totalViews - takes into account repeatViews
+    //         maybe, successive views are weighted differently ??
+    //         eg: 1 wrong twice is different than 2 wrong once ?
+    //         (extrapolate the numbers to find a more relevant example)
+
+    // show quiz results (Score)
+    if (index >= numCards){
+      return(
+        <View style={styles.container}>
+
+          {/* Score */}
+          <View style={[styles.cardContainer, {flex: 1}]}>
+            <Text  style={[styles.infoText, styles.label, {color: primaryColor}]}>
+            You got {numCorrect} Correct out of {numCards}
+            </Text>
+
+            <Text style={[styles.titleText, {fontSize: 35}]}>
+            { 100 * numCorrect / numCards} %
+            </Text>
+          </View>
+
+          {/* Nav Buttons */}
+          <View style={[styles.buttonsContainer, , {flex: 3}]}>
+            <TouchableOpacity
+              onPress={() => {this.onResetQuiz()}}
+              style={styles.buttonContainer}
+              >
+              <Text style={[styles.infoText,{color: primaryColorDark}]}>
+              Redo This Quiz
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate(
+              'DeckList',
+              )}
+              style={styles.buttonContainer}
+              >
+              <Text style={[styles.infoText,{color: primaryColorDark}]}>
+              Return to List of Quiz Decks
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+      )
     }
 
     // show quiz
@@ -80,7 +148,7 @@ class Quiz extends React.Component {
             {/* Mark as Correct */}
             <View style={styles.buttonContainer}>
               <StyledButton
-              onPress={() => {}}
+              onPress={() => {this.onCorrectAnswer()}}
               customColor={isCorrectColor}
               >
               I Got This Right !!
@@ -90,7 +158,7 @@ class Quiz extends React.Component {
             {/* Mark as InCorrect */}
             <View style={styles.buttonContainer}>
               <StyledButton
-              onPress={() => {}}
+              onPress={() => {this.onIncorrectAnswer()}}
               customColor={isIncorrectColor}
               >
               I need to Study This One
@@ -105,7 +173,7 @@ class Quiz extends React.Component {
           <Text style={styles.infoText}>{index}/{numCards}</Text>
         </View>
 
-      </View>
+      </View> /* end container */
     );
   }
 }
@@ -133,7 +201,7 @@ const styles = StyleSheet.create({
     flex: 8,
     justifyContent: 'flex-start',
     alignSelf: 'stretch',
-    alignItems: 'stretch',
+    // alignItems: 'stretch',
     backgroundColor: '#fefefe',
 
     padding:     20,
