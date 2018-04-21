@@ -45,8 +45,8 @@ class Quiz extends React.Component {
     // TODO: wrapped long lines of txt (long Questions/Answers) do NOT center !
     return (
       <View style={styles.container}>
-
         <View style={styles.everythingExceptProgressBar}>
+
           <View style={styles.cardContainer}>
             <View style={styles.label}>
               {isQuestionView
@@ -96,6 +96,7 @@ class Quiz extends React.Component {
               I need to Study This One
               </StyledButton>
             </View>
+
           </View>
         </View>
 
@@ -109,9 +110,6 @@ class Quiz extends React.Component {
   }
 }
 
-const testing = false;
-const borderWidth = testing ? 2 : 0;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -121,9 +119,6 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 30,
     paddingBottom: 5,
-    //TEMP
-    borderColor: 'red',
-    borderWidth,
   },
   everythingExceptProgressBar: {
     flex: 1,
@@ -131,9 +126,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: white,
-    //TEMP
-    borderColor: 'red',
-    borderWidth,
   },
 
   // item: {
@@ -141,7 +133,6 @@ const styles = StyleSheet.create({
     flex: 8,
     justifyContent: 'flex-start',
     alignSelf: 'stretch',
-    // alignItems: 'center',
     alignItems: 'stretch',
     backgroundColor: '#fefefe',
 
@@ -159,9 +150,6 @@ const styles = StyleSheet.create({
       height: 3,
     },
     marginBottom:20,
-    //TEMP:
-    borderColor: 'red',
-    borderWidth,
   },
   titleText: {
     fontSize: 27,
@@ -175,47 +163,29 @@ const styles = StyleSheet.create({
     // make Q/A text bolder on android, to minimize this competition.
     // Eyes now naturally drawn to Q/A, rather than buttons !
     fontWeight: Platform.OS === 'ios' ? 'normal' : 'bold',
-    //TEMP:
-    borderColor: 'blue',
-    borderWidth,
   },
   infoText: {
     fontSize: 20,
     color: gray,
     alignSelf: 'center',
-    //TEMP:
-    borderColor: 'blue',
-    borderWidth,
   },
 
   buttonsContainer: {
     flex: 10,
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
-    //TEMP:
-    borderColor: 'red',
-    borderWidth,
   },
   label: {
     marginBottom: 20,
-    //TEMP:
-    borderColor: 'red',
-    borderWidth,
   },
   buttonContainer: {
     justifyContent: 'center',
     margin: 10,
-    //TEMP:
-    borderColor: 'red',
-    borderWidth,
   },
 
   progressBarContainer: {
     height: 30,
     flexDirection: 'row',
-    //TEMP:
-    borderColor: 'red',
-    borderWidth,
   },
   // TODO: Progress Box (numCards Boxes. cardIndex+1 boxes filled in)
   // progressBox: {},
