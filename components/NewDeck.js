@@ -14,7 +14,7 @@ import { fetchDecks } from '../utils/api';
 import { white, gray, primaryColor, primaryColorDark,
          isCorrectColor, isIncorrectColor,
        } from '../utils/colors';
-import { augmentStylesToVisualizeLayout } from '../utils/helpers';
+import { augmentStylesToVisualizeLayout, titleCase } from '../utils/helpers';
 
 
 export default class NewDeck extends React.Component {
@@ -28,6 +28,7 @@ export default class NewDeck extends React.Component {
 
   controlledTextInput(title){
     const canSubmit = this.isValidInput(title);
+    title = titleCase(title);
     this.setState({ title, canSubmit });
 
     console.log('title:', title, 'canSubmit', canSubmit);

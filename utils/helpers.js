@@ -106,3 +106,15 @@ export function augmentStylesToVisualizeLayout(myStyles){
 
     return augmentedStyles;
   }
+
+export function titleCase(str) {
+  // doesn't allow for all caps.. or camelCase words :-/
+  if (!str) return str  // handle undefined, empty string, null
+  return str.trim().toLowerCase().split(' ').map(function(word) {
+    if (!word || word.length < 1) {
+      console.log('cannot titleCase _'+word+'_');
+      return word;
+    }
+    return word.replace(word[0], word[0].toUpperCase());
+  }).join(' ');
+}
