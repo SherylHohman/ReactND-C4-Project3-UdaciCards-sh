@@ -1,12 +1,16 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
-import { white, primaryColor, primaryColorLight, primaryColorDark} from '../utils/colors';
+import { white, gray, primaryColor, primaryColorLight, primaryColorDark} from '../utils/colors';
 
-export default function TextButton({ children, onPress, customColor }) {
+export default function TextButton({ children, onPress, customColor, disabled=false }) {
 
-  const backgroundColor = Platform.OS==='ios' ? white : customColor || primaryColorLight;
-  const borderColor     = Platform.OS==='ios' ? customColor || primaryColorDark  : backgroundColor;
-  const textColor       = Platform.OS==='ios' ? customColor || primaryColor  : white;
+  console.log('TextButton, disabled:', disabled);
+  let disabledColor = disabled ? gray : null;
+
+  const backgroundColor = Platform.OS==='ios' ? white : disabledColor || customColor || primaryColorLight;
+  const borderColor     = Platform.OS==='ios' ? disabledColor || customColor || primaryColorDark
+                                              : disabledColor || backgroundColor;
+  const textColor       = Platform.OS==='ios' ? disabledColor || customColor || primaryColor  : white;
 
   const btnStyle = Platform.OS==='ios' ? styles.iosBtn : styles.androidBtn;
   const txtStyle = styles.txtDefault;
@@ -17,6 +21,7 @@ export default function TextButton({ children, onPress, customColor }) {
   return (
       <TouchableOpacity
         onPress={onPress}
+        disabled={disabled}
         style={[btnStyle, btnColor]}
         >
         <Text
