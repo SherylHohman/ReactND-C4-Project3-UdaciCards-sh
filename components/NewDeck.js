@@ -23,24 +23,21 @@ export default class NewDeck extends React.Component {
 
   state = {
     title: '',
+    canSubmit: false,
   }
 
-  isValidInput(title){
-    this.setState({title});
-    return title !== '';
-    // TODO: invalid if stripped text is an EmptyString
-    // TODO: if inValid, disable Submit Button
-    // TODO: if valid, enable the Submit Button
-    // no need to highlight fields, as there is only 1, and an empty field is obviously wrong
+  controlledTextInput(title){
+    const canSubmit = this.isValidInput(title);
+    this.setState({ title, canSubmit });
+
+    console.log('title:', title, 'canSubmit', canSubmit);
+  }
+  isValidInput(text){
+    return text.trim() !== '';
   }
   onSubmit(){
     const title = this.state.title.trim();
-    this.setState({ title });
-    // rem setState is Asynch, so cannot rely on using the updated value immediately
-    // for computations (OK for UI because component rerenders when it *is* updated)
-    // update state
-    // enable/disable submit button
-    console.log('Submitting:', title);
+    console.log('title:', title, 'canSubmit', this.state.canSubmit);
     // TODO: send to "DB"
     // TODO: update store
     // TODO: navigate
@@ -60,7 +57,7 @@ export default class NewDeck extends React.Component {
                 <TextInput
                   style={styles.textInput}
                   placeholder="Quiz Deck Title"
-                  onChangeText={(title) => this.setState({ title })}
+                  onChangeText={(title) => this.controlledTextInput(title)}
                   value={this.state.title}
                   onSubmitEditing={() => this.onSubmit()}
                   >
@@ -75,6 +72,7 @@ export default class NewDeck extends React.Component {
               <StyledButton
                 style={[styles.item, style={flex: 2}]}
                 onPress={() => this.onSubmit()}
+                disabled={!this.state.canSubmit}
                 >
                 <Text>
                   Submit
