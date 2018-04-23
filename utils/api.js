@@ -1,6 +1,4 @@
 import { AsyncStorage } from 'react-native';
-// import { generateUniqueSlug } from '../utils/helpers';
-
 
 export const UDACICARDS_STORAGE_KEY = 'UdaciCards-SH:decks'
 
@@ -55,16 +53,18 @@ export function fetchDecks(){
 //     })
 // }
 
-// export function saveDeckTitle({ title }){
-//   // const id = createId();
-//   const id = generateUniqueSlug(title);
-//   AsyncStorage.mergeItem(UDACICARDS_STORAGE_KEY, JSON.stringify({
-//     [id]: {
-//       title,
-//       questions: []
-//     },
-//   }));
-// };
+export function saveDeckTitle(title){
+  // title is stripped from special characters except _ and -
+  // title is already verified to be unique (though maybe good to do again here, JIC)
+  // -- thus I can use title as an id
+  const id = title;
+  AsyncStorage.mergeItem(UDACICARDS_STORAGE_KEY, JSON.stringify({
+    [id]: {
+      title,
+      questions: []
+    },
+  }));
+};
 
 // // Note, `title` *could* be ambiguous, so I'm taking in `id` instead
 // // card is presumed to be an object of format { question: questionString, answer: answerString }

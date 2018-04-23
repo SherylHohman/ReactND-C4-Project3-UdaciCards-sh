@@ -107,14 +107,35 @@ export function augmentStylesToVisualizeLayout(myStyles){
     return augmentedStyles;
   }
 
+function collapseSpaces(str) {
+  if (!str) return str;    // empty string, undefined, null
+  return str.replace(/[\s]+/g, ' ');
+}
+
+export function stripInvalidChars(str){
+  // only allow: digits, letters, spaces, '-' and '_'
+  if (!str) return str    // empty string, undefined, null
+  return str.replace(/[^\w_\-\s]+/g, '');
+}
+
 export function titleCase(str) {
-  // doesn't allow for all caps.. or camelCase words :-/
-  if (!str) return str  // handle undefined, empty string, null
+  // donwside: doesn't allow for all caps (HTML), or camelCase words (eg iPhone) :-/
+  if (!str) return str    // empty string, undefined, null
   return str.trim().toLowerCase().split(' ').map(function(word) {
-    if (!word || word.length < 1) {
-      console.log('cannot titleCase _'+word+'_');
-      return word;
-    }
+      if (!word || word.length < 1) {
+        return word;
+      }
     return word.replace(word[0], word[0].toUpperCase());
   }).join(' ');
+}
+
+export function makeStringUnique(str, list=[]){
+  // checks str for uniqueness against list, and augments with (digit) if necessary
+  if (!str) return str;
+  let count = 2;
+  let newStr = str;
+  while (list.indexOf(newStr) !== -1) {
+    newStr = str + ' (' + count.toString() + ')';
+  }
+  return newStr;
 }

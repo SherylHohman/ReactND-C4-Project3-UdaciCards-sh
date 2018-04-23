@@ -9,15 +9,20 @@ import NewCard from  '../components/NewCard';
 import StyledButton from '../components/StyledButton';
 // actionCreators, reducers, selectors, Api's
 import { saveDeck } from '../store/decks/actionCreators';
+import { getDeckList } from '../store/decks/selectors';
 import { fetchDecks } from '../utils/api';
-// Constants, Helpers, Api's
+import { saveDeckTitle } from '../utils/api';
+// Constants, Helpers
 import { white, gray, primaryColor, primaryColorDark,
          isCorrectColor, isIncorrectColor,
        } from '../utils/colors';
-import { augmentStylesToVisualizeLayout, titleCase } from '../utils/helpers';
+import { titleCase, stripInvalidChars, makeStringUnique }
+  from '../utils/helpers';
+// dev
+import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
 
-export default class NewDeck extends React.Component {
+class NewDeck extends React.Component {
 
   // TODO: static.. add TabNavigator Header (optional)
 
@@ -27,21 +32,39 @@ export default class NewDeck extends React.Component {
   }
 
   controlledTextInput(title){
+    title = titleCase(stripInvalidChars(title));
     const canSubmit = this.isValidInput(title);
-    title = titleCase(title);
     this.setState({ title, canSubmit });
+    // return title;
 
-    console.log('title:', title, 'canSubmit', canSubmit);
   }
   isValidInput(text){
     return text.trim() !== '';
+    // TODO: check for unique title, and require user to edit it
   }
   onSubmit(){
-    const title = this.state.title.trim();
-    console.log('title:', title, 'canSubmit', this.state.canSubmit);
-    // TODO: send to "DB"
-    // TODO: update store
-    // TODO: navigate
+    let title = this.state.title.trim();
+
+    // send to "DB"
+    // TODO: show "invalid title" message to user instead, and disable sSubmit btn,
+    //       so they control how to make the title unigue, instead of
+    //       me silently appending a number to the title
+    // Use title as id, instead of sligifying  the title
+    //       since I'm disallowing special chars,
+    //       ane ensuring uniqueness, I can use the title string - spaces and all.
+
+    // create id
+    title = makeStringUnique(title, this.props.existingTitles)
+    saveDeckTitle(title)
+
+      // TODO: update store
+      // .then((id, title) => dispatch(receivedDecks(id, title)))
+      // .catch(err => {
+      //   // dispatch(receiveDecksFailure(err))
+      // });
+
+    // navigate
+    this.props.navigation.navigate('Home');
   }
 
   render() {
@@ -58,8 +81,8 @@ export default class NewDeck extends React.Component {
                 <TextInput
                   style={styles.textInput}
                   placeholder="Quiz Deck Title"
-                  onChangeText={(title) => this.controlledTextInput(title)}
                   value={this.state.title}
+                  onChangeText={(title) => this.controlledTextInput(title)}
                   onSubmitEditing={() => this.onSubmit()}
                   >
                 </TextInput>
@@ -244,3 +267,15 @@ if (viewStyleLayout) {componentStyles = augmentStylesToVisualizeLayout(component
 const styles = StyleSheet.create({
   ...componentStyles,
 });
+
+function mapStoreToProps(store){
+  const decks  = getDeckList(store) || null;
+  // ensure titles are unique (better UX than if just make id unique)
+  const existingTitles = decks && decks.map(deck => {
+    return deck.title
+  }) || [];
+  return {
+    existingTitles,
+  }
+}
+export default connect(mapStoreToProps)(NewDeck);
