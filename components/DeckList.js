@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View , TouchableOpacity, Platform
+import { StyleSheet, Text, View , TouchableOpacity, ScrollView, Platform
        } from 'react-native';
 import { AppLoading } from 'expo';
 // Components
@@ -123,8 +123,10 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
       );
     }
 
+    // Show Quiz Deck List
+      // <View style={styles.container}>
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
           <AppHeader>
             Select a Quiz Deck
           </AppHeader>
@@ -155,7 +157,7 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
               </TouchableOpacity>
             )
           })}
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -169,6 +171,7 @@ let componentStyles = {
   },
   item: {
     flex: 1,
+    height: 75,
     justifyContent: 'center',
     alignSelf:      'stretch',
     alignItems:     'center',

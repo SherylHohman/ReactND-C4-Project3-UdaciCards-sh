@@ -25,7 +25,8 @@ const textColor       = Platform.OS==='ios' ? primaryColor  : white;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    height: 150,
     backgroundColor: backgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
