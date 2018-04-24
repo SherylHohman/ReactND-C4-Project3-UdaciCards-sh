@@ -2,23 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity,
          TextInput, KeyboardAvoidingView,
-         StyleSheet, Platform ,
+         StyleSheet, Platform,
        } from 'react-native';
 // Components
-import NewCard from  '../components/NewCard';
 import StyledButton from '../components/StyledButton';
 // actionCreators, reducers, selectors, Api's
-import { saveDeck } from '../store/decks/actionCreators';
-import { getDeckList } from '../store/decks/selectors';
-import { fetchDecks } from '../utils/api';
+import { saveDeck }      from '../store/decks/actionCreators';
+import { getDeckList }   from '../store/decks/selectors';
+import { fetchDecks }    from '../utils/api';
 import { saveDeckTitle } from '../utils/api';
 // Constants, Helpers
 import { white, gray, primaryColor, primaryColorDark,
-         isCorrectColor, isIncorrectColor,
        } from '../utils/colors';
 import { titleCase, stripInvalidChars, makeStringUnique }
   from '../utils/helpers';
-// dev
+
+// dev  TODO: enly enable this import and its usage while in dev
 import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
 
@@ -194,18 +193,10 @@ let componentStyles = {
     paddingTop: 30,
     paddingBottom: 5,
   },
-  everythingExceptProgressBar: {
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: white,
-  },
   cardContainer: {
     flex: 1,
     justifyContent: 'flex-start',
     alignSelf: 'stretch',
-    // alignItems: 'stretch',
     backgroundColor: '#fefefe',
 
     padding:     20,
@@ -241,8 +232,6 @@ let componentStyles = {
 
     alignSelf: 'center',
     textAlign: 'center',
-    // marginBottom: 20,
-    // paddingBottom: 20,
   },
 
   // INPUTTEXT styles
