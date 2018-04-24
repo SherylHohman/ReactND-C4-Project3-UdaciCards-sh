@@ -4,8 +4,7 @@ import { white, gray, primaryColor, primaryColorLight, primaryColorDark} from '.
 
 export default function TextButton({ children, onPress, customColor, disabled=false }) {
 
-  console.log('TextButton, disabled:', disabled);
-  let disabledColor = disabled ? gray : null;
+  const disabledColor = disabled ? gray : null;
 
   const backgroundColor = Platform.OS==='ios' ? white : disabledColor || customColor || primaryColorLight;
   const borderColor     = Platform.OS==='ios' ? disabledColor || customColor || primaryColorDark
@@ -77,7 +76,6 @@ const styles = StyleSheet.create({
   },
 
 })
-
 
 // ios has white buttons with colored outlines and colored text
 // android has colored buttons with white text
