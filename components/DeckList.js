@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View , TouchableOpacity} from 'react-native';
-import { Platform } from 'react-native';
+import { StyleSheet, Text, View , TouchableOpacity, Platform
+       } from 'react-native';
 import { AppLoading } from 'expo';
 // Components
 import AppHeader from '../components/AppHeader';
-import Deck from '../components/Deck';
-import Quiz from '../components/Quiz';
+import Deck      from '../components/Deck';
+import Quiz      from '../components/Quiz';
 // actionCreators, reducers, selectors, Api's
 import { getDeckList, getFetchStatus } from '../store/decks/selectors';
-import { receivedDecks } from '../store/decks/actionCreators';
-import { fetchDecks } from '../utils/api';
+import { receivedDecks }               from '../store/decks/actionCreators';
+import { fetchDecks }                  from '../utils/api';
 // Constants, Helpers
-import { white, gray, primaryColor } from '../utils/colors';
+import { white, gray, primaryColor }      from '../utils/colors';
 import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
  class DeckList extends React.Component {
@@ -41,10 +41,9 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
   componentDidMount(){
     const { decks } = this.props;
-
-    // read data from localStore and dispatch/save to redux store
     const { dispatch } = this.props;
 
+    // read data from localStore, then dispatch/save to redux store
     fetchDecks()
       .then((decks) => dispatch(receivedDecks(decks)))
       .then(({ decks }) => this.setState({
@@ -65,8 +64,8 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
     const decks = this.props.decks;
     const haveData = this.canRenderData();
 
-    // but if have data from store, show it even while re-fetching
-    // if (true){
+    // fetching data,
+    // but if have data from store, show data from store, even while re-fetching
     if (this.state.isFetching && !haveData){
         return (
           <View>
@@ -86,6 +85,7 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
         );
     }
 
+    // fetch error,
     // but if have data from store, show it instead of fetching error
     if (this.state.isFetchFailure && !haveData) {
       return (
@@ -101,6 +101,7 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
       );
     }
 
+    // No Quiz Decks
     if (!haveData){
       return (
         <View style={styles.container}>
