@@ -37,11 +37,29 @@ function setDummyData () {
 }
 
 export function fetchDecks(){
+  console.log('in api.fetchDecks');
   return AsyncStorage.getItem(UDACICARDS_STORAGE_KEY)
     .then((results) => {
       return results === null
         ? setDummyData()
         : JSON.parse(results)
+    })
+
+    .then((decksObj) => {
+      console.log('api.fetchDecks Asynch getItem successful, \n decksObj:', decksObj, '\n');
+
+      // app components want this data in the form of an array
+      const decksArr = Object.keys(decksObj).reduce((acc, id) => {
+        return acc.concat([decksObj[id]]);
+      }, []);
+
+      console.log('api.fetchDecks returning, \n decksArr:', decksArr, '\n');
+      return decksArr;
+    })
+
+    .catch((err) => {
+      console.log('api.fetchDecks AsyncStorage.getItem error:', err);
+      console.error(err);
     })
   }
 

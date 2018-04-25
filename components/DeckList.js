@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { StyleSheet, Text, View , TouchableOpacity, ScrollView, Platform
        } from 'react-native';
 import { AppLoading } from 'expo';
@@ -15,44 +15,62 @@ import { fetchDecks }                  from '../utils/api';
 import { white, gray, primaryColor }      from '../utils/colors';
 import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
+ // class DeckList extends React.Component {
  class DeckList extends React.Component {
 
   state = {
+    decks: null,
     isFetching: true,
     isFetchFailure: false,
   }
 
   canRenderData(){
-    const { decks } = this.props;
+    // const { decks } = this.props;
+    const decks = this.state.decks;
+    console.log('DeckList.canRenderData, decks:', decks);
 
-    // I don't have anything (undefined, null)
+    // I don't have anything (undefined, null, '')
     if (!decks) {return false}
-    // I have either fresh or stale data
-    if (decks && Array.isArray(decks) && (decks.length > 0)){
-      return true;
-    }
-    //I have an empty array, and..
-    if (this.state.isFetching)     {return false}
-    if (this.state.isFetchFailure) {return false}  // coin toss
 
-    // empty array returned from a fresh fetch
+    // I have either fresh or stale data
+    if (decks && Array.isArray(decks)){
+      return decks.length === 0
+        ? false  // empty array is legit, but cannot render it
+        : true;  // have data !
+    }
+
+    console.log('DeckList.canRenderData, have invalid dataType for decks:', decks);
     return false;
   }
 
   componentDidMount(){
-    const { decks } = this.props;
-    const { dispatch } = this.props;
+    // const { decks } = this.props;
+    // const { dispatch } = this.props;
 
     // read data from localStore, then dispatch/save to redux store
     fetchDecks()
-      .then((decks) => dispatch(receivedDecks(decks)))
-      .then(({ decks }) => this.setState({
-        isFetching: false,
-        isFetchFailure: false
-      }))
+      // .then((decks) => dispatch(receivedDecks(decks)))
+      // .then(({ decks }) => this.setState({
+      //   isFetching: false,
+      //   isFetchFailure: false
+      // }))
+      // .then((decksObj) => {
+        // console.log('cDM, decksObj:', decksObj);
+        // const decksArr = Object.keys(decksObj).reduce((acc, id) => {
+        //   return acc.concat([decks[id]]);
+        // }, []);
+
+      .then((decks) => {
+        console.log('cDM, decks:', decks);
+        this.setState({
+          decks,
+          isFetching: false,
+          isFetchFailure: false
+        });
+        })
 
       .catch(err => {
-        dispatch(receiveDecksFailure(err))
+        // dispatch(receiveDecksFailure(err))
         this.setState({
           isFetching: false,
           isFetchFailure: true,
@@ -60,8 +78,16 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
       });
   }
 
+  componentWillReceiveProps(newProps){
+    if (newProps.decks && newProps.decks !== this.state.decks){
+      this.setState({ decks: newProps.decks });
+      console.log('DeckList.cWRP, received decks:', ownProps.decks);
+    }
+  }
+
   render() {
-    const decks = this.props.decks;
+    // const decks = this.props.decks;
+    const decks = this.state.decks;
     const haveData = this.canRenderData();
 
     // fetching data,
@@ -132,27 +158,30 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
           </AppHeader>
 
           {decks.map((deck) => {
+            const id = deck.title;
+            const numCards = deck.questions.length;
             return (
               <TouchableOpacity
                 style={styles.item}
-                key={deck.id}
+                key={id}
                 onPress={() => this.props.navigation.navigate(
                   'Deck',
                   /* below passes in as: this.props.navigation.state.params.id*/
-                  { id: deck.id, title: deck.title }
+                  /*{ id: deck.id, title: deck.title }*/
+                  { deck }
                 )}
                 >
                 <Text
                   style={styles.titleText}
-                  key={`${deck.id}-title`}
+                  key={`${id}-title`}
                   >
                   {deck.title}
                 </Text>
                 <Text
                   style={styles.infoText}
-                  key={`${deck.id}-numQuestions`}
+                  key={`${id}-numQuestions`}
                   >
-                  {deck.numCards} {`${deck.numCards===1?'Question':'Questions'}`}
+                  {numCards} {`${numCards===1?'Question':'Questions'}`}
                 </Text>
               </TouchableOpacity>
             )
@@ -214,12 +243,13 @@ const styles = StyleSheet.create({
   ...componentStyles,
 });
 
-function mapStoreToProps(store){
-  const decks  = getDeckList(store) || null;
+// function mapStoreToProps(store){
+//   const decks  = getDeckList(store) || null;
 
-  return {
-    decks,
-  }
-}
+//   return {
+//     decks,
+//   }
+// }
 
-export default connect(mapStoreToProps)(DeckList);
+// export default connect(mapStoreToProps)(DeckList);
+export default DeckList

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 // Components
 import StyledButton from '../components/StyledButton';
@@ -16,8 +16,15 @@ class Deck extends React.Component {
   }
 
   render() {
-    const { title, id, numCards } = this.props.deckInfo;
+    // const { title, id, numCards } = this.props.deckInfo;
     // const numCards = this.props.deck.questions.length;
+
+    const { deck } = this.props.navigation.state.params;
+    console.log('__Deck.render__ deck:', deck);
+    const title = deck.title;
+    const numCards = deck.questions.length;
+    const id = title;   // for compatibility without chnging code. TODO..
+
     return (
       <View style={styles.container}>
         <View>
@@ -32,7 +39,8 @@ class Deck extends React.Component {
           onPress={() => this.props.navigation.navigate(
             'Quiz',
             /* below passes in as: this.props.navigation.state.params.id*/
-            { id, title }
+            /*{ id, title }*/
+            { deck }
           )}
         >
         Take Quiz !
@@ -43,7 +51,8 @@ class Deck extends React.Component {
           onPress={() => this.props.navigation.navigate(
             'NewCard',
             /* below passes in as: this.props.navigation.state.params.id*/
-            { id }
+            /*{ id }*/
+            { deck }
           )}
         >
         Add a New Question
@@ -104,17 +113,20 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStoreToProps(store, ownProps){
-  console.log(ownProps);
-  const deckInfo  = getDeckInfo(store, ownProps.navigation.state.params.id) || null;
-  // const deck  = getDeck(store, ownProps.navigation.state.params.id) || null;
-  // TODO: *maybe* fetch the deck proper (with questions) even though I don't use
-  //       questions in this component.  Then just pass the whole deck to children
-  //       since both children need questions, and they won't have to then get them.
+// function mapStoreToProps(store, ownProps){
+//   console.log(ownProps);
+//   const deckInfo  = getDeckInfo(store, ownProps.navigation.state.params.id) || null;
+//   // const deck  = getDeck(store, ownProps.navigation.state.params.id) || null;
+//   // TODO: *maybe* fetch the deck proper (with questions) even though I don't use
+//   //       questions in this component.  Then just pass the whole deck to children
+//   //       since both children need questions, and they won't have to then get them.
 
-  return {
-    deckInfo,
-  }
-}
+//   return {
+//     deckInfo,
+//   }
+// }
 
-export default connect(mapStoreToProps)(Deck);
+// export default connect(mapStoreToProps)(Deck);
+export default Deck;
+
+// TODO propTypes: deck, navigate

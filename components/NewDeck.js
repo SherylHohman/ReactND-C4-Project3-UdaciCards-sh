@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity,
          TextInput, KeyboardAvoidingView,
          StyleSheet, Platform,
@@ -44,6 +44,12 @@ class NewDeck extends React.Component {
   onSubmit(){
     let title = this.state.title.trim();
 
+    const decks = this.props.decks;
+    const existingTitles = decks && decks.map(deck => {
+      return deck.title
+    }) || [];
+
+
     // send to "DB"
     // TODO: show "invalid title" message to user instead, and disable sSubmit btn,
     //       so they control how to make the title unigue, instead of
@@ -53,7 +59,8 @@ class NewDeck extends React.Component {
     //       ane ensuring uniqueness, I can use the title string - spaces and all.
 
     // create id
-    title = makeStringUnique(title, this.props.existingTitles)
+    // title = makeStringUnique(title, this.props.existingTitles)
+    title = makeStringUnique(title, existingTitles)
     saveDeckTitle(title)
 
       // TODO: update store
@@ -257,14 +264,18 @@ const styles = StyleSheet.create({
   ...componentStyles,
 });
 
-function mapStoreToProps(store){
-  const decks  = getDeckList(store) || null;
-  // ensure titles are unique (better UX than if just make id unique)
-  const existingTitles = decks && decks.map(deck => {
-    return deck.title
-  }) || [];
-  return {
-    existingTitles,
-  }
-}
-export default connect(mapStoreToProps)(NewDeck);
+// function mapStoreToProps(store){
+//   const decks  = getDeckList(store) || null;
+//   // ensure titles are unique (better UX than if just make id unique)
+//   const existingTitles = decks && decks.map(deck => {
+//     return deck.title
+//   }) || [];
+//   return {
+//     existingTitles,
+//   }
+// }
+
+// export default connect(mapStoreToProps)(NewDeck);
+export default NewDeck;
+
+// TODO: propTypes: navigate, decks
