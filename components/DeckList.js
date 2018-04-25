@@ -77,10 +77,10 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
             </AppHeader>
 
             <View style={styles.item}>
-              <Text style={styles.titleText}> Loading your data.. </Text>
+              <Text style={styles.titleText}> Loading your Quiz Decks.. </Text>
             </View>
 
-            <Text style={styles.infoText}>Loading your data..</Text>
+            <Text style={styles.infoText}>Loading your Quiz Decks..</Text>
           </View>
         );
     }

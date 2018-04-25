@@ -7,7 +7,7 @@ import * as actionTypes from './actionTypes';
 const {
         REQUEST_DECKS,         FETCH_DECKS_SUCCESS,   FETCH_DECKS_FAILURE,
         // REQUEST_DECK,           FETCH_DECK_SUCCESS,    FETCH_DECK_FAILURE,
-        // REQUEST_ADD_DECK,         ADD_DECK_SUCCESS,      ADD_DECK_FAILURE,
+        REQUEST_ADD_DECK,         ADD_DECK_SUCCESS,      ADD_DECK_FAILURE,
         // REQUEST_EDIT_DECK,       EDIT_DECK_SUCCESS,     EDIT_DECK_FAILURE,
         // REQUEST_DELETE_DECK,   DELETE_DECK_SUCCESS,   DELETE_DECK_FAILURE,
       } = actionTypes;
@@ -61,7 +61,7 @@ const {
         // REPLACES all decks in store with current fetched results
         // return action.decks;
         return ({
-          ...state,         // future proofing
+          // ...state,         // future proofing
           ...action.decks,
         });
 
@@ -71,14 +71,12 @@ const {
       //     [action.deck.id]: action.deck,
       //    });
 
-      // case ADD_DECK_SUCCESS:
-      //   return ({
-      //     ...state,
-      //     // adds a new id and object to the decks object (quasi-list)
-      //     [action.deck.id]: {
-      //       ...action.deck,
-      //     },
-      //   });
+      case ADD_DECK_SUCCESS:
+        // merges a new deck to the decks object (quasi-list)
+        return ({
+          ...state,
+            ...action.deck,
+        });
 
       // case EDIT_DECK_SUCCESS:
         // return ({
@@ -88,9 +86,10 @@ const {
         //    }
         // });
       // case DELETE_DECK_SUCCESS:
-        // let newState = {...state};
-        // delete newState[action.id]
-        // return newState;
+      //   console.log('store.reducers, DELETE_DECK_SUCCESS, action.id');
+      //   let newState = {...state};
+      //   delete newState[action.id]
+      //   return newState;
 
       // case FETCH_DECK_FAILURE:
       // case FETCH_DECKS_FAILURE:

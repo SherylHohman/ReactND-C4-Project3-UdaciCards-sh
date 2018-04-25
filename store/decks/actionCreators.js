@@ -2,12 +2,17 @@ import * as UdaciCardsAPI from '../../utils/api';
 import * as deckActionTypes from './actionTypes';
 
 // ACTION TYPES
+// const {
+//         REQUEST_DECKS,         FETCH_DECKS_SUCCESS,   FETCH_DECKS_FAILURE,
+//         REQUEST_DECK,           FETCH_DECK_SUCCESS,    FETCH_DECK_FAILURE,
+//         REQUEST_ADD_DECK,         ADD_DECK_SUCCESS,      ADD_DECK_FAILURE,
+//         // REQUEST_EDIT_DECK,       EDIT_DECK_SUCCESS,     EDIT_DECK_FAILURE,
+//         REQUEST_DELETE_DECK,   DELETE_DECK_SUCCESS,   DELETE_DECK_FAILURE,
+//       } = deckActionTypes;
 const {
-        REQUEST_DECKS,         FETCH_DECKS_SUCCESS,   FETCH_DECKS_FAILURE,
-        REQUEST_DECK,           FETCH_DECK_SUCCESS,    FETCH_DECK_FAILURE,
-        REQUEST_ADD_DECK,         ADD_DECK_SUCCESS,      ADD_DECK_FAILURE,
-        // REQUEST_EDIT_DECK,       EDIT_DECK_SUCCESS,     EDIT_DECK_FAILURE,
-        // REQUEST_DELETE_DECK,   DELETE_DECK_SUCCESS,   DELETE_DECK_FAILURE,
+        FETCH_DECK_SUCCESS, FETCH_DECK_FAILURE,
+        ADD_DECK_SUCCESS,
+        DELETE_DECK_SUCCESS,
       } = deckActionTypes;
 
 // REGULAR ACTION CREATORS
@@ -26,6 +31,21 @@ const {
       error: true,
     }
   };
+
+    export function addDeck(deck){
+    return {
+      type: ADD_DECK_SUCCESS,
+      deck,
+    }
+  };
+
+    export function deleteDeck(id){
+    return {
+      type: DELETE_DECK_SUCCESS,
+      id,
+    }
+  };
+
 
 // THUNK ACTION CREATORS
 

@@ -121,6 +121,7 @@ export function stripInvalidChars(str){
 export function titleCase(str) {
   // donwside: doesn't allow for all caps (HTML), or camelCase words (eg iPhone) :-/
   if (!str) return str    // empty string, undefined, null
+  str = collapseSpaces(str);
   return str.trim().toLowerCase().split(' ').map(function(word) {
       if (!word || word.length < 1) {
         return word;
@@ -135,7 +136,7 @@ export function makeStringUnique(str, list=[]){
   let count = 2;
   let newStr = str;
   while (list.indexOf(newStr) !== -1) {
-    newStr = str + ' (' + count.toString() + ')';
+    newStr = str + '-' + count.toString();
   }
   return newStr;
 }

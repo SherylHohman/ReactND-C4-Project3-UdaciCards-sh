@@ -12,7 +12,7 @@ import { getDeckList }   from '../store/decks/selectors';
 import { fetchDecks }    from '../utils/api';
 import { saveDeckTitle } from '../utils/api';
 // Constants, Helpers
-import { white, gray, primaryColor, primaryColorDark,
+import { white, gray, primaryColor, primaryColorDark, primaryColorLight,
        } from '../utils/colors';
 import { titleCase, stripInvalidChars, makeStringUnique }
   from '../utils/helpers';
@@ -30,17 +30,30 @@ class NewDeck extends React.Component {
     canSubmit: false,
   }
 
+// componentDidMount () {
+//     // this.textInputRef.focus()
+// }
+
   controlledTextInput(title){
     title = titleCase(stripInvalidChars(title));
-    const canSubmit = this.isValidInput(title);
-    this.setState({ title, canSubmit });
+    // const canSubmit = this.isValidInput(title);
+    this.setState({ title, canSubmit: this.isValidInput(title) });
     // return title;
-
   }
+
   isValidInput(text){
     return text.trim() !== '';
     // TODO: check for unique title, and require user to edit it
   }
+
+  onBlur(){
+    // title = this.state.title.trim();
+    // const unique = makeStringUnique(title, this.props.existingTitles);
+    // // TODO: if unique !== title, highlight this to the user, so they can edit
+    // //       if they don't like the revised title
+    // this.setState({ title: unique });
+  }
+
   onSubmit(){
     let title = this.state.title.trim();
 
@@ -54,20 +67,30 @@ class NewDeck extends React.Component {
 
     // create id
     title = makeStringUnique(title, this.props.existingTitles)
+    console.log('in NewDeck, onSubmit, before saveDeckTitle');
+    // update DB
     saveDeckTitle(title)
-
-      // TODO: update store
-      // .then((id, title) => dispatch(receivedDecks(id, title)))
-      // .catch(err => {
-      //   // dispatch(receiveDecksFailure(err))
-      // });
-
+      // update store
+      .then((mergedItem={}) => {
+        console.log('in NewDeck, onSubmit, after  AsyncStorage merge');
+        this.props.dispatch(addDeck(mergedItem));
+      })
+      .catch((err) => {
+        console.log('NewDeck, onSubmit, error saving new DeckTitle, err:', err);
+        // return (err);
+      });
     // navigate
     this.props.navigation.navigate('Home');
   }
 
   render() {
 
+                  // /* ref={ref => this.textInputRef = ref} */   /*`this.textInputRef.focus()` must be called in cDM */
+                  // onBlur={() => this.onBlur()}
+                  // onSubmitEditing={() => this.onSubmit()}
+
+                  // blurOnSubmit
+                  // onSubmitEditing={({ nativeEvent }) => this.setState({ title: nativeEvent.title })} />
       return (
           <View style={styles.container}>
             <View style={[styles.cardContainer, {flex: 1}]}>
@@ -77,14 +100,11 @@ class NewDeck extends React.Component {
               </Text>
 
               <KeyboardAvoidingView {...keyboardAvoidingViewProps}>
-                <TextInput
+                <TextInput {...textInputProps}
                   style={styles.textInput}
-                  placeholder="Quiz Deck Title"
                   value={this.state.title}
                   onChangeText={(title) => this.controlledTextInput(title)}
-                  onSubmitEditing={() => this.onSubmit()}
-                  >
-                </TextInput>
+                  />
               </KeyboardAvoidingView>
             </View>
 
@@ -108,70 +128,77 @@ class NewDeck extends React.Component {
   }
 }
 
-  // Props for <TextInput>
-  const textInputProps = {
-    /* onChange={(title) => this.setState({ title })} */  // similar to onChangeText
-    maxLength: 25,
-    multiline: true,
-    autoFocus: true,     /* takes focus at componentDidMount, saves the user a click */
-    autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
-    returnKeyType: "done",
-    // TODO: pull keyboard up automatically if phone does Not have Physical keyboard
-    // TODO: get height of soft Kyeboard
-    //       - edit layout design to render in the area unoccupied by the
-    //         keyboard (even when it is not showing),
-    //         but allow it to take up more vertical space if needed,
-    //         (but only while keyboard is *not* showing)
-    //         also add scrollView just in case, so user can access hidden content.
+  // // Props for <TextInput>
+  // multiline: false,
+  // autoFocus: true,     takes focus at componentDidMount, saves the user a click
+let textInputProps = {
+  placeholder: 'Quiz Deck Title',
+  autoFocus: true,
+  maxLength: 25,
+  autoCapitalize: 'words',
+  autoCorrect: false,
+  returnKeyType: 'send',
+  placeholderTextColor: gray,
+  selectionColor: primaryColorLight,
+}
+// if (Platform.OS==='ios'){
+//   textInputProps = {
+//     ...textInputProps,
+//     enablesReturnKeyAutomatically: true, // disables return key if no text
+//     keyboardAppearance: 'light',
+//     spellCheck: true,
+//   }
+// }
+// if (Platform.OS==='android'){
+//   textInputProps = {
+//     ...textInputProps,
+//   }
+// }
 
-    /* onEndEditing={(title) => this.setState({title: title.trim()})} */
-    /* onBlur={(title) => this.setState({title: title.trim()})} */
-    /* clearButtonMode={"while-editing"} */
-    /* returnKeyType = {"next"} */
-    /* returnKeyType = {"done"} */
-    /* ref={ref => {this._emailInput = ref}} */
-    /* placeholder="email@example.com" */
-    /* autoCapitalize="none" */
-    /* keyboardType="email-address" */
-    /* returnKeyType="send" */
-    /* onSubmitEditing={this._submit} */
-  };
+  // // Props for <TextInput>
+  // let textInputProps = {
+  //   // if multiline, "enter" key will "submit", instead of adding a newline
+  //   blurOnSubmit=true,
 
-  // Options for `behavior` : enum('height', 'position', 'padding')
-    // Note: Android and iOS both interact with this prop differently.
-    // Android may behave better when given no behavior prop at all,
-    // whereas iOS is the opposite.
-  const keyboardAvoidingViewProps = {
-    // keyboardVerticalOffset: Platform.OS === 'ios' ? 40 : 0,
-    // behavior: Platform.OS === 'ios' ? 'padding' : '',
-    // behavior: Platform.OS === 'ios' ? 'padding' : 'height',
-    // behavior: Platform.OS === 'ios' ? 'padding' : 'position',
-    behavior: 'padding',
-  };
-  // TODO: keyboardAvoidingView is still wonky on android.
-  //   - tried many options, and wrapping various segments both individually,
-  //     and in various group combinations.  This is the best so far.
-  //     But.. on Nexus 6P emulator, with Android 23,
-  //     it Partially covers the infoText/label "Title for your.."
-  //     - it would be better to cover it *completely* (or not at all)
-  //     The next best was to wrap *all* the elements in a single keyboardAvoidingBiew,
-  //     .. but then the infoText/label "Title for your.." Never Shows At All
-  //        on either platform, whether or not the keyboard is visible !
-  //        also, both the input and submit button are at the top with tons of whitespace below.
-  //     This whole keyboard thing seems quite finicky !!
-  //   - keyboardVerticalOffset seemed to have *No* effect, no matter the number
-  //   - despite the docs suggestions, only "padding" seemed to have any effect
-  //       on Android
-  //
-  //   ..Ahh, it seems to be an issue with font size - with large font, the
-  //     input font overlaps the text above.  With a small font, this does not
-  //     happen.  So.. look into options regulating input box, padding/margin,
-  //     in the TextInput documentation.  Not much else to do about *that* in
-  //     keyboardAvoiding..
-  //
-  //   - Additionally, fudge around with all the styles a bit more.
-  //     styles for this component ought to be simplified anyway.
+  //   // TODO: pull keyboard up automatically if phone does Not have Physical keyboard
+  //   // TODO: get height of soft Kyeboard
+  //   //       - edit layout design to render in the area unoccupied by the
+  //   //         keyboard (even when it is not showing),
+  //   //         but allow it to take up more vertical space if needed,
+  //   //         (but only while keyboard is *not* showing)
+  //   //         also add scrollView just in case, so user can access hidden content.
 
+  //   // TODO: open softKeyboard, if device does not have physical keyboard
+  //   //       onFocus={}
+
+  //   // TODO: should I use onKeyPress instead of putting logic in onChange ??
+  //   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
+  //   /* onBlur={(title) => this.setState({title: title.trim()})} */
+  //   /* clearButtonMode={"while-editing"} */
+  //   /* ref={ref => {this._emailInput = ref}} */
+  //   /* onSubmitEditing={this._submit} */ // invalid if {multi-line === true}
+  // };
+  // // if (Platform.OS==='ios'){
+  // //   textInputProps = {
+  // //     ...textInputProps,
+  // //     enablesReturnKeyAutomatically: true, // disables return key if no text
+  // //     keyboardAppearance: 'light',
+  // //     spellCheck: true,
+  // //   }
+  // // }
+  // // if (Platform.OS==='android'){
+  // //   textInputProps = {
+  // //     ...textInputProps,
+  // //   }
+  // // }
+
+// Options for `behavior` : enum('height', 'position', 'padding')
+  // Note: Android and iOS both interact with this prop differently.
+  // Android may behave better when given no behavior prop at all,
+  // whereas iOS is the opposite.
+const keyboardAvoidingViewProps = {
+  behavior: 'padding',
+};
 // TODO: DELETE UNUSED STYLES
 
 let componentStyles = {
@@ -245,6 +272,12 @@ let componentStyles = {
     marginTop: 10,
   },
 };
+// if (Platform.OS = 'android'){
+//   componentStyles = {
+//     ...componentStyles,
+//     // underlineColorAndroid: primaryColorDark,
+//   };
+// }
 
 // set to `false` for normal view, and production.
 // set to `true`  to troubleshoot/test/visualize style layouts
