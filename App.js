@@ -1,6 +1,4 @@
 import React from 'react';
-import { Provider, connect } from 'react-redux';
-import { createStore } from 'redux';
 
 import { StyleSheet, Text, View,
          StatusBar, Platform,
@@ -18,8 +16,6 @@ import Quiz from     './components/Quiz';
 import NewDeck from  './components/NewDeck';
 import NewCard from  './components/NewCard';
 
-// reducers, actionCreators, selectors
-import rootReducer from './store';
 // Constants, Helpers, Api's
 import { setLocalNotification } from './utils/helpers'
 import { white, primaryColor, primaryColorDark } from './utils/colors';
@@ -56,15 +52,13 @@ export default class App extends React.Component {
 
   render(){
     return (
-      <Provider store={createStore(rootReducer)}>
-        <View style={{flex:1}}>
-          <AppStatusBar
-            backgroundColor={primaryColor}
-            barStyle="light-content"
-            />
-          <MainNavigation />
-        </View>
-      </Provider>
+      <View style={{flex:1}}>
+        <AppStatusBar
+          backgroundColor={primaryColor}
+          barStyle="light-content"
+          />
+        <MainNavigation />
+      </View>
     );
   }
 }

@@ -1,12 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity,
          StyleSheet, Platform ,
        } from 'react-native';
 // Components
 import StyledButton from '../components/StyledButton';
-// actionCreators, reducers, selectors
-import { getDeck, getCards } from '../store/decks/selectors';
 // Constants, Helpers, Api's
 import { clearLocalNotification, setLocalNotification } from '../utils/helpers';
 import { white, gray, primaryColor, primaryColorDark,
@@ -47,9 +44,10 @@ class Quiz extends React.Component {
   }
 
   render() {
+    const { deck } = this.props.navigation.state.params;
 
     // Error loading deck
-    if (!this.props.deck){
+    if (!deck){
       return (
           <View style={styles.container}>
             <Text  style={[
@@ -60,7 +58,7 @@ class Quiz extends React.Component {
             >
             Uh Oh....{"\n\n"}
             I had trouble loading your {"\n"}
-            {this.props.deck.title} Quiz !
+            {deck.title} Quiz !
             </Text>
 
             <TouchableOpacity
@@ -77,7 +75,7 @@ class Quiz extends React.Component {
       );
     }
 
-    const { title, id, questions } = this.props.deck;
+    const { title, id, questions } = deck;
     const numCards = questions.length;
     const { index, isQuestionView, numCorrect } = this.state;
 
@@ -329,13 +327,4 @@ const styles = StyleSheet.create({
   // progressBox: {},
 });
 
-function mapStoreToProps(store, ownProps){
-  console.log(ownProps);
-  const deck  = getDeck(store, ownProps.navigation.state.params.id) || null;
-
-  return {
-    deck,
-  }
-}
-
-export default connect(mapStoreToProps)(Quiz);
+export default Quiz;

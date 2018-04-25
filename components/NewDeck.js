@@ -1,21 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity,
          TextInput, KeyboardAvoidingView,
          StyleSheet, Platform,
        } from 'react-native';
 // Components
 import StyledButton from '../components/StyledButton';
-// actionCreators, reducers, selectors, Api's
-import { saveDeck }      from '../store/decks/actionCreators';
-import { getDeckList }   from '../store/decks/selectors';
+// Constants, Helpers, Api's
 import { fetchDecks }    from '../utils/api';
 import { saveDeckTitle } from '../utils/api';
 // Constants, Helpers
-import { white, gray, primaryColor, primaryColorDark, primaryColorLight,
-       } from '../utils/colors';
 import { titleCase, stripInvalidChars, makeStringUnique }
   from '../utils/helpers';
+import { white, gray, primaryColor, primaryColorDark, primaryColorLight,
+       } from '../utils/colors';
 
 // dev  TODO: enly enable this import and its usage while in dev
 import { augmentStylesToVisualizeLayout } from '../utils/helpers';
@@ -57,6 +54,12 @@ class NewDeck extends React.Component {
   onSubmit(){
     let title = this.state.title.trim();
 
+    const decks = this.props.decks;
+    const existingTitles = decks && decks.map(deck => {
+      return deck.title
+    }) || [];
+
+
     // send to "DB"
     // TODO: show "invalid title" message to user instead, and disable sSubmit btn,
     //       so they control how to make the title unigue, instead of
@@ -66,7 +69,7 @@ class NewDeck extends React.Component {
     //       ane ensuring uniqueness, I can use the title string - spaces and all.
 
     // create id
-    title = makeStringUnique(title, this.props.existingTitles)
+    title = makeStringUnique(title, existingTitles)
     console.log('in NewDeck, onSubmit, before saveDeckTitle');
     // update DB
     saveDeckTitle(title)
@@ -290,14 +293,6 @@ const styles = StyleSheet.create({
   ...componentStyles,
 });
 
-function mapStoreToProps(store){
-  const decks  = getDeckList(store) || null;
-  // ensure titles are unique (better UX than if just make id unique)
-  const existingTitles = decks && decks.map(deck => {
-    return deck.title
-  }) || [];
-  return {
-    existingTitles,
-  }
-}
-export default connect(mapStoreToProps)(NewDeck);
+export default NewDeck;
+
+// TODO: propTypes: navigate, decks
