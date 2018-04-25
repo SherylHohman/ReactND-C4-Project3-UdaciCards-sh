@@ -5,16 +5,13 @@ import { View, Text, TouchableOpacity,
        } from 'react-native';
 // Components
 import StyledButton from '../components/StyledButton';
-// actionCreators, reducers, selectors, Api's
-import { saveDeck }      from '../store/decks/actionCreators';
-import { getDeckList }   from '../store/decks/selectors';
+// Constants, Helpers, Api's
 import { fetchDecks }    from '../utils/api';
 import { saveDeckTitle } from '../utils/api';
-// Constants, Helpers
-import { white, gray, primaryColor, primaryColorDark,
-       } from '../utils/colors';
 import { titleCase, stripInvalidChars, makeStringUnique }
   from '../utils/helpers';
+import { white, gray, primaryColor, primaryColorDark,
+       } from '../utils/colors';
 
 // dev  TODO: enly enable this import and its usage while in dev
 import { augmentStylesToVisualizeLayout } from '../utils/helpers';

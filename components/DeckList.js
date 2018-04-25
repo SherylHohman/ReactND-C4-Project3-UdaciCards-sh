@@ -6,13 +6,10 @@ import { AppLoading } from 'expo';
 import AppHeader from '../components/AppHeader';
 import Deck      from '../components/Deck';
 import Quiz      from '../components/Quiz';
-// actionCreators, reducers, selectors, Api's
-import { getDeckList, getFetchStatus } from '../store/decks/selectors';
-import { receivedDecks }               from '../store/decks/actionCreators';
-import { fetchDecks }                  from '../utils/api';
-// Constants, Helpers
-import { white, gray, primaryColor }      from '../utils/colors';
+// Constants, Helpers, Api's
+import { fetchDecks }                     from '../utils/api';
 import { augmentStylesToVisualizeLayout } from '../utils/helpers';
+import { white, gray, primaryColor }      from '../utils/colors';
 
  // class DeckList extends React.Component {
  class DeckList extends React.Component {

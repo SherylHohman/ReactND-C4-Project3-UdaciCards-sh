@@ -2,9 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 // Components
 import StyledButton from '../components/StyledButton';
-// actionCreators, reducers, selectors
-import { getDeckInfo } from '../store/decks/selectors';
-// import { getDeck } from '../store/decks/selectors';
 import { white, gray, primaryColor, primaryColorDark } from '../utils/colors';
 
 class Deck extends React.Component {

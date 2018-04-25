@@ -4,8 +4,6 @@ import { View, Text, TouchableOpacity,
        } from 'react-native';
 // Components
 import StyledButton from '../components/StyledButton';
-// actionCreators, reducers, selectors
-import { getDeck, getCards } from '../store/decks/selectors';
 // Constants, Helpers, Api's
 import { clearLocalNotification, setLocalNotification } from '../utils/helpers';
 import { white, gray, primaryColor, primaryColorDark,
