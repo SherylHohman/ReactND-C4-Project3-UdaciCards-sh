@@ -1,5 +1,4 @@
 import React from 'react';
-// import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity,
          StyleSheet, Platform ,
        } from 'react-native';
@@ -47,8 +46,8 @@ class Quiz extends React.Component {
   }
 
   render() {
-    // const { deck } = this.props.deck;
     const { deck } = this.props.navigation.state.params;
+
     // Error loading deck
     if (!deck){
       return (
@@ -330,14 +329,4 @@ const styles = StyleSheet.create({
   // progressBox: {},
 });
 
-// function mapStoreToProps(store, ownProps){
-//   console.log(ownProps);
-//   const deck  = getDeck(store, ownProps.navigation.state.params.id) || null;
-
-//   return {
-//     deck,
-//   }
-// }
-
-// export default connect(mapStoreToProps)(Quiz);
 export default Quiz;

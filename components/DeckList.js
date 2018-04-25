@@ -1,5 +1,4 @@
 import React from 'react';
-// import { connect } from 'react-redux';
 import { StyleSheet, Text, View , TouchableOpacity, ScrollView, Platform
        } from 'react-native';
 import { AppLoading } from 'expo';
@@ -44,12 +43,9 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
   }
 
   componentDidMount(){
-    // const { decks } = this.props;
-    // const { dispatch } = this.props;
 
-    // read data from localStore, then dispatch/save to redux store
+    // read data from localStore
     fetchDecks()
-      // .then((decks) => dispatch(receivedDecks(decks)))
       // .then(({ decks }) => this.setState({
       //   isFetching: false,
       //   isFetchFailure: false
@@ -70,7 +66,6 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
         })
 
       .catch(err => {
-        // dispatch(receiveDecksFailure(err))
         this.setState({
           isFetching: false,
           isFetchFailure: true,
@@ -86,7 +81,6 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
   }
 
   render() {
-    // const decks = this.props.decks;
     const decks = this.state.decks;
     const haveData = this.canRenderData();
 
@@ -167,7 +161,6 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
                 onPress={() => this.props.navigation.navigate(
                   'Deck',
                   /* below passes in as: this.props.navigation.state.params.id*/
-                  /*{ id: deck.id, title: deck.title }*/
                   { deck }
                 )}
                 >
@@ -243,13 +236,4 @@ const styles = StyleSheet.create({
   ...componentStyles,
 });
 
-// function mapStoreToProps(store){
-//   const decks  = getDeckList(store) || null;
-
-//   return {
-//     decks,
-//   }
-// }
-
-// export default connect(mapStoreToProps)(DeckList);
 export default DeckList
