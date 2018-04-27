@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
+
 // Components
 import StyledButton from '../components/StyledButton';
-import { saveDeckTitle, updateDeckTitle, removeDeck, fetchDecks } from '../utils/api';
+import * as storageAPI from '../utils/api';
 // Constants, Helpers
 import { white, gray, primaryColor, primaryColorLight, primaryColorDark,
          isCorrectColor, isIncorrectColor
@@ -10,103 +11,110 @@ import { white, gray, primaryColor, primaryColorLight, primaryColorDark,
 
 class Deck extends React.Component {
 
-  // state = {
-  //   oldTitle: '',
-  //   newTitle: '',
-  // }
-
   static navigationOptions = ({ navigation }) => {
     const { title } = navigation.state.params;
     return { title: `${title} Quiz Deck`}
   }
 
+  state = {
+    // convenience variable only;
+    // not expected to change after it is set (in componentDidMount)
+    deck: {
+      title: 'placeholder, overwritten at cDM. title doubles as id in decks object.',
+      questions: [{
+          question: 'Why?',
+          answer:   'cDM First Render.. safeguard. Also shows format of deck object',
+      }]
+    }
+  }
+
+  componentDidMount(){
+    console.log('\n __Decks.cDM__, this.props:', this.props, '\n');
+    // for convenience
+    const deck = this.props.navigation.state.params.deck;
+    this.setState({ deck });
+  }
+
   onRename(){
-    console.log('in onRename');
+    // console.log('in onRename');
     // // update DB
-    // updateDeckTitle()
-    // // then update Store
-    // // then navigate to Home
+    // storageAPI.updateDeckTitle()
+    //   .then
+    // //   update Store
+    // //   navigate to Home
   }
 
   onDelete(){
-    const { title, id, numCards } = this.props.deckInfo;
-    console.log('Deck.js, onDelete, id:', id);
+    const id = this.state.deck.title;
+    console.log('____Deck.js____, onDelete, deck id:', id);
+
     // update DB
-    removeDeck(id)
-    // then update Store
-    // .then(() => fetchDecks())
-    // as this should be dispatched as update decks
-    // .then((decks) => this.props.dispatch(receivedDecks(decks)))
-    // fetchDecks()
+    storageAPI.removeDeck(id)
     .then((decks) => {
-      console.log('Deck.js, onDelete, after removeDeck, received decks:/n', decks);
-      this.props.dispatch(receivedDecks(decks));
-      console.log('dispatched updated decks to store, navigating home..');
+      // since not using redux, must put navigation inside `.then`
+      // to gaurantee Storage has been updated before loading the page.
+      // since it "fetches" at cDM, and there is no mSTP/cWRP/props to catch
+      // updates to the data update.
+      this.props.navigation.navigate('Home');
     })
-    // then navigate to Home
-    // // .then(() => this.props.navigation.navigate('Home');)
-    // .then(() => this.props.navigation.navigate('Home'));
-    .catch((err) => console.log('error removing deck id:', id));
-    this.props.navigation.navigate('Home');
+
+    .catch((err) => {
+      console.log('____error____ removing id id:', id);
+      // opting to navigate even if there is an error.
+      // perhaps better to render an error message, and Home Button.
+      this.props.navigation.navigate('Home');
+    })
   }
 
-    //   // read data from localStore, then dispatch/save to redux store
-    // fetchDecks()
-    //   .then((decks) => dispatch(receivedDecks(decks)))
-    //   .then(({ decks }) => this.setState({
-    //     isFetching: false,
-    //     isFetchFailure: false
-    //   }))
-
-    //   .catch(err => {
-    //     dispatch(receiveDecksFailure(err))
-    //     this.setState({
-    //       isFetching: false,
-    //       isFetchFailure: true,
-    //     });
-    //   });
-  // }
-
-
   render() {
-
-    const { deck } = this.props.navigation.state.params;
-    console.log('__Deck.render__ deck:', deck);
-    const title = deck.title;
+    if (!this.state.deck){
+      return (
+        <View>
+          <Text> There was an error loading you Deck..</Text>
+          <StyledButton>
+            Home
+          </StyledButton>
+        </View>
+      );
+    }
+    const { deck } = this.state;
     const numCards = deck.questions.length;
-    const id = title;   // for compatibility without chnging code. TODO..
 
     return (
+      /* Deck Info */
       <View style={styles.container}>
         <View>
-          <Text style={styles.titleText}>Deck: {title}</Text>
+          <Text style={styles.titleText}>Deck: {deck.title}</Text>
           <Text style={styles.infoText}>
           {numCards} {(numCards === 1) ? 'Question' : 'Questions'}
           </Text>
         </View>
 
+        {/* btn: Take Quiz btn*/}
         <StyledButton
           customColor={isCorrectColor}
           onPress={() => this.props.navigation.navigate(
             'Quiz',
-            /* below passes in as: this.props.navigation.state.params.id*/
+            /* below passes in as: this.props.navigation.state.params.deck*/
             { deck }
           )}
         >
         Take Quiz !
         </StyledButton>
 
+        {/* btn: Add a new Question/Answer Card */}
         <StyledButton
           customColor={primaryColorLight}
           onPress={() => this.props.navigation.navigate(
             'NewCard',
-            /* below passes in as: this.props.navigation.state.params.id*/
+            /* below passes in as: this.props.navigation.state.params.deck*/
             { deck }
           )}
         >
         Add a New Question
         </StyledButton>
 
+        {/* btn: Rename Deck */}
         <StyledButton
           customColor={primaryColor}
           onPress={() => this.onRename()}
@@ -114,6 +122,7 @@ class Deck extends React.Component {
         Rename
         </StyledButton>
 
+        {/* btn: Delete Deck */}
         <StyledButton
           customColor='red'
           onPress={() => this.onDelete()}
@@ -178,4 +187,4 @@ const styles = StyleSheet.create({
 
 export default Deck;
 
-// TODO propTypes: deck, navigate
+// TODO propTypes: deck, navigation

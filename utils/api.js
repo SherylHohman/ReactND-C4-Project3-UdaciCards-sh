@@ -36,35 +36,25 @@ function setDummyData () {
   return dummyData
 }
 
-export function fetchDecks(){
-  console.log('in api.fetchDecks');
+export function retrieveDecks(){
+  console.log('in api.retrieveDecks');
   return AsyncStorage.getItem(UDACICARDS_STORAGE_KEY)
     .then((results) => {
+      // return results === (null || {})  // TESTING ONLY: Reset empty data to dummyData
       return results === null
         ? setDummyData()
         : JSON.parse(results)
+        // : (console.log('results', results) || JSON.parse(results))
+        // : setDummyData()  // TEMP TO RESET DB
     })
-
-    .then((decksObj) => {
-      console.log('api.fetchDecks Asynch getItem successful, \n decksObj:', decksObj, '\n');
-
-      // app components want this data in the form of an array
-      const decksArr = Object.keys(decksObj).reduce((acc, id) => {
-        return acc.concat([decksObj[id]]);
-      }, []);
-
-      console.log('api.fetchDecks returning, \n decksArr:', decksArr, '\n');
-      return decksArr;
-    })
-
     .catch((err) => {
-      console.log('api.fetchDecks AsyncStorage.getItem error:', err);
+      // console.log('api.retrieveDecks AsyncStorage.getItem error:', err);
       console.error(err);
     })
   }
 
 // export function getDeck(id){
-//   return fetchDecks
+//   return retrieveDecks
 //     .then((decks) => {
 //       // TODO: load results into store
 //       return decks[id]
@@ -75,7 +65,7 @@ export function saveDeckTitle(title){
   // title is stripped from special characters except _ and -
   // title is already verified to be unique (though maybe good to do again here, JIC)
   // -- thus I can use title as an id
-  console.log('entered api.saveDeckTitle..');
+  console.log('______entered api.saveDeckTitle______');
 
   const id = title;
   const newDeck = {
@@ -84,22 +74,24 @@ export function saveDeckTitle(title){
         questions: []
       },
   };
-  console.log('in api.js, SaveDeckTitle before call AsyncStorage.mergeItem with newDeck:\n', newDeck);
+  // console.log('____in api.js____, SaveDeckTitle before call AsyncStorage.mergeItem with newDeck:\n', newDeck);
   console.log('JSON.stringify(newDeck): \n', JSON.stringify(newDeck));
 
-  AsyncStorage
+  return AsyncStorage
     .mergeItem(UDACICARDS_STORAGE_KEY, JSON.stringify(newDeck))
+
+    // .then((newDeck) => {
     .then(() => {
-      console.log('..in api.saveDeckTitle, onSubmit, after calling asynchStoreage.merge..');
-      // console.log('..mergeItemReturnValue: \n', mergeItemReturnValue||null);
-      console.log('..returning newDeck: \n', newDeck);
+      console.log('__returning newDeck: \n', newDeck, '\n');
       return newDeck;
     })
+
     .catch((err) => {
-      err += '\n..AsyncStorage error in api.js, saveDeckTitle, Async.mergeItem \n..newDeck: ', newDeck;
+      err += '\n__AsyncStorage error in api.js, saveDeckTitle, Async.mergeItem \n..newDeck: ', newDeck;
       console.log('mergeItem err:', err);
       return err;
     });
+    console.log('_Does this line get printed? newDeck:', newDeck);
   return newDeck;
 };
 
@@ -166,62 +158,23 @@ export function saveDeckTitle(title){
 // };
 
 export function removeDeck(key){
-  console.log('in api.js, removeDeck, key:', key);
-  AsyncStorage.getItem(UDACICARDS_STORAGE_KEY)
-  .then((results) => {
-    const decks = JSON.parse(results);
-    console.log('got decks with keys:', Object.keys(decks));
-    console.log('deleting decks[key]:', decks[key]);
-    decks[key] = undefined;
-    // console.log('set decks[key] to undefined:', decks[key]);
-    delete decks[key];
-    console.log('setting decks with keys:', Object.keys(decks));
-    AsyncStorage.setItem(UDACICARDS_STORAGE_KEY, JSON.stringify(decks));
-    console.log('exiting api.js, removeDeck, returning decks:', decks);
-    return decks;
-  })
-  .catch((err) => {
-    console.log('AsyncStorage error in api.js, removeDeck, in either getItem or setItem')
-    return (err + ' key: ', key);
-  });
+  console.log('____in api.js__, removeDeck, key:', key);
+
+  return retrieveDecks()
+    .then((decksObj) => {
+
+      decksObj[key] = undefined;
+      delete decksObj[key];
+
+      return AsyncStorage.setItem(UDACICARDS_STORAGE_KEY, JSON.stringify(decksObj))
+        .then(() => decksObj)
+    })
+
+    .catch((err) => {
+      console.log('____AsyncStorage error____ in api.js, removeDeck, in either getItem or setItem')
+      return (err + ' key: ', key);
+    });
 };
-// export function removeDeck(id){
-//   console.log('in api.js, removeDeck, id:', id);
-//   AsyncStorage.getItem(id)
-//   .then((results) => {
-//     const data = JSON.parse(results);
-//     data[id] = undefined;
-//     delete data[id];
-//     console.log('about to removeItem from storage, deleted data:', data);
-//     // AsyncStorage.setItem(UDACICARDS_STORAGE_KEY, JSON.stringify(data))
-//     AsyncStorage.removeItem(UDACICARDS_STORAGE_KEY, id)
-
-//     .then(() => {
-//       console.log('deleted');
-//       return id;
-//     })
-//     .catch((err) => {console.log('error deleting from storage,', err)});
-//   });
-// };
-// export function removeDeck(id){
-//   console.log('in api.js, removeDeck, id:', id);
-//   fetchDecks()
-//   .then((results) => {
-//     const decks = JSON.parse(results);
-//     const deck = decks[id];
-//     deck = undefined;
-//     delete deck;
-//     console.log('about to removeItem from storage, deleted deck:', deck, '\ndecks:',decks);
-//     // AsyncStorage.setItem(UDACICARDS_STORAGE_KEY, JSON.stringify(data))
-//     AsyncStorage.removeItem(UDACICARDS_STORAGE_KEY, id)
-
-//     .then(() => {
-//       console.log('deleted');
-//       return id;
-//     })
-//     .catch((err) => {console.log('error deleting from storage,', err)});
-//   });
-// };
 
 
 //https://facebook.github.io/react-native/docs/asyncstorage.html

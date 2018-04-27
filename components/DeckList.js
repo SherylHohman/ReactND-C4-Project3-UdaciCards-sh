@@ -7,7 +7,7 @@ import AppHeader from '../components/AppHeader';
 import Deck      from '../components/Deck';
 import Quiz      from '../components/Quiz';
 // Constants, Helpers, Api's
-import { fetchDecks }                     from '../utils/api';
+import { retrieveDecks }                     from '../utils/api';
 import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 import { white, gray, primaryColor }      from '../utils/colors';
 
@@ -15,15 +15,14 @@ import { white, gray, primaryColor }      from '../utils/colors';
  class DeckList extends React.Component {
 
   state = {
+    // decks is a convenience variable only; not expected to change
     decks: null,
     isFetching: true,
     isFetchFailure: false,
   }
 
   canRenderData(){
-    // const { decks } = this.props;
     const decks = this.state.decks;
-    console.log('DeckList.canRenderData, decks:', decks);
 
     // I don't have anything (undefined, null, '')
     if (!decks) {return false}
@@ -32,35 +31,29 @@ import { white, gray, primaryColor }      from '../utils/colors';
     if (decks && Array.isArray(decks)){
       return decks.length === 0
         ? false  // empty array is legit, but cannot render it
-        : true;  // have data !
+        : true;  // have data !!
     }
 
-    console.log('DeckList.canRenderData, have invalid dataType for decks:', decks);
+    // console.log('____DeckList.canRenderData____, have invalid dataType for decks:', decks);
     return false;
   }
 
   componentDidMount(){
 
     // read data from localStore
-    fetchDecks()
-      // .then(({ decks }) => this.setState({
-      //   isFetching: false,
-      //   isFetchFailure: false
-      // }))
-      // .then((decksObj) => {
-        // console.log('cDM, decksObj:', decksObj);
-        // const decksArr = Object.keys(decksObj).reduce((acc, id) => {
-        //   return acc.concat([decks[id]]);
-        // }, []);
+    retrieveDecks()
 
-      .then((decks) => {
-        console.log('cDM, decks:', decks);
+      .then((decksObj) => {
+        // Object to Array of Decks
+        const decks = Object.keys(decksObj).map((deckId) => {
+          return decksObj[deckId]
+        });
         this.setState({
           decks,
           isFetching: false,
           isFetchFailure: false
         });
-        })
+      })
 
       .catch(err => {
         this.setState({
@@ -68,13 +61,6 @@ import { white, gray, primaryColor }      from '../utils/colors';
           isFetchFailure: true,
         });
       });
-  }
-
-  componentWillReceiveProps(newProps){
-    if (newProps.decks && newProps.decks !== this.state.decks){
-      this.setState({ decks: newProps.decks });
-      console.log('DeckList.cWRP, received decks:', ownProps.decks);
-    }
   }
 
   render() {
@@ -123,13 +109,14 @@ import { white, gray, primaryColor }      from '../utils/colors';
       return (
         <View style={styles.container}>
           <AppHeader>
-            Aww... No Decks..
+            Aww... No Quiz Decks..
           </AppHeader>
 
           <TouchableOpacity
             style={styles.item}
             onPress={() => this.props.navigation.navigate(
               'NewDeck',
+              {decks: []} /* so can enforce unique titles */
             )}
             >
             <Text style={styles.titleText}>

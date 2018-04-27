@@ -6,7 +6,7 @@ import { View, Text, TouchableOpacity,
 // Components
 import StyledButton from '../components/StyledButton';
 // Constants, Helpers, Api's
-import { fetchDecks }    from '../utils/api';
+import { retrieveDecks }    from '../utils/api';
 import { saveDeckTitle } from '../utils/api';
 // Constants, Helpers
 import { titleCase, stripInvalidChars, makeStringUnique }
@@ -25,20 +25,53 @@ class NewDeck extends React.Component {
   state = {
     title: '',
     canSubmit: false,
+
+    // not expected to change after decks is "fetched"
+    // (if using redux, this would be in props instead, and determined by mSTP selector)
+    existingTitles: [],
   }
 
-// componentDidMount () {
-//     // this.textInputRef.focus()
-// }
+componentDidMount () {
+  console.log('NewDeck.cDM, this.props:', this.props);
+  //TODO: fetchDecks in App.js instead, and pass decks in to via TabNavigator
+  //      (to both tabs: NewDeck -and- DeckList)
+
+  // passed in (ie link from DeckList, when decks is known to be an EMPTY array)
+  // let { decks=null } = this.props.navigation.state.params;
+  let decksArray = (this.props.navigation &&
+               this.props.navigation.state.params &&
+               this.props.navigation.state.params.decks) || undefined;
+  if (decksArray) {
+      const titles = decksArray.map( deck => title );
+      this.setState({ existingTitles: titles });
+      return;
+  }
+  else {
+  // deck not passed in (the norm, such as at app load, or clicking on tab)
+    console.log('NewDeck.cDM decks not passed in, must "fetch" them', this.props);
+    retrieveDecks()
+      .then((decksObj) => {
+        // not expected to change during life of this component
+        const existingTitles = decksObj && Object.keys(decksObj) || [];
+        // console.log('existingTitles:', existingTitles);
+        this.setState({ existingTitles });
+      });
+  }
+
+  // another attempt to get focus into TextInput, and keyboard to pop up at cDM !
+  // this.textInputRef.focus()
+}
 
   controlledTextInput(title){
     title = titleCase(stripInvalidChars(title));
-    // const canSubmit = this.isValidInput(title);
-    this.setState({ title, canSubmit: this.isValidInput(title) });
-    // return title;
+    const canSubmit = this.isValidInput(title);
+    this.setState({ title, canSubmit });
   }
 
   isValidInput(text){
+    // TODO: show "invalid title" message to user instead, and disable sSubmit btn,
+    //       so they control how to make the title unigue, instead of
+    //       me silently appending a number to the title
     return text.trim() !== '';
     // TODO: check for unique title, and require user to edit it
   }
@@ -52,38 +85,36 @@ class NewDeck extends React.Component {
   }
 
   onSubmit(){
-    let title = this.state.title.trim();
+    // console.log('____in NewDeck.onSubmit____');
+    const { existingTitles, canSubmit } = this.state;
+    let title = this.state.title;
 
-    const decks = this.props.decks;
-    const existingTitles = decks && decks.map(deck => {
-      return deck.title
-    }) || [];
-
+    title = makeStringUnique(title.trim(), existingTitles)
 
     // send to "DB"
-    // TODO: show "invalid title" message to user instead, and disable sSubmit btn,
-    //       so they control how to make the title unigue, instead of
-    //       me silently appending a number to the title
-    // Use title as id, instead of sligifying  the title
-    //       since I'm disallowing special chars,
-    //       ane ensuring uniqueness, I can use the title string - spaces and all.
-
-    // create id
-    title = makeStringUnique(title, existingTitles)
-    console.log('in NewDeck, onSubmit, before saveDeckTitle');
-    // update DB
     saveDeckTitle(title)
-      // update store
-      .then((mergedItem={}) => {
-        console.log('in NewDeck, onSubmit, after  AsyncStorage merge');
-        this.props.dispatch(addDeck(mergedItem));
+      .then(()=>{
+        // if was using redux, could navigate without waiting on a `then`..
+        //   because, whenever the redux store updated, "Home" would re-render.
+        //  since I'm not, must make sure AsyncStorage has updated before
+        //   navigation to the page - it only sends a fetch at cDM
+        this.props.navigation.navigate('Home');
       })
+
+      // TODO: Learn why this does not work (had same issue when tried to
+      //       return (new value for) decks after from removeDeck api)
+      // TODO: Learn how to send back a value !
+      // .then((newDeck) => {
+      //   // console.log('____in NewDeck____, onSubmit, after  AsyncStorage merge');
+      // })
+
       .catch((err) => {
-        console.log('NewDeck, onSubmit, error saving new DeckTitle, err:', err);
-        // return (err);
+        console.log('____NewDeck____, onSubmit, error saving new DeckTitle, err:', err);
+        // not sure where I should call `navigate` for the case of storage error
+        this.props.navigation.navigate('Home');
+        return (err);
       });
-    // navigate
-    this.props.navigation.navigate('Home');
+
   }
 
   render() {
@@ -206,13 +237,13 @@ const keyboardAvoidingViewProps = {
 
 let componentStyles = {
   // CONTAINER styles
-  wrapper: {
-    // this was the previous container style
-      flex: 1,
-      backgroundColor: white,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+  // wrapper: {
+  //   // this was the previous container style
+  //     flex: 1,
+  //     backgroundColor: white,
+  //     alignItems: 'center',
+  //     justifyContent: 'center',
+  //   },
   container: {
     flex: 1,
     backgroundColor: white,
