@@ -69,7 +69,7 @@ export function saveDeckTitle(title){
 
     // .then((newDeck) => {
     .then(() => {
-      return newDeck;
+      return newDeck[id];
     })
 
     .catch((err) => {
@@ -89,6 +89,40 @@ export function saveDeckTitle(title){
 //     id: questions.concat([card]),
 //   }));
 // };
+
+export function saveCard(deckData, questionObject){
+  // updates the given deckData by adding questionObject to its questions array
+  //  - then updates the said deck in storage
+  //  - and returns the updated deckData
+
+  // questionObject has format { question: questionString, answer: answerString }
+  // deckData has format: { title, questions }, questions is an Array of questionObjects
+  // deck has format {id: { deckData }}
+
+  const questions = deckData.questions.concat([questionObject])
+  deckData.questions = questions;
+  const updatedDeckObj = {
+    [deckData.title]: {
+      ...deckData,
+    }
+  };
+
+  return AsyncStorage
+    .mergeItem(UDACICARDS_STORAGE_KEY, JSON.stringify(updatedDeckObj))
+
+    .then(() => {
+      return deckData;
+    })
+
+    .catch((err) => {
+      err += '\n__AsyncStorage error in api.js, saveCard, Async.mergeItem \n..updatedDeckObj: ', updatedDeckObj;
+      console.log('mergeItem err:', err);
+      return err;
+    });
+
+    return deckData;
+};
+
 
 // export function updateCard( {deckId, cardIndex, card} ){
 //   AsyncStorage.getItem(deckId)
