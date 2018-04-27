@@ -147,7 +147,7 @@ class Quiz extends React.Component {
             </Text>
 
             <Text style={[styles.titleText, {fontSize: 35}]}>
-            { 100 * numCorrect / numCards} %
+            {'   ' + Math.round(100 * numCorrect / numCards).toString()} %
             </Text>
           </View>
 
