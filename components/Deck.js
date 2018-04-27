@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, TouchableHighlight, StyleSheet, Platform,
+       } from 'react-native';
 
 // Components
 import StyledButton from '../components/StyledButton';
@@ -115,20 +116,26 @@ class Deck extends React.Component {
         </StyledButton>
 
         {/* btn: Rename Deck */}
-        <StyledButton
+      {/*<StyledButton
           customColor={primaryColor}
           onPress={() => this.onRename()}
         >
         Rename
         </StyledButton>
+      */}
 
         {/* btn: Delete Deck */}
-        <StyledButton
-          customColor='red'
-          onPress={() => this.onDelete()}
-        >
-        Delete (Cannot be Undone)
-        </StyledButton>
+        <TouchableHighlight
+          style={{backgroundColor:'#rgba(255, 0, 0, 1.0)'}}  // red on hover/click
+          activeOpacity={1.0}
+          >
+          <StyledButton
+            customColor='#rgba(255, 255, 255, 0.5)'         // 50% red otherwise
+            onPress={() => this.onDelete()}
+            >
+            Delete (Cannot be Undone)
+          </StyledButton>
+        </TouchableHighlight>
       </View>
     );
   }
