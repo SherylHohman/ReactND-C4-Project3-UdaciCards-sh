@@ -13,7 +13,7 @@ import { white, gray, primaryColor, primaryColorLight, primaryColorDark,
 class Deck extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
-    const { title } = navigation.state.params;
+    const { title } = navigation.state.params.deck;
     return { title: `${title} Quiz Deck`}
   }
 
