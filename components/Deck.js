@@ -124,6 +124,15 @@ class Deck extends React.Component {
         </StyledButton>
       */}
 
+        {/* btn: Edit Cards */}
+      {/*<StyledButton
+          customColor={primaryColor}
+          onPress={() => navigateToCardListScreen (does not exist yet) }
+        >
+        Edit Question/Answer Cards
+        </StyledButton>
+      */}
+
         {/* btn: Delete Deck */}
         <TouchableHighlight
           style={{backgroundColor:'#rgba(255, 0, 0, 1.0)'}}  // red on hover/click

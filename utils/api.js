@@ -37,35 +37,24 @@ function setDummyData () {
 }
 
 export function retrieveDecks(){
-  console.log('in api.retrieveDecks');
   return AsyncStorage.getItem(UDACICARDS_STORAGE_KEY)
     .then((results) => {
-      // return results === (null || {})  // TESTING ONLY: Reset empty data to dummyData
       return results === null
         ? setDummyData()
+        // : setDummyData()  // TEMP: USE TO RESET DB
         : JSON.parse(results)
-        // : (console.log('results', results) || JSON.parse(results))
-        // : setDummyData()  // TEMP TO RESET DB
     })
     .catch((err) => {
-      // console.log('api.retrieveDecks AsyncStorage.getItem error:', err);
+      console.log('api.retrieveDecks AsyncStorage.getItem error:', err);
       console.error(err);
     })
-  }
+}
 
-// export function getDeck(id){
-//   return retrieveDecks
-//     .then((decks) => {
-//       // TODO: load results into store
-//       return decks[id]
-//     })
-// }
 
 export function saveDeckTitle(title){
   // title is stripped from special characters except _ and -
   // title is already verified to be unique (though maybe good to do again here, JIC)
-  // -- thus I can use title as an id
-  console.log('______entered api.saveDeckTitle______');
+  // -- thus I can use title as the deck id
 
   const id = title;
   const newDeck = {
@@ -74,15 +63,12 @@ export function saveDeckTitle(title){
         questions: []
       },
   };
-  // console.log('____in api.js____, SaveDeckTitle before call AsyncStorage.mergeItem with newDeck:\n', newDeck);
-  console.log('JSON.stringify(newDeck): \n', JSON.stringify(newDeck));
 
   return AsyncStorage
     .mergeItem(UDACICARDS_STORAGE_KEY, JSON.stringify(newDeck))
 
     // .then((newDeck) => {
     .then(() => {
-      console.log('__returning newDeck: \n', newDeck, '\n');
       return newDeck;
     })
 
@@ -91,7 +77,8 @@ export function saveDeckTitle(title){
       console.log('mergeItem err:', err);
       return err;
     });
-    console.log('_Does this line get printed? newDeck:', newDeck);
+
+  console.log('api.saveDeckTitle, should not get this far.. exiting saveDeckTitle, newDeck:', newDeck);
   return newDeck;
 };
 

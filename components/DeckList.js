@@ -34,7 +34,6 @@ import { white, gray, primaryColor }      from '../utils/colors';
         : true;  // have data !!
     }
 
-    // console.log('____DeckList.canRenderData____, have invalid dataType for decks:', decks);
     return false;
   }
 
@@ -144,7 +143,7 @@ import { white, gray, primaryColor }      from '../utils/colors';
                 key={id}
                 onPress={() => this.props.navigation.navigate(
                   'Deck',
-                  /* below passes in as: this.props.navigation.state.params.id*/
+                  /* below passes in as: this.props.navigation.state.params.deck*/
                   { deck }
                 )}
                 >

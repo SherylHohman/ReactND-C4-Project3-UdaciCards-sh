@@ -14,7 +14,7 @@ import { titleCase, stripInvalidChars, makeStringUnique }
 import { white, gray, primaryColor, primaryColorDark, primaryColorLight,
        } from '../utils/colors';
 
-// dev  TODO: enly enable this import and its usage while in dev
+// dev  TODO: only enable this import (and its invocation) while in dev
 import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
 
@@ -99,6 +99,7 @@ componentDidMount () {
         //  since I'm not, must make sure AsyncStorage has updated before
         //   navigation to the page - it only sends a fetch at cDM
         this.props.navigation.navigate('Home');
+        return;
       })
 
       // TODO: Learn why this does not work (had same issue when tried to
@@ -115,6 +116,7 @@ componentDidMount () {
         return (err);
       });
 
+    console.log('..exiting NewDeck onSubmit (but the async saveDeckTitle is probably still running)');
   }
 
   render() {
