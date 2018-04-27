@@ -27,13 +27,13 @@ class Quiz extends React.Component {
     let { index, numCorrect } = this.state;
     index++;
     numCorrect++;
-    this.setState({ index, numCorrect });
+    this.setState({ index, numCorrect, isQuestionView: true });
   }
 
   onIncorrectAnswer() {
     let { index, numCorrect } = this.state;
     index++;
-    this.setState({ index });
+    this.setState({ index, isQuestionView: true });
   }
 
   onResetQuiz() {
