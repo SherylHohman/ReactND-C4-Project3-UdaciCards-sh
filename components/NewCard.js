@@ -22,7 +22,7 @@ class NewCard extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { deck } = navigation.state.params;
-    return { title: `Add a Card to your: ${deck.title} Quiz Deck`}
+    return { title: `${deck.title}`}
   }
 
   state = {
