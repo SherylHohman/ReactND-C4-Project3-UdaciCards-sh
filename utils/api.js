@@ -45,7 +45,7 @@ export function retrieveDecks(){
         : JSON.parse(results)
     })
     .catch((err) => {
-      console.log('api.retrieveDecks AsyncStorage.getItem error:', err);
+      console.log('api.retrieveDecks AsyncStorage.getItem ERROR:', err);
       console.error(err);
     })
 }
@@ -74,7 +74,7 @@ export function saveDeckTitle(title){
 
     .catch((err) => {
       err += '\n__AsyncStorage error in api.js, saveDeckTitle, Async.mergeItem \n..newDeck: ', newDeck;
-      console.log('mergeItem err:', err);
+      console.log('mergeItem ERROR:', err);
       return err;
     });
 
@@ -116,7 +116,7 @@ export function saveCard(deckData, questionObject){
 
     .catch((err) => {
       err += '\n__AsyncStorage error in api.js, saveCard, Async.mergeItem \n..updatedDeckObj: ', updatedDeckObj;
-      console.log('mergeItem err:', err);
+      console.log('mergeItem ERROR:', err);
       return err;
     });
 
@@ -179,7 +179,6 @@ export function saveCard(deckData, questionObject){
 // };
 
 export function removeDeck(key){
-  console.log('____in api.js__, removeDeck, key:', key);
 
   return retrieveDecks()
     .then((decksObj) => {
@@ -192,7 +191,7 @@ export function removeDeck(key){
     })
 
     .catch((err) => {
-      console.log('____AsyncStorage error____ in api.js, removeDeck, in either getItem or setItem')
+      console.log('____AsyncStorage ERROR____ in api.js, removeDeck, in either getItem or setItem')
       return (err + ' key: ', key);
     });
 };
