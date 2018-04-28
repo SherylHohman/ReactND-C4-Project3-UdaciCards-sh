@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity,
-         TextInput, KeyboardAvoidingView,
+         TextInput, KeyboardAvoidingView, ScrollView,
          StyleSheet, Platform,
        } from 'react-native';
 // Components
@@ -104,8 +104,10 @@ componentDidMount () {
   onBlur(){
     // question = this.state.question.trim();
     // const unique = makeStringUnique(question, this.props.existingTitles);
+
     // // TODO: if unique !== question, highlight this to the user, so they can edit
     // //       if they don't like the revised question
+
     // this.setState({ question: unique });
   }
 
@@ -115,6 +117,8 @@ componentDidMount () {
   }
 
   onSubmit(){
+    // TODO: close keyboard, so it's closed on th next screen
+
     if (!this.canSubmit()) {return;}
     const { deck, existingQuestions, isValid } = this.state;
     let   question = this.state.question.trim();
@@ -155,82 +159,79 @@ componentDidMount () {
                   // blurOnSubmit
                   // onSubmitEditing={({ nativeEvent }) => this.setState({ question: nativeEvent.question })} />
 
-      console.log('isValid:', this.state.isValid);
+                // </KeyboardAvoidingView>
+                // <KeyboardAvoidingView {...keyboardAvoidingViewProps}>
+            // <View style={[styles.cardContainer]}>
+            // </View>
       return (
           <View style={styles.container}>
-            <View style={[styles.cardContainer, {flex: 1}]}>
-              <Text  style={styles.instructionsText}
+              <Text style={[styles.instructionsText]}
                 >
                 Title for your New Quiz Deck
               </Text>
 
-              <KeyboardAvoidingView {...keyboardAvoidingViewProps}>
-                <TextInput {...textInputProps} placeholder='Question' autoFocus={false}
-                  style={styles.textInput}
-                  value={this.state.question}
-                  onChangeText={(question) => this.controlledTextInputQuestion(question)}
-                  />
-              </KeyboardAvoidingView>
+              <KeyboardAvoidingView {...keyboardAvoidingViewProps} style={{flex:6}}>
+                <ScrollView styles={{flex: 4}}>
+                  <View style={[styles.cardContainer, {flex: 1}]}>
+                    <TextInput {...textInputProps} placeholder='Question'
+                      style={styles.textInput}
+                      value={this.state.question}
+                      onChangeText={(question) => this.controlledTextInputQuestion(question)}
+                      />
 
-              <KeyboardAvoidingView {...keyboardAvoidingViewProps}>
-                <TextInput {...textInputProps} placeholder='Answer'
-                  style={styles.textInput}
-                  value={this.state.answer}
-                  onChangeText={(answer) => this.controlledTextInputAnswer(answer)}
-                  />
-              </KeyboardAvoidingView>
-            </View>
+                    <TextInput {...textInputProps} placeholder='Answer'
+                      style={styles.textInput}
+                      value={this.state.answer}
+                      onChangeText={(answer) => this.controlledTextInputAnswer(answer)}
+                      />
+                  </View>
 
-            <KeyboardAvoidingView
-              {...keyboardAvoidingViewProps}
-              style={[styles.buttonsContainer, styles.buttonContainer]}
-              >
-              <StyledButton
-                style={[styles.item, style={flex: 2}]}
-                onPress={() => this.onSubmit()}
-                disabled={!this.canSubmit}
-                >
-                <Text>
-                  Submit
-                </Text>
-              </StyledButton>
-            </KeyboardAvoidingView>
+                  <StyledButton
+                    style={[styles.item, style={flex: 2}]}
+                    onPress={() => this.onSubmit()}
+                    disabled={!this.canSubmit}
+                    >
+                    <Text>
+                      Submit
+                    </Text>
+                  </StyledButton>
+                </ScrollView>
+              </KeyboardAvoidingView>
           </View>
       );
 
   }
+            //     </KeyboardAvoidingView>
+              // {...keyboardAvoidingViewProps}
+              // style={[styles.buttonsContainer, styles.buttonContainer]}
+              // >
+
+            // <KeyboardAvoidingView
 }
 
 
+// Options for `behavior` : enum('height', 'position', 'padding')
+  // Note: Android and iOS both interact with this prop differently.
+  // Android may behave better when given no behavior prop at all,
+  // whereas iOS is the opposite.
 const keyboardAvoidingViewProps = {
   behavior: 'padding',
 };
 
-// const textInputProps = {
-//   /* onChange={(title) => this.setState({ title })} */  // similar to onChangeText
-//   maxLength: 25,
-//   multiline: true,
-//   autoFocus: true,     /* takes focus at componentDidMount, saves the user a click */
-//   autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
-//   returnKeyType: "done",
-//   // TODO: pull keyboard up automatically if phone does Not have Physical keyboard
-//   // TODO: get height of soft Kyeboard
-//   //       - edit layout design to render in the area unoccupied by the
-//   //         keyboard (even when it is not showing),
-//   //         but allow it to take up more vertical space if needed,
-//   //         (but only while keyboard is *not* showing)
-//   //         also add scrollView just in case, so user can access hidden content.
-// };
+// TODO: put keyboard up automatically if phone does Not have Physical keyboard
+// TODO: fix layout when keyboard pops up
+// TODO: put keyboard away onSubmit, so it's closed on the next screen
 
-  // // Props for <TextInput>
-  // multiline: false,
-  // autoFocus: true,     takes focus at componentDidMount, saves the user a click
 let textInputProps = {
-  // autoFocus: true,
+  // autoFocus: true,     // strange behavior - don't uee
+  width: 200,
   maxLength: 50,
-  autoCapitalize: 'sentences',
+  //   // if multiline, "enter" key will "submit", instead of adding a newline
+  multiline: true,        // TextInput's "submit" button triggers onSubmitEditing
+  blurOnSubmit: true,     // so "return" does Not get captured by TextInput; triggers onSubmitEditing
+  autoCapitalize: 'sentences',  //this is Not Working!
   autoCorrect: false,
-  returnKeyType: 'next',  //'send',
+  returnKeyType: 'send',  //'next',  //'done',
   placeholderTextColor: gray,
   selectionColor: primaryColorLight,
 }
@@ -240,55 +241,24 @@ let textInputProps = {
 //     enablesReturnKeyAutomatically: true, // disables return key if no text
 //     keyboardAppearance: 'light',
 //     spellCheck: true,
+//     autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
 //   }
 // }
 // if (Platform.OS==='android'){
 //   textInputProps = {
 //     ...textInputProps,
 //   }
+
+//   // TODO: should I use onKeyPress instead of putting logic in onChange ??
+//   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
+//   /* onBlur={(title) => this.setState({title: title.trim()})} */
+//   /* clearButtonMode={"while-editing"} */
+//   /* ref={ref => {this._emailInput = ref}} */
+//   /* onSubmitEditing={this._submit} */ // invalid if {multi-line === true}
+
 // }
 
-  // // Props for <TextInput>
-  // let textInputProps = {
-  //   // if multiline, "enter" key will "submit", instead of adding a newline
-  //   blurOnSubmit=true,
 
-  //   // TODO: pull keyboard up automatically if phone does Not have Physical keyboard
-  //   // TODO: get height of soft Kyeboard
-  //   //       - edit layout design to render in the area unoccupied by the
-  //   //         keyboard (even when it is not showing),
-  //   //         but allow it to take up more vertical space if needed,
-  //   //         (but only while keyboard is *not* showing)
-  //   //         also add scrollView just in case, so user can access hidden content.
-
-  //   // TODO: open softKeyboard, if device does not have physical keyboard
-  //   //       onFocus={}
-
-  //   // TODO: should I use onKeyPress instead of putting logic in onChange ??
-  //   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
-  //   /* onBlur={(title) => this.setState({title: title.trim()})} */
-  //   /* clearButtonMode={"while-editing"} */
-  //   /* ref={ref => {this._emailInput = ref}} */
-  //   /* onSubmitEditing={this._submit} */ // invalid if {multi-line === true}
-  // };
-  // // if (Platform.OS==='ios'){
-  // //   textInputProps = {
-  // //     ...textInputProps,
-  // //     enablesReturnKeyAutomatically: true, // disables return key if no text
-  // //     keyboardAppearance: 'light',
-  // //     spellCheck: true,
-  // //   }
-  // // }
-  // // if (Platform.OS==='android'){
-  // //   textInputProps = {
-  // //     ...textInputProps,
-  // //   }
-  // // }
-
-// Options for `behavior` : enum('height', 'position', 'padding')
-  // Note: Android and iOS both interact with this prop differently.
-  // Android may behave better when given no behavior prop at all,
-  // whereas iOS is the opposite.
 
 // TODO: DELETE UNUSED STYLES
 
@@ -312,7 +282,7 @@ let componentStyles = {
     paddingBottom: 5,
   },
   cardContainer: {
-    flex: 1,
+    flex: 9,
     justifyContent: 'flex-start',
     alignSelf: 'stretch',
     backgroundColor: '#fefefe',
@@ -345,6 +315,7 @@ let componentStyles = {
   // TEXT Styles
   instructionsText: {
     flex: 1,
+    // height: 50,
     fontSize: 20,
     color: gray,
 
@@ -354,6 +325,7 @@ let componentStyles = {
 
   // INPUTTEXT styles
   textInput: {
+    flex: 1,
     fontSize: 27,
     color: primaryColor,
 
@@ -361,6 +333,7 @@ let componentStyles = {
     flexWrap:  'wrap',
     textAlign: 'center',
     marginTop: 10,
+    paddingBottom: 10,
   },
 };
 // if (Platform.OS = 'android'){
