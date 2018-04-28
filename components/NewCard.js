@@ -37,6 +37,8 @@ class NewCard extends React.Component {
     // (if using redux, these would be props instead, and set by selectors in mSTP)
     deck: null,
     existingQuestions: [],
+
+    textInputContainerWidth: undefined,
   }
 
 componentDidMount () {
@@ -59,6 +61,22 @@ componentDidMount () {
 
   // another attempt to get focus into TextInput, and keyboard to pop up at cDM !
   // this.textInputRef.focus()
+}
+
+getWidth = event => {
+  // gets dimensions of View containing TextInputs,
+  //    so can set the TextInput equal to the width of their containing component
+  //    The value is calculated During FIRST render,
+  //    Then during SECOND render, the TextInput can use the values in state
+  //      to set their own width
+
+  // layout was already called, and width has been set (this is SECOND render)
+  if (this.state.textInputContainerWidth) return
+
+  // FRIST render sets width
+  let { width } = event.nativeEvent.layout;
+  width = width - styles.cardContainer.paddingLeft - styles.cardContainer.paddingRight;
+  this.setState({textInputContainerWidth: width});
 }
 
   controlledTextInputQuestion(text){
@@ -151,7 +169,7 @@ componentDidMount () {
   }
 
   render() {
-
+              // TODO:
                   // /* ref={ref => this.textInputRef = ref} */   /*`this.textInputRef.focus()` must be called in cDM */
                   // onBlur={() => this.onBlur()}
                   // onSubmitEditing={() => this.onSubmit()}
@@ -159,28 +177,25 @@ componentDidMount () {
                   // blurOnSubmit
                   // onSubmitEditing={({ nativeEvent }) => this.setState({ question: nativeEvent.question })} />
 
-                // </KeyboardAvoidingView>
-                // <KeyboardAvoidingView {...keyboardAvoidingViewProps}>
-            // <View style={[styles.cardContainer]}>
-            // </View>
       return (
           <View style={styles.container}>
-              <Text style={[styles.instructionsText]}
-                >
-                Title for your New Quiz Deck
-              </Text>
 
               <KeyboardAvoidingView {...keyboardAvoidingViewProps} style={{flex:6}}>
                 <ScrollView styles={{flex: 4}}>
-                  <View style={[styles.cardContainer, {flex: 1}]}>
+                  <View style={[styles.cardContainer, {flex: 1}]}
+                    onLayout={this.getWidth}
+                    >
                     <TextInput {...textInputProps} placeholder='Question'
                       style={styles.textInput}
+                      width={this.state.textInputContainerWidth || 300}
                       value={this.state.question}
-                      onChangeText={(question) => this.controlledTextInputQuestion(question)}
+                      onChangeText={(question) =>
+                      this.controlledTextInputQuestion(question)}
                       />
 
                     <TextInput {...textInputProps} placeholder='Answer'
                       style={styles.textInput}
+                      width={this.state.textInputContainerWidth || 300}
                       value={this.state.answer}
                       onChangeText={(answer) => this.controlledTextInputAnswer(answer)}
                       />
@@ -199,14 +214,7 @@ componentDidMount () {
               </KeyboardAvoidingView>
           </View>
       );
-
   }
-            //     </KeyboardAvoidingView>
-              // {...keyboardAvoidingViewProps}
-              // style={[styles.buttonsContainer, styles.buttonContainer]}
-              // >
-
-            // <KeyboardAvoidingView
 }
 
 
@@ -219,15 +227,14 @@ const keyboardAvoidingViewProps = {
 };
 
 // TODO: put keyboard up automatically if phone does Not have Physical keyboard
-// TODO: fix layout when keyboard pops up
 // TODO: put keyboard away onSubmit, so it's closed on the next screen
 
 let textInputProps = {
   // autoFocus: true,     // strange behavior - don't uee
-  width: 200,
   maxLength: 50,
   //   // if multiline, "enter" key will "submit", instead of adding a newline
   multiline: true,        // TextInput's "submit" button triggers onSubmitEditing
+  numlines: 3,            // :-( no effect really ) -- does *not* initialize text box to be 3 lines
   blurOnSubmit: true,     // so "return" does Not get captured by TextInput; triggers onSubmitEditing
   autoCapitalize: 'sentences',  //this is Not Working!
   autoCorrect: false,
@@ -235,19 +242,20 @@ let textInputProps = {
   placeholderTextColor: gray,
   selectionColor: primaryColorLight,
 }
-// if (Platform.OS==='ios'){
-//   textInputProps = {
-//     ...textInputProps,
-//     enablesReturnKeyAutomatically: true, // disables return key if no text
-//     keyboardAppearance: 'light',
-//     spellCheck: true,
-//     autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
-//   }
-// }
-// if (Platform.OS==='android'){
-//   textInputProps = {
-//     ...textInputProps,
-//   }
+if (Platform.OS==='ios'){
+  textInputProps = {
+    ...textInputProps,
+    // enablesReturnKeyAutomatically: true, // disables return key if no text
+    keyboardAppearance: 'light',
+    spellCheck: true,
+    autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
+  }
+}
+if (Platform.OS==='android'){
+  textInputProps = {
+    ...textInputProps,
+  }
+}
 
 //   // TODO: should I use onKeyPress instead of putting logic in onChange ??
 //   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
@@ -256,7 +264,6 @@ let textInputProps = {
 //   /* ref={ref => {this._emailInput = ref}} */
 //   /* onSubmitEditing={this._submit} */ // invalid if {multi-line === true}
 
-// }
 
 
 
@@ -282,15 +289,16 @@ let componentStyles = {
     paddingBottom: 5,
   },
   cardContainer: {
-    flex: 9,
+    flex: 1,
     justifyContent: 'flex-start',
     alignSelf: 'stretch',
     backgroundColor: '#fefefe',
 
     padding:     20,
+    paddingTop:   0,
     marginLeft:  30,
     marginRight: 30,
-    marginTop:   10,
+    // marginTop:   10,
     borderRadius: Platform.OS === 'ios' ? 20 : 10,
 
     shadowRadius: 3,
