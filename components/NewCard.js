@@ -189,7 +189,7 @@ componentDidMount () {
                   <StyledButton
                     style={[styles.item, style={flex: 2}]}
                     onPress={() => this.onSubmit()}
-                    disabled={!this.canSubmit}
+                    disabled={!this.canSubmit()}
                     >
                     <Text>
                       Submit
