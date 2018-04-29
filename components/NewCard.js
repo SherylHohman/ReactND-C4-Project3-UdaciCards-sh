@@ -9,7 +9,7 @@ import StyledButton from '../components/StyledButton';
 import { retrieveDecks }    from '../utils/api';
 import { saveCard } from '../utils/api';
 // Constants, Helpers
-import { titleCase, collapseSpaces, makeStringUnique }
+import { titleCase, collapseSpaces }
   from '../utils/helpers';
 import { white, gray, primaryColor, primaryColorDark, primaryColorLight,
        } from '../utils/colors';
@@ -28,7 +28,12 @@ class NewCard extends React.Component {
   state = {
     question: '',
     answer:   '',
-    isValid: {
+
+    errorMssg: {
+      question: '',
+      answer:   '',
+    },
+    beenTouched: {
       question: false,
       answer:   false,
     },
@@ -84,76 +89,101 @@ getWidth = event => {
 
     text = collapseSpaces(text);
 
-    const isValid = this.isValidInput(text);
+    const isInvalidErrorMessage = this.isInvalidErrorMessage(text);
+    const isUniqueErrorMessage  = this.isUniqueErrorMessage(text);
+
     this.setState((prevState) => {
       return {
+        ...prevState,
         question: text,
-        isValid: {
-          ...prevState.isValid,
-          question: isValid,
+        errorMssg: {
+          ...prevState.errorMssg,
+          question: isInvalidErrorMessage + isUniqueErrorMessage,
         },
       }
     });
+
+    if (!this.state.beenTouched.question){
+      this.setState(prevState => {
+        return {
+          beenTouched: {
+            ...prevState.beenTouched,
+            question: true,
+          }
+        }
+      });
+    }
   }
+
   controlledTextInputAnswer(text){
     // no need to strip characters, as it is never used as an object/DB "key"
     text = collapseSpaces(text);
 
-    const isValid = this.isValidInput(text);
+    const isInvalidErrorMessage = this.isInvalidErrorMessage(text);
     this.setState((prevState) => {
       return {
         answer: text,
-        isValid: {
-          ...prevState.isValid,
-          answer: isValid
-        }
+        errorMssg: {
+          ...prevState.errorMssg,
+          answer: isInvalidErrorMessage,
+        },
       }
     });
+
+    if (!this.state.beenTouched.answer){
+      this.setState(prevState => {
+        return {
+          beenTouched: {
+            ...prevState.beenTouched,
+            answer: true,
+          }
+        }
+      });
+    }
   }
 
-  isValidInput(text){
-    // TODO: show "field cannot be empty" message to user.
-    // TODO: check for unique question, and require user to edit it if not.
-    // TODO: show "question already exists" message to user, and disable Submit button
-    //       rather than silently appending a number to the question
-    return collapseSpaces(text).trim() !== '';
+  isInvalidErrorMessage(text){
+    return (collapseSpaces(text).trim() === '')
+            ? 'Cannot be an empty string.  '
+            : ''
+  }
+  isUniqueErrorMessage(question){
+    let errorMssg = '';
+    // let isValid = true;
+    if (this.state.existingQuestions.indexOf(question) !== -1){
+      errorMssg = 'This question already exists.  ';
+      // isValid = false;
+    }
+    return errorMssg;
   }
 
-  onBlur(){
-    // question = this.state.question.trim();
-    // const unique = makeStringUnique(question, this.props.existingTitles);
-
-    // // TODO: if unique !== question, highlight this to the user, so they can edit
-    // //       if they don't like the revised question
-
-    // this.setState({ question: unique });
+  onBlur(field){
+    //  // ERROR: infinite recurse !!
+    // let text = this.state[field]
+    // if (text !== text.trim()) {
+    //   this.setState(prevState => {
+    //     return {
+    //       [field]: text,
+    //     }
+    //   });
+    // }
   }
 
   canSubmit(){
-    return Object.values(this.state.isValid).every(value => value===true);
-    // TODO also: require every question to be unique
+    return Object.values(this.state.errorMssg)  .every(value => value === '') &&
+           Object.values(this.state.beenTouched).every(value => value === true);
   }
 
   onSubmit(){
-    // TODO: close keyboard, so it's closed on the next screen
-
     if (!this.canSubmit()) {return;}
-    const { deck, existingQuestions, isValid } = this.state;
+
+    const { deck } = this.state;
     let   question = this.state.question.trim();
     const answer   = this.state.answer.trim();
-
-    // it is not strictly a requirement for questions to be unique - they are not
-    //    not used as keys anywhere. -But, it certainly makes it difficult to score
-    //    well on a quiz if the same question has more than 1 answer, and the user
-    //    has no way to tell which version of the answer is expected.
-    //    Thus for a minimum UX, suffix an identifying digit behind duplicated quesitons.
-    question = makeStringUnique(question, existingQuestions)
 
     // send to "DB"
     saveCard(deck, { question, answer })
       .then((deck)=>{
-
-        // TODO: put keyboard away !
 
         // if was using redux, could navigate without waiting on a `then`..
         //  since I'm not,  must get updated value for deck from AsyncStorage
@@ -190,15 +220,22 @@ getWidth = event => {
                       width={this.state.textInputContainerWidth || 300}
                       value={this.state.question}
                       onChangeText={(question) =>
-                      this.controlledTextInputQuestion(question)}
+                        this.controlledTextInputQuestion(question)}
                       />
+                      <Text style={{color:'red', textAlign:'center', margin:5}}>
+                      {/* space prevents input box from jumping when error message appears/disappears */}
+                      {' ' + this.state.errorMssg.question}</Text>
 
                     <TextInput {...textInputProps} placeholder='Answer'
                       style={styles.textInput}
                       width={this.state.textInputContainerWidth || 300}
                       value={this.state.answer}
-                      onChangeText={(answer) => this.controlledTextInputAnswer(answer)}
+                      onChangeText={(answer) =>
+                        this.controlledTextInputAnswer(answer)}
                       />
+                      <Text style={{color:'red', textAlign:'center', margin:5}}>
+                      {/* space prevents input box from jumping when error message appears/disappears */}
+                      {' ' + this.state.errorMssg.answer}</Text>
                   </View>
 
                   <StyledButton
