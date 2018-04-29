@@ -188,22 +188,20 @@ let textInputProps = {
   placeholderTextColor: gray,
   selectionColor: primaryColorLight,
 }
-// if (Platform.OS==='ios'){
-//   textInputProps = {
-//     ...textInputProps,
-//     enablesReturnKeyAutomatically: true, // disables return key if no text
-//     keyboardAppearance: 'light',
-//     spellCheck: true,
-//   }
-// }
-// if (Platform.OS==='android'){
-//   textInputProps = {
-//     ...textInputProps,
-//   }
-// }
-
-  // // Props for <TextInput>
-  // let textInputProps = {
+if (Platform.OS==='ios'){
+  textInputProps = {
+    ...textInputProps,
+    enablesReturnKeyAutomatically: true, // disables return key if no text
+    keyboardAppearance: 'light',
+    spellCheck: true,
+  }
+}
+if (Platform.OS==='android'){
+  textInputProps = {
+    ...textInputProps,
+    underlineColorAndroid: primaryColorDark,
+  }
+}
   //   // if multiline, "enter" key will "submit", instead of adding a newline
   //   blurOnSubmit=true,
 
@@ -297,14 +295,11 @@ let componentStyles = {
     flexWrap:  'wrap',
     textAlign: 'center',
     marginTop: 10,
+
+    borderWidth: Platform.OS === 'ios' ? 1 : 0,
+    borderColor: Platform.OS === 'ios' ? gray : 'transparent',
   },
 };
-// if (Platform.OS = 'android'){
-//   componentStyles = {
-//     ...componentStyles,
-//     // underlineColorAndroid: primaryColorDark,
-//   };
-// }
 
 // set to `false` for normal view, and production.
 // set to `true`  to troubleshoot/test/visualize style layouts
