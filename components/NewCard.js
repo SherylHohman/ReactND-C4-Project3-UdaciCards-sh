@@ -207,6 +207,7 @@ getWidth = event => {
                   // blurOnSubmit
                   // onSubmitEditing={({ nativeEvent }) => this.setState({ question: nativeEvent.question })} />
 
+      // console.log('__NewCard__, render, this.state: ', this.state);
       return (
           <View style={styles.container}>
 
@@ -221,6 +222,8 @@ getWidth = event => {
                       value={this.state.question}
                       onChangeText={(question) =>
                         this.controlledTextInputQuestion(question)}
+                      // onEndEditing={(question) => this.setState({question: question.trim()})}
+                      // onBlur={(question) => this.setState({question: question.trim()})}
                       />
                       <Text style={{color:'red', textAlign:'center', margin:5}}>
                       {/* space prevents input box from jumping when error message appears/disappears */}
@@ -232,6 +235,7 @@ getWidth = event => {
                       value={this.state.answer}
                       onChangeText={(answer) =>
                         this.controlledTextInputAnswer(answer)}
+                      // onBlur={this.onBlur('answer')}
                       />
                       <Text style={{color:'red', textAlign:'center', margin:5}}>
                       {/* space prevents input box from jumping when error message appears/disappears */}
@@ -249,6 +253,7 @@ getWidth = event => {
                   </StyledButton>
                 </ScrollView>
               </KeyboardAvoidingView>
+
           </View>
       );
   }
@@ -256,65 +261,60 @@ getWidth = event => {
 
 
 // Options for `behavior` : enum('height', 'position', 'padding')
-  // Note: Android and iOS both interact with this prop differently.
-  // Android may behave better when given no behavior prop at all,
-  // whereas iOS is the opposite.
 const keyboardAvoidingViewProps = {
   behavior: 'padding',
 };
 
-// TODO: put keyboard up automatically if phone does Not have Physical keyboard
 // TODO: put keyboard away onSubmit, so it's closed on the next screen
+//       BUT NOT when press "enter/return" from TextInput field
 
 let textInputProps = {
-  // autoFocus: true,     // strange behavior - don't uee
-  maxLength: 50,
-  //   // if multiline, "enter" key will "submit", instead of adding a newline
-  multiline: true,        // TextInput's "submit" button triggers onSubmitEditing
-  numlines: 3,            // :-( no effect really ) -- does *not* initialize text box to be 3 lines
-  blurOnSubmit: true,     // so "return" does Not get captured by TextInput; triggers onSubmitEditing
+  // autoFocus: true,     // strange behavior - don't use
+  maxLength: 70,          // max number of characters allowed
+  numlines:   3,          // :-( no effect really ) -- does *not* initialize text box to be 3 lines
+  // if multiline, "enter" key, aka TextInput's "submit" triggers onSubmitEditing,
+  // instead of adding a newline
+  multiline: true,
+  // if blurOnSubmit, "return" does Not get captured by TextInput; triggers onSubmitEditing
+  blurOnSubmit: true,
+  // onsubmitEditing puts keyboard away :-)
+  // TODO: can I put keyboard away if SubmitButton, but not if on text field ?
   autoCapitalize: 'sentences',  //this is Not Working!
   autoCorrect: false,
-  returnKeyType: 'send',  //'next',  //'done',
+  returnKeyType: 'send',  //'next', //'done', //TODO: next does Not work as Expected -- why?
   placeholderTextColor: gray,
   selectionColor: primaryColorLight,
 }
 if (Platform.OS==='ios'){
   textInputProps = {
     ...textInputProps,
-    // enablesReturnKeyAutomatically: true, // disables return key if no text
+    enablesReturnKeyAutomatically: true, // disables return key if no text
     keyboardAppearance: 'light',
-    spellCheck: true,
+    spellCheck: true,    //ios only -- but it does Not seem to be working on ios
     autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
   }
 }
 if (Platform.OS==='android'){
   textInputProps = {
     ...textInputProps,
+    underlineColorAndroid: primaryColorDark,
   }
 }
 
 //   // TODO: should I use onKeyPress instead of putting logic in onChange ??
+
 //   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
 //   /* onBlur={(title) => this.setState({title: title.trim()})} */
 //   /* clearButtonMode={"while-editing"} */
+
 //   /* ref={ref => {this._emailInput = ref}} */
 //   /* onSubmitEditing={this._submit} */ // invalid if {multi-line === true}
-
-
 
 
 // TODO: DELETE UNUSED STYLES
 
 let componentStyles = {
   // CONTAINER styles
-  // wrapper: {
-  //   // this was the previous container style
-  //     flex: 1,
-  //     backgroundColor: white,
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  //   },
   container: {
     flex: 1,
     backgroundColor: white,
@@ -335,7 +335,6 @@ let componentStyles = {
     paddingTop:   0,
     marginLeft:  30,
     marginRight: 30,
-    // marginTop:   10,
     borderRadius: Platform.OS === 'ios' ? 20 : 10,
 
     shadowRadius: 3,
@@ -357,17 +356,6 @@ let componentStyles = {
     margin: 10,
   },
 
-  // TEXT Styles
-  instructionsText: {
-    flex: 1,
-    // height: 50,
-    fontSize: 20,
-    color: gray,
-
-    alignSelf: 'center',
-    textAlign: 'center',
-  },
-
   // INPUTTEXT styles
   textInput: {
     flex: 1,
@@ -379,14 +367,11 @@ let componentStyles = {
     textAlign: 'center',
     marginTop: 10,
     paddingBottom: 10,
+
+    borderWidth: Platform.OS === 'ios' ? 1 : 0,
+    borderColor: Platform.OS === 'ios' ? gray : 'transparent',
   },
 };
-// if (Platform.OS = 'android'){
-//   componentStyles = {
-//     ...componentStyles,
-//     // underlineColorAndroid: primaryColorDark,
-//   };
-// }
 
 // set to `false` for normal view, and production.
 // set to `true`  to troubleshoot/test/visualize style layouts
@@ -399,10 +384,10 @@ const styles = StyleSheet.create({
   ...componentStyles,
 });
 
-
-export default NewCard;
-
 // TODO propTypes: deck
 //                 (need deck.title for the id, and questions to prevent duplicates),
 //                 navigation
 //                 (in order to get the deck, which should be passed in from the prior component)
+
+export default NewCard;
+
