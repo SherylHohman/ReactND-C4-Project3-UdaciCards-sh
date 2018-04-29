@@ -26,18 +26,16 @@ class NewDeck extends React.Component {
     title: '',
     canSubmit: false,
 
-    // not expected to change after decks is "fetched"
+    // not expected to change once decks is "fetched" in cDM
     // (if using redux, this would be in props instead, and determined by mSTP selector)
     existingTitles: [],
   }
 
 componentDidMount () {
-  console.log('NewDeck.cDM, this.props:', this.props);
   //TODO: fetchDecks in App.js instead, and pass decks in to via TabNavigator
   //      (to both tabs: NewDeck -and- DeckList)
 
-  // passed in (ie link from DeckList, when decks is known to be an EMPTY array)
-  // let { decks=null } = this.props.navigation.state.params;
+  // if decks is passed in (ie link from DeckList, where decks is known to be an EMPTY array)
   let decksArray = (this.props.navigation &&
                this.props.navigation.state.params &&
                this.props.navigation.state.params.decks) || undefined;
@@ -47,13 +45,12 @@ componentDidMount () {
       return;
   }
   else {
-  // deck not passed in (the norm, such as at app load, or clicking on tab)
-    console.log('NewDeck.cDM decks not passed in, must "fetch" them', this.props);
+  // deck not passed in (ie got here by clicking on tab, not via internal nav, or from a link)
+    console.log('NewDeck.cDM decks not passed in,so fetching" them..', this.props);
     retrieveDecks()
       .then((decksObj) => {
         // not expected to change during life of this component
         const existingTitles = decksObj && Object.keys(decksObj) || [];
-        // console.log('existingTitles:', existingTitles);
         this.setState({ existingTitles });
       });
   }
@@ -76,12 +73,16 @@ componentDidMount () {
     // TODO: check for unique title, and require user to edit it
   }
 
-  onBlur(){
-    // title = this.state.title.trim();
-    // const unique = makeStringUnique(title, this.props.existingTitles);
-    // // TODO: if unique !== title, highlight this to the user, so they can edit
-    // //       if they don't like the revised title
-    // this.setState({ title: unique });
+  // onBlur(){
+  //   // title = this.state.title.trim();
+  //   // const unique = makeStringUnique(title, this.props.existingTitles);
+  //   // // TODO: if unique !== title, highlight this to the user, so they can edit
+  //   // //       if they don't like the revised title
+  //   // this.setState({ title: unique });
+  // }
+
+  canSubmit(){
+    return (!this.state.errorMessage && this.state.beenTouched);
   }
 
   onSubmit(){
@@ -97,21 +98,14 @@ componentDidMount () {
         // if was using redux, could navigate without waiting on a `then`..
         //   because, whenever the redux store updated, "Home" would re-render.
         //  since I'm not, must make sure AsyncStorage has updated before
-        //   navigation to the page - it only sends a fetch at cDM
+        //   navigate to the next page - b/c it only fetches/updates titles at cDM
         this.props.navigation.navigate('Home');
         return;
       })
 
-      // TODO: Learn why this does not work (had same issue when tried to
-      //       return (new value for) decks after from removeDeck api)
-      // TODO: Learn how to send back a value !
-      // .then((newDeck) => {
-      //   // console.log('____in NewDeck____, onSubmit, after  AsyncStorage merge');
-      // })
-
       .catch((err) => {
         console.log('____NewDeck____, onSubmit, error saving new DeckTitle, err:', err);
-        // not sure where I should call `navigate` for the case of storage error
+        // not sure IF I should call `navigate` for the case of storage error
         this.props.navigation.navigate('Home');
         return (err);
       });
@@ -122,11 +116,13 @@ componentDidMount () {
   render() {
 
                   // /* ref={ref => this.textInputRef = ref} */   /*`this.textInputRef.focus()` must be called in cDM */
+
                   // onBlur={() => this.onBlur()}
                   // onSubmitEditing={() => this.onSubmit()}
 
                   // blurOnSubmit
                   // onSubmitEditing={({ nativeEvent }) => this.setState({ title: nativeEvent.title })} />
+
       return (
           <View style={styles.container}>
             <View style={[styles.cardContainer, {flex: 1}]}>
@@ -164,9 +160,6 @@ componentDidMount () {
   }
 }
 
-  // // Props for <TextInput>
-  // multiline: false,
-  // autoFocus: true,     takes focus at componentDidMount, saves the user a click
 let textInputProps = {
   placeholder: 'Quiz Deck Title',
   autoFocus: true,
@@ -208,44 +201,24 @@ let textInputProps = {
   //   //       onFocus={}
 
   //   // TODO: should I use onKeyPress instead of putting logic in onChange ??
+
   //   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
   //   /* onBlur={(title) => this.setState({title: title.trim()})} */
   //   /* clearButtonMode={"while-editing"} */
+
   //   /* ref={ref => {this._emailInput = ref}} */
+
   //   /* onSubmitEditing={this._submit} */ // invalid if {multi-line === true}
   // };
-  // // if (Platform.OS==='ios'){
-  // //   textInputProps = {
-  // //     ...textInputProps,
-  // //     enablesReturnKeyAutomatically: true, // disables return key if no text
-  // //     keyboardAppearance: 'light',
-  // //     spellCheck: true,
-  // //   }
-  // // }
-  // // if (Platform.OS==='android'){
-  // //   textInputProps = {
-  // //     ...textInputProps,
-  // //   }
-  // // }
 
-// Options for `behavior` : enum('height', 'position', 'padding')
-  // Note: Android and iOS both interact with this prop differently.
-  // Android may behave better when given no behavior prop at all,
-  // whereas iOS is the opposite.
 const keyboardAvoidingViewProps = {
+  // Options for `behavior` : enum('height', 'position', 'padding')
   behavior: 'padding',
 };
 // TODO: DELETE UNUSED STYLES
 
 let componentStyles = {
   // CONTAINER styles
-  // wrapper: {
-  //   // this was the previous container style
-  //     flex: 1,
-  //     backgroundColor: white,
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  //   },
   container: {
     flex: 1,
     backgroundColor: white,
@@ -326,6 +299,6 @@ const styles = StyleSheet.create({
   ...componentStyles,
 });
 
-export default NewDeck;
-
 // TODO: propTypes: navigate, decks
+
+export default NewDeck;
