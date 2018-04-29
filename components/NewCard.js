@@ -82,6 +82,7 @@ getWidth = event => {
   controlledTextInputQuestion(text){
     // no need to strip characters, as it is never used as an object/DB "key"
 
+    text = collapseSpaces(text);
 
     const isValid = this.isValidInput(text);
     this.setState((prevState) => {
@@ -96,6 +97,7 @@ getWidth = event => {
   }
   controlledTextInputAnswer(text){
     // no need to strip characters, as it is never used as an object/DB "key"
+    text = collapseSpaces(text);
 
     const isValid = this.isValidInput(text);
     this.setState((prevState) => {

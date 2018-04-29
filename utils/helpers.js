@@ -107,7 +107,7 @@ export function augmentStylesToVisualizeLayout(myStyles){
     return augmentedStyles;
   }
 
-function collapseSpaces(str) {
+export function collapseSpaces(str) {
   if (!str) return str;    // empty string, undefined, null
   return str.replace(/[\s]+/g, ' ');
 }
