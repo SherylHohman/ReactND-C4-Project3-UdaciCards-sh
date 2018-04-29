@@ -9,7 +9,7 @@ import StyledButton from '../components/StyledButton';
 import { retrieveDecks }    from '../utils/api';
 import { saveDeckTitle } from '../utils/api';
 // Constants, Helpers
-import { titleCase, stripInvalidChars, makeStringUnique }
+import { titleCase, stripInvalidChars, collapseSpaces }
   from '../utils/helpers';
 import { white, gray, primaryColor, primaryColorDark, primaryColorLight,
        } from '../utils/colors';
@@ -24,7 +24,8 @@ class NewDeck extends React.Component {
 
   state = {
     title: '',
-    canSubmit: false,
+    beenTouched: false,
+    errorMessage: '',
 
     // not expected to change once decks is "fetched" in cDM
     // (if using redux, this would be in props instead, and determined by mSTP selector)
@@ -59,18 +60,30 @@ componentDidMount () {
   // this.textInputRef.focus()
 }
 
-  controlledTextInput(title){
-    title = titleCase(stripInvalidChars(title));
-    const canSubmit = this.isValidInput(title);
-    this.setState({ title, canSubmit });
+  controlledTextInput(prevTitle){
+    // used as a "DB" key, so stripping characters
+    const title = titleCase(stripInvalidChars(prevTitle));
+
+    const isEmptyStringErrorMessage = this.isEmptyStringErrorMessage(title);
+    const isUniqueErrorMessage = this.isUniqueErrorMessage(title);
+    const errorMessage = isEmptyStringErrorMessage + isUniqueErrorMessage;
+
+    this.setState({
+      title,
+      errorMessage,
+      beenTouched: true,
+    });
   }
 
-  isValidInput(text){
-    // TODO: show "invalid title" message to user instead, and disable sSubmit btn,
-    //       so they control how to make the title unigue, instead of
-    //       me silently appending a number to the title
-    return text.trim() !== '';
-    // TODO: check for unique title, and require user to edit it
+  isEmptyStringErrorMessage(text){
+    return (collapseSpaces(text).trim() === '')
+            ? 'Cannot be an empty string.  '
+            : ''
+  }
+  isUniqueErrorMessage(title){
+    return (this.state.existingTitles.indexOf(title) !== -1)
+            ? 'This title already exists.  '
+            : ''
   }
 
   // onBlur(){
@@ -86,11 +99,10 @@ componentDidMount () {
   }
 
   onSubmit(){
-    // console.log('____in NewDeck.onSubmit____');
-    const { existingTitles, canSubmit } = this.state;
-    let title = this.state.title;
+    if (!this.canSubmit()) { return; }
 
-    title = makeStringUnique(title.trim(), existingTitles)
+    const { existingTitles } = this.state;
+    let title = this.state.title.trim();
 
     // send to "DB"
     saveDeckTitle(title)
@@ -137,6 +149,12 @@ componentDidMount () {
                   value={this.state.title}
                   onChangeText={(title) => this.controlledTextInput(title)}
                   />
+
+                <Text style={{color:'red', textAlign:'center', margin:5}}>
+                  {/* space prevents input box from jumping when error message appears/disappears */}
+                  {' ' + this.state.errorMessage}
+                </Text>
+
               </KeyboardAvoidingView>
             </View>
 
@@ -146,8 +164,8 @@ componentDidMount () {
               >
               <StyledButton
                 style={[styles.item, style={flex: 2}]}
-                onPress={() => this.onSubmit()}
-                disabled={!this.state.canSubmit}
+                onPress={ () => this.onSubmit()}
+                disabled={!this.canSubmit()}
                 >
                 <Text>
                   Submit
