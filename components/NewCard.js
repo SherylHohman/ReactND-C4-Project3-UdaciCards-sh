@@ -70,7 +70,7 @@ getWidth = event => {
   //    Then during SECOND render, the TextInput can use the values in state
   //      to set their own width
 
-  // layout was already called, and width has been set (this is SECOND render)
+  // (this is SECOND render) layout was already called, and width has been set
   if (this.state.textInputContainerWidth) return
 
   // FRIST render sets width
@@ -80,8 +80,8 @@ getWidth = event => {
 }
 
   controlledTextInputQuestion(text){
-    // no need to strip characters, as it is never used as an object "key"
-    // text = collapseSpaces(text);  // ?? throws error
+    // no need to strip characters, as it is never used as an object/DB "key"
+
 
     const isValid = this.isValidInput(text);
     this.setState((prevState) => {
@@ -95,9 +95,7 @@ getWidth = event => {
     });
   }
   controlledTextInputAnswer(text){
-    // no need to strip characters, as it is never used as an object "key"
-    // text = collapseSpaces(text);  // ?? throws error
-    // console.log('NewCard.controlledTextInputAnswer, text:', text);
+    // no need to strip characters, as it is never used as an object/DB "key"
 
     const isValid = this.isValidInput(text);
     this.setState((prevState) => {
@@ -116,7 +114,7 @@ getWidth = event => {
     // TODO: check for unique question, and require user to edit it if not.
     // TODO: show "question already exists" message to user, and disable Submit button
     //       rather than silently appending a number to the question
-    return text.trim() !== '';
+    return collapseSpaces(text).trim() !== '';
   }
 
   onBlur(){
@@ -135,7 +133,7 @@ getWidth = event => {
   }
 
   onSubmit(){
-    // TODO: close keyboard, so it's closed on th next screen
+    // TODO: close keyboard, so it's closed on the next screen
 
     if (!this.canSubmit()) {return;}
     const { deck, existingQuestions, isValid } = this.state;
