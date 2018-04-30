@@ -1,3 +1,33 @@
+# About  
+UdaciCards-SH is a FlashCard-like Quiz app developed to run on 
+ios and android.  
+It was developed on and tested for use on  
+ - Android Nexus 6P, android API version 23 (as suggested by React Native) (early Marshmellow)  
+   via emulator from Android Studio versions:  
+   -  3.1.1 (build 173.697961), android emulator and  
+   -  3.1.2 (build 173.4720617), android emulator 27.1.12
+ - iPhone 6s Plus,  
+   via Xcode Simulator version:  
+   - 9.3, (SimulatorApp-645.9)  
+ 
+It was developed from "scratch" using `create-react-native-app` to:  
+ - match these [Project Details](./DOCS/ReadMe-ProjectDetails.mhtml) or [here](./DOCS/ReadMe-ProjectDetails.md)  
+ - meet Specifications from this [Grading Rubric](./DOCS/ReadMe-Rubric-Specs.mhtml) or [here](./DOCS/ReadMe-GreadingRubric-Specs.md)  
+ - I have enhanced the app beyond the minimum requirements listed above.  
+
+This is Project 3/3 from Udacity's React NanoDegree Program.
+My other ReactND Projects are here:  
+- Project 1, React: [MyReads](https://github.com/SherylHohman/ReactND-C2-Project1-MyReads)  
+- Project 2, Redux: [Readable](https://github.com/SherylHohman/ReactND-C3-Project2-Readable)  
+- Project 3, React Native: [UdaciCards](https://github.com/SherylHohman/ReactND-C4-Project3-UdaciCards-sh) (this app)  
+Code-along projects developed during coursework for the ReactND  
+(Note: I added enhancements beyond what was part of the course) are here:  
+ - React: [Contacts](https://github.com/SherylHohman/ReactND-C2-Contacts)  
+ - Redux: [Udacimeals](https://github.com/SherylHohman/ReactND-C3-UdaciMeals)  
+ - React Native: [UdaciFitness](https://github.com/SherylHohman/ReactND-C4-UdaciFitness)  
+
+# Getting Started (Installing, Running, and Modifying this App)  
+---
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
