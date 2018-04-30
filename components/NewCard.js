@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity,
          TextInput, KeyboardAvoidingView, ScrollView,
+         Keyboard,
          StyleSheet, Platform,
        } from 'react-native';
 import PropTypes from 'prop-types';
@@ -190,6 +191,9 @@ class NewCard extends React.Component {
 
   onSubmit(){
     if (!this.canSubmit()) {return;}
+
+    // Force Close the keyboard !!
+    Keyboard.dismiss();
 
     const { deck } = this.state;
     let   question = this.state.question.trim();
