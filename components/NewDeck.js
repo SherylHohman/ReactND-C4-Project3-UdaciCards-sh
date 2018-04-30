@@ -116,7 +116,10 @@ class NewDeck extends React.Component {
   // }
 
   canSubmit(){
-    return (!this.state.errorMessage && this.state.beenTouched);
+    return (!this.state.errorMessage && this.state.beenTouched) &&
+           // disallow re-submitting if user clicks back button after already submitted
+           (this.state.existingTitles.indexOf(this.state.title) === -1);
+;
   }
 
   onSubmit(){
@@ -128,6 +131,15 @@ class NewDeck extends React.Component {
     // send to "DB"
     saveDeckTitle(title)
       .then(()=>{
+        // add new title to existing titles, so cannot be-resubmitted if
+        //  user clicks "back" button and the "submit title" screen appears
+        //  with the same info that had just submitted.
+        this.setState(prevState => {
+          return {
+            existingTitles: prevState.existingTitles.concat([this.state.title]),
+          }
+        });
+
         // if was using redux, could navigate without waiting on a `then`..
         //   because, whenever the redux store updated, "Home" would re-render.
         //  since I'm not, must make sure AsyncStorage has updated before
@@ -167,6 +179,24 @@ class NewDeck extends React.Component {
                      puts keyboard away
                   */
                   ref={(input) => {this.inputs['titleField'] = input}}
+                  returnKeyType={ "next" }
+                  blurOnSubmit={false}    // No more refs to tab thru, so true
+                  onSubmitEditing={() => {
+                    // No more refs/TextInputs to tab thru, - so submit!
+                      this.focusNextField('title');
+                    }}
+                  />
+
+                <TextInput {...textInputProps}
+                  style={styles.textInput}
+                  value={this.state.title}
+                  onChangeText={(title) => this.controlledTextInput(title)}
+
+                  /* (so can tab between input fields, while keeping keyboard up),
+                     submits on "enter", since it is the last input field,
+                     puts keyboard away
+                  */
+                  ref={(input) => {this.inputs['title'] = input}}
                   returnKeyType={ "done" }
                   blurOnSubmit={true}    // No more refs to tab thru, so true
                   onSubmitEditing={() => {
@@ -226,7 +256,9 @@ let textInputProps = {
   //    Callback that is called when the text input's submit button is pressed.
   //    Invalid if multiline={true} is specified.
   //    (docs seem to have a contradiction! )
-  blurOnSubmit: false,
+
+  // blurOnSubmit: false,
+
   //   // if multiline, "enter" key will "submit", instead of adding a newline
   //   blurOnSubmit=true,
 }

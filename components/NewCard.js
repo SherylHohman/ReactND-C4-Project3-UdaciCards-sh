@@ -182,7 +182,9 @@ class NewCard extends React.Component {
 
   canSubmit(){
     return Object.values(this.state.errorMssg)  .every(value => value === '') &&
-           Object.values(this.state.beenTouched).every(value => value === true);
+           Object.values(this.state.beenTouched).every(value => value === true) &&
+           // disallow re-submitting if user clicks back button after already submitted
+           (this.state.existingQuestions.indexOf(this.state.question) === -1);
   }
 
   onSubmit(){
@@ -195,6 +197,14 @@ class NewCard extends React.Component {
     // send to "DB"
     saveCard(deck, { question, answer })
       .then((deck)=>{
+        // add new title to existing titles, so cannot be-resubmitted if
+        //  user clicks "back" button and the "submit title" screen appears
+        //  with the same info that had just submitted.
+        this.setState(prevState => {
+          return {
+            existingQuestions: prevState.existingQuestions.concat([this.state.question]),
+          }
+        });
 
         // if was using redux, could navigate without waiting on a `then`..
         //  since I'm not,  must get updated value for deck from AsyncStorage
