@@ -20,6 +20,19 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
 class NewCard extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+  // for automatically "tabbing" through fields
+    this.focusNextField = this.focusNextField.bind(this);
+    this.inputs = {};
+  }
+
+  // for automatically "tabbing" through fields
+  focusNextField(id) {
+    this.inputs[id].focus();
+  }
+
   static navigationOptions = ({ navigation }) => {
     const { deck } = navigation.state.params;
     return { title: `${deck.title}`}
@@ -67,6 +80,10 @@ class NewCard extends React.Component {
   // another attempt to get focus into TextInput, and keyboard to pop up at cDM !
   // this.textInputRef.focus()
 }
+  //  opens keyboard automatically !! (in conjunction with:
+  //  ref definitions, focusNextField, and constructor code)
+    this.focusNextField('question');
+  }
 
   getWidth = event => {
     // gets dimensions of View containing TextInputs,
@@ -204,11 +221,14 @@ class NewCard extends React.Component {
                   // onSubmitEditing={({ nativeEvent }) => this.setState({ question: nativeEvent.question })} />
 
       // console.log('__NewCard__, render, this.state: ', this.state);
+
       return (
           <View style={styles.container}>
 
               <KeyboardAvoidingView {...keyboardAvoidingViewProps} style={{flex:6}}>
-                <ScrollView styles={{flex: 4}}>
+                <ScrollView styles={{flex: 4}}
+                  keyboardShouldPersistTaps='handled'
+                >
                   <View style={[styles.cardContainer, {flex: 1}]}
                     onLayout={this.getWidth}
                     >
@@ -220,6 +240,17 @@ class NewCard extends React.Component {
                         this.controlledTextInputQuestion(question)}
                       // onEndEditing={(question) => this.setState({question: question.trim()})}
                       // onBlur={(question) => this.setState({question: question.trim()})}
+
+                      /* tab between inputs keeping keyboard up,
+                         submits on the last input field, and puts keyboard away
+                      */
+                      ref={(input) => {this.inputs['question'] = input}}
+                      returnKeyType={ "next" }
+                      blurOnSubmit={false}
+                      onSubmitEditing={() => {
+                        // specify the key of the ref, as done in the previous section.
+                        this.focusNextField('answer');
+                        }}
                       />
                       <Text style={{color:'red', textAlign:'center', margin:5}}>
                       {/* space prevents input box from jumping when error message appears/disappears */}
@@ -233,6 +264,17 @@ class NewCard extends React.Component {
                       onChangeText={(answer) =>
                         this.controlledTextInputAnswer(answer)}
                       // onBlur={this.onBlur('answer')}
+
+                      /* tab between inputs keeping keyboard up,
+                         submits on the last input field, and puts keyboard away
+                      */
+                      ref={(input) => {this.inputs['answer'] = input;}}
+                      returnKeyType={ "done" }
+                      blurOnSubmit={true}
+                      onSubmitEditing={() => {
+                        // No more refs - so submit!
+                        this.onSubmit();
+                        }}
                       />
                       <Text style={{color:'red', textAlign:'center', margin:5}}>
                         {/* space prevents input box from jumping when error message appears/disappears */}

@@ -20,6 +20,14 @@ import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
 class NewDeck extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+  // for automatically "tabbing" through fields
+    this.focusNextField = this.focusNextField.bind(this);
+    this.inputs = {};
+  }
+
   // TODO: static.. add TabNavigator Header (optional)
 
   state = {
@@ -34,6 +42,10 @@ class NewDeck extends React.Component {
 
   componentDidMount () {
 
+    //  opens keyboard automatically !! (in conjunction with:
+    //  ref definition(in TextInput), focusNextField, and constructor code)
+    // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
+    this.focusNextField('titleField');
 
   // another attempt to get focus into TextInput, and keyboard to pop up at cDM !
   // this.textInputRef.focus()
@@ -65,6 +77,11 @@ class NewDeck extends React.Component {
     // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
     this.focusNextField('titleField');
 }
+
+  // for automatically "tabbing" through fields, and setting focus fiels at cDM
+  focusNextField(id) {
+    this.inputs[id].focus();
+  }
 
   controlledTextInput(prevTitle){
     // used as a "DB" key, so stripping characters
@@ -154,6 +171,18 @@ class NewDeck extends React.Component {
                   style={styles.textInput}
                   value={this.state.title}
                   onChangeText={(title) => this.controlledTextInput(title)}
+
+                  /* (can tab between inputs, while keeping keyboard up),
+                     submit on "enter", since it is the last input field,
+                     puts keyboard away
+                  */
+                  ref={(input) => {this.inputs['titleField'] = input}}
+                  returnKeyType={ "done" }
+                  blurOnSubmit={true}    // No more refs to tab thru, so true
+                  onSubmitEditing={() => {
+                    // No more refs/TextInputs to tab thru, - so submit!
+                    this.onSubmit();
+                  }}
                   />
 
                 <Text style={{color:'red', textAlign:'center', margin:5}}>
@@ -186,7 +215,7 @@ class NewDeck extends React.Component {
 
 let textInputProps = {
   placeholder: 'Quiz Deck Title',
-  autoFocus: true,
+  // autoFocus: true,
   maxLength: 25,
   autoCapitalize: 'words',
   returnKeyType: 'send',
@@ -197,6 +226,9 @@ let textInputProps = {
   //   Note that for multiline fields, setting blurOnSubmit to true means that
   //   pressing return will blur the field and trigger the onSubmitEditing event
   //   instead of inserting a newline into the field.
+  // When setup for tabbing through test fields,
+  // blurOnSubmit s/b true for "last" field, false for all others
+  blurOnSubmit: false,
 }
 if (Platform.OS==='ios'){
   textInputProps = {
