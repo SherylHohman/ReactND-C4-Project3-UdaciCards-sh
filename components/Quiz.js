@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity,
          StyleSheet, Platform ,
        } from 'react-native';
+import PropTypes from 'prop-types';
 // Components
 import StyledButton from '../components/StyledButton';
 // Constants, Helpers, Api's
@@ -326,5 +327,30 @@ const styles = StyleSheet.create({
   // TODO: Progress Box (numCards Boxes. cardIndex+1 boxes filled in)
   // progressBox: {},
 });
+
+Quiz.propTypes = {
+  // - props.navigation.navigate
+  // - props.navigation.state.params.deck
+  //      { deck.title,
+  //        deck.questions: [
+  //          deck.question,
+  //          deck.answer
+  //        }]
+  //       }
+    navigation: PropTypes.shape({
+      navigate:   PropTypes.func.isRequired,
+      state:      PropTypes.shape({
+        params:     PropTypes.shape({
+          deck:       PropTypes.shape({
+            title:      PropTypes.string.isRequired,
+            questions:   PropTypes.arrayOf(PropTypes.shape({
+              question:    PropTypes.string.isRequired,
+              answer:      PropTypes.string.isRequired,
+            }).isRequired).isRequired
+          }).isRequired
+        }).isRequired,
+      }).isRequired,
+  }).isRequired,
+}
 
 export default Quiz;

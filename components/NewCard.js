@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity,
          TextInput, KeyboardAvoidingView, ScrollView,
          StyleSheet, Platform,
        } from 'react-native';
+import PropTypes from 'prop-types';
 // Components
 import StyledButton from '../components/StyledButton';
 // Constants, Helpers, Api's
@@ -433,9 +434,29 @@ const styles = StyleSheet.create({
   ...componentStyles,
 });
 
-// TODO propTypes: deck
-//                 (need deck.title for the id, and questions to prevent duplicates),
-//                 navigation
-//                 (in order to get the deck, which should be passed in from the prior component)
+NewCard.propTypes = {
+  // - props.navigation.navigate
+  // - props.navigation.state.params.deck
+  //      { deck.title,
+  //        deck.questions: [
+  //          deck.question,
+  //          deck.answer     // not needed!
+  //        }]
+  //       }
+    navigation: PropTypes.shape({
+      navigate:   PropTypes.func.isRequired,
+      state:      PropTypes.shape({
+        params:     PropTypes.shape({
+          deck:       PropTypes.shape({
+            title:      PropTypes.string.isRequired,
+            questions:   PropTypes.arrayOf(PropTypes.shape({
+              question:    PropTypes.string.isRequired,
+              answer:      PropTypes.string,  // not required
+            }).isRequired).isRequired
+          }).isRequired
+        }).isRequired,
+      }).isRequired,
+  }).isRequired,
+}
 
 export default NewCard;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableHighlight, StyleSheet, Platform,
        } from 'react-native';
-
+import PropTypes from 'prop-types';
 // Components
 import StyledButton from '../components/StyledButton';
 import * as storageAPI from '../utils/api';
@@ -200,6 +200,31 @@ const styles = StyleSheet.create({
     },
   },
 });
+
+Deck.propTypes = {
+  // - props.navigation.navigate
+  // - props.navigation.state.params.deck
+  //      { deck.title,
+  //        deck.questions: [
+  //          deck.question,
+  //          deck.answer     // not needed!
+  //        }]
+  //       }
+    navigation: PropTypes.shape({
+      navigate:   PropTypes.func.isRequired,
+      state:      PropTypes.shape({
+        params:     PropTypes.shape({
+          deck:       PropTypes.shape({
+            title:      PropTypes.string.isRequired,
+            questions:   PropTypes.arrayOf(PropTypes.shape({
+              question:    PropTypes.string,
+              answer:      PropTypes.string,
+            })).isRequired
+          }).isRequired
+        }).isRequired,
+      }).isRequired,
+  }).isRequired,
+}
 
 export default Deck;
 

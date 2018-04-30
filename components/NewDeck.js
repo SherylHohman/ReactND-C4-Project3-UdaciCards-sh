@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity,
          TextInput, KeyboardAvoidingView,
          StyleSheet, Platform,
        } from 'react-native';
+import PropTypes from 'prop-types';
 // Components
 import StyledButton from '../components/StyledButton';
 // Constants, Helpers, Api's
@@ -358,6 +359,24 @@ const styles = StyleSheet.create({
   ...componentStyles,
 });
 
-// TODO: propTypes: navigate, decks
+NewDeck.propTypes = {
+  // - props.navigation.navigate
+  // - props.navigation.state.params.decks = [
+  //   decks NOT required - will "fetch" if not passed in.
+  //      { deck.title,
+  //        deck.questions
+  //      }]
+    navigation: PropTypes.shape({
+      navigate:   PropTypes.func.isRequired,
+      state:      PropTypes.shape({
+        params:     PropTypes.shape({
+          decks:       PropTypes.arrayOf(PropTypes.shape({
+            title:      PropTypes.string.isRequired,
+            questions:   PropTypes.array.isRequired,
+          }),
+        )}),
+      }),
+  }).isRequired,
+}
 
 export default NewDeck;

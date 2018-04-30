@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View , TouchableOpacity} from 'react-native';
 import { Platform } from 'react-native';
+import PropTypes from 'prop-types';
 // Constants, Helpers, Api's
 import { white, gray, primaryColor, primaryColorLight, primaryColorDark } from '../utils/colors';
 
@@ -59,6 +60,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+AppHeader.propTypes = {
+  children:    PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,  // a react element
+  ]),
+};
 
 export default AppHeader
 

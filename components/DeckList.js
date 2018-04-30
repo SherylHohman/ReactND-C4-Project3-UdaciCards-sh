@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View , TouchableOpacity, ScrollView, Platform
        } from 'react-native';
 import { AppLoading } from 'expo';
+import PropTypes from 'prop-types';
 // Components
 import AppHeader from '../components/AppHeader';
 import Deck      from '../components/Deck';
@@ -218,5 +219,12 @@ if (viewStyleLayout) {componentStyles = augmentStylesToVisualizeLayout(component
 const styles = StyleSheet.create({
   ...componentStyles,
 });
+
+DeckList.propTypes = {
+  // - props.navigation.navigate
+    navigation: PropTypes.shape({
+      navigate:   PropTypes.func.isRequired,
+  }).isRequired,
+}
 
 export default DeckList

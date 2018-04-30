@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import PropTypes from 'prop-types';
 import { white, gray, primaryColor, primaryColorLight, primaryColorDark} from '../utils/colors';
 
 export default function TextButton({ children, onPress, customColor, disabled=false }) {
@@ -80,3 +81,16 @@ const styles = StyleSheet.create({
 // ios has white buttons with colored outlines and colored text
 // android has colored buttons with white text
 // Pass in a button color, or it defaults to the App's primary colors
+
+TextButton.propTypes = {
+  // children, onPress=null, customColor='', disabled=false
+  onPress:     PropTypes.func,
+  customColor: PropTypes.string,
+  disabled:    PropTypes.bool,
+  children:    PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,  // a react element
+  ]),
+};
+
+
