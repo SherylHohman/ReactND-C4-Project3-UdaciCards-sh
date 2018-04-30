@@ -47,8 +47,6 @@ class NewDeck extends React.Component {
     // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
     this.focusNextField('titleField');
 
-  // another attempt to get focus into TextInput, and keyboard to pop up at cDM !
-  // this.textInputRef.focus()
     //TODO: fetchDecks in App.js instead, and pass decks in to via TabNavigator
     //      (to both tabs: NewDeck -and- DeckList)
 
@@ -72,8 +70,8 @@ class NewDeck extends React.Component {
         });
     }
 
-    //  opens keyboard automatically !! (in conjunction with:
-    //  ref definition(in TextInput), focusNextField, and constructor code)
+    // Opens keyboard automatically !! (in conjunction with:
+    //    ref definition(in TextInput), focusNextField, and constructor code)
     // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
     this.focusNextField('titleField');
 }
@@ -150,14 +148,6 @@ class NewDeck extends React.Component {
 
   render() {
 
-                  // /* ref={ref => this.textInputRef = ref} */   /*`this.textInputRef.focus()` must be called in cDM */
-
-                  // onBlur={() => this.onBlur()}
-                  // onSubmitEditing={() => this.onSubmit()}
-
-                  // blurOnSubmit
-                  // onSubmitEditing={({ nativeEvent }) => this.setState({ title: nativeEvent.title })} />
-
       return (
           <View style={styles.container}>
             <View style={[styles.cardContainer, {flex: 1}]}>
@@ -172,8 +162,8 @@ class NewDeck extends React.Component {
                   value={this.state.title}
                   onChangeText={(title) => this.controlledTextInput(title)}
 
-                  /* (can tab between inputs, while keeping keyboard up),
-                     submit on "enter", since it is the last input field,
+                  /* (so can tab between input fields, while keeping keyboard up),
+                     submits on "enter", since it is the last input field,
                      puts keyboard away
                   */
                   ref={(input) => {this.inputs['titleField'] = input}}
@@ -221,22 +211,32 @@ let textInputProps = {
   returnKeyType: 'send',
   placeholderTextColor: gray,
   selectionColor: primaryColorLight,
-  // If true, the text field will blur when submitted.
-  //   The default value is true for single-line fields and false for multiline fields.
-  //   Note that for multiline fields, setting blurOnSubmit to true means that
-  //   pressing return will blur the field and trigger the onSubmitEditing event
-  //   instead of inserting a newline into the field.
-  // When setup for tabbing through test fields,
-  // blurOnSubmit s/b true for "last" field, false for all others
+
+  // if blurOnSubmit, "return" does Not get captured by TextInput;
+  //   instead, it triggers onSubmitEditing.
+  //   If blurOnSubmit===true, the text field will blur when submitted.
+  //     The default value is true for single-line fields and false for multiline fields.
+  //     Note that for multiline fields, setting blurOnSubmit to true means that
+  //     pressing return will blur the field and trigger the onSubmitEditing event
+  //     instead of inserting a newline into the field.
+  //   When setup for tabbing through test fields, blurOnSubmit s/b :
+  //     true for "last" field,
+  //     false for all others
+  //   onSubmitEditing
+  //    Callback that is called when the text input's submit button is pressed.
+  //    Invalid if multiline={true} is specified.
+  //    (docs seem to have a contradiction! )
   blurOnSubmit: false,
+  //   // if multiline, "enter" key will "submit", instead of adding a newline
+  //   blurOnSubmit=true,
 }
 if (Platform.OS==='ios'){
   textInputProps = {
     ...textInputProps,
     enablesReturnKeyAutomatically: true, // disables return key if no text
     keyboardAppearance: 'light',
-    autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
-    spellCheck: true,
+    autoCorrect: false,  //ios only -- but it does Not seem to be working
+    spellCheck: true,    //ios only -- but it does Not seem to be working
   }
 }
 if (Platform.OS==='android'){
@@ -245,30 +245,19 @@ if (Platform.OS==='android'){
     underlineColorAndroid: primaryColorDark,
   }
 }
-  //   // if multiline, "enter" key will "submit", instead of adding a newline
-  //   blurOnSubmit=true,
 
-  //   // TODO: pull keyboard up automatically if phone does Not have Physical keyboard
-  //   // TODO: get height of soft Kyeboard
-  //   //       - edit layout design to render in the area unoccupied by the
-  //   //         keyboard (even when it is not showing),
-  //   //         but allow it to take up more vertical space if needed,
-  //   //         (but only while keyboard is *not* showing)
-  //   //         also add scrollView just in case, so user can access hidden content.
+    // TODO: get height of soft Kyeboard
+    //       - edit layout design to render in the area unoccupied by the
+    //         keyboard (even when it is not showing),
+    //         but allow it to take up more vertical space if needed,
+    //         (but only while keyboard is *not* showing)
+    //         also add scrollView just in case, so user can access hidden content.
 
-  //   // TODO: open softKeyboard, if device does not have physical keyboard
-  //   //       onFocus={}
+    // TODO:
+    /* onEndEditing={(title) => this.setState({title: title.trim()})} */
+    /* onBlur={(title) => this.setState({title: title.trim()})} */
+    /* clearButtonMode={"while-editing"} */
 
-  //   // TODO: should I use onKeyPress instead of putting logic in onChange ??
-
-  //   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
-  //   /* onBlur={(title) => this.setState({title: title.trim()})} */
-  //   /* clearButtonMode={"while-editing"} */
-
-  //   /* ref={ref => {this._emailInput = ref}} */
-
-  //   /* onSubmitEditing={this._submit} */ // invalid if {multi-line === true}
-  // };
 
 const keyboardAvoidingViewProps = {
   // Options for `behavior` : enum('height', 'position', 'padding')

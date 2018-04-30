@@ -14,7 +14,7 @@ import { titleCase, collapseSpaces }
 import { white, gray, primaryColor, primaryColorDark, primaryColorLight,
        } from '../utils/colors';
 
-// dev  TODO: enly enable this import and its usage while in dev
+// dev  TODO: only enable this import and its usage while in dev
 import { augmentStylesToVisualizeLayout } from '../utils/helpers';
 
 
@@ -23,7 +23,7 @@ class NewCard extends React.Component {
   constructor(props) {
     super(props);
 
-  // for automatically "tabbing" through fields
+  // for automatically "tabbing" through fields, and opening keyboard at cDM
     this.focusNextField = this.focusNextField.bind(this);
     this.inputs = {};
   }
@@ -77,9 +77,6 @@ class NewCard extends React.Component {
       console.log('NewCards.cDM, ERROR: did not receive deck, or there is an error with its questions, deck:', deck);
     }
 
-  // another attempt to get focus into TextInput, and keyboard to pop up at cDM !
-  // this.textInputRef.focus()
-}
   //  opens keyboard automatically !! (in conjunction with:
   //  ref definitions, focusNextField, and constructor code)
     this.focusNextField('question');
@@ -104,7 +101,7 @@ class NewCard extends React.Component {
   controlledTextInputQuestion(text){
     // no need to strip characters, as it is never used as an object/DB "key"
 
-    // TODO: tabs are not being removed
+    // TODO: tabs, newlines, are not being removed
     text = collapseSpaces(text);
 
     const isInvalidErrorMessage = this.isInvalidErrorMessage(text);
@@ -171,7 +168,7 @@ class NewCard extends React.Component {
             : '';
   }
 
-  onBlur(field){
+  // onBlur(field){
     //  // ERROR: infinite recurse !!
     // let text = this.state[field]
     // if (text !== text.trim()) {
@@ -181,7 +178,7 @@ class NewCard extends React.Component {
     //     }
     //   });
     // }
-  }
+  // }
 
   canSubmit(){
     return Object.values(this.state.errorMssg)  .every(value => value === '') &&
@@ -212,15 +209,6 @@ class NewCard extends React.Component {
   }
 
   render() {
-              // TODO:
-                  // /* ref={ref => this.textInputRef = ref} */   /*`this.textInputRef.focus()` must be called in cDM */
-                  // onBlur={() => this.onBlur()}
-                  // onSubmitEditing={() => this.onSubmit()}
-
-                  // blurOnSubmit
-                  // onSubmitEditing={({ nativeEvent }) => this.setState({ question: nativeEvent.question })} />
-
-      // console.log('__NewCard__, render, this.state: ', this.state);
 
       return (
           <View style={styles.container}>
@@ -238,8 +226,9 @@ class NewCard extends React.Component {
                       value={this.state.question}
                       onChangeText={(question) =>
                         this.controlledTextInputQuestion(question)}
-                      // onEndEditing={(question) => this.setState({question: question.trim()})}
-                      // onBlur={(question) => this.setState({question: question.trim()})}
+                      // TODO:
+                      //   onEndEditing={(question) => this.setState({question: question.trim()})}
+                      //   onBlur={(question) => this.setState({question: question.trim()})}
 
                       /* tab between inputs keeping keyboard up,
                          submits on the last input field, and puts keyboard away
@@ -263,7 +252,9 @@ class NewCard extends React.Component {
                       value={this.state.answer}
                       onChangeText={(answer) =>
                         this.controlledTextInputAnswer(answer)}
-                      // onBlur={this.onBlur('answer')}
+                      // TODO:
+                      //   onEndEditing={(question) => this.setState({question: question.trim()})}
+                      //   onBlur={(question) => this.setState({question: question.trim()})}
 
                       /* tab between inputs keeping keyboard up,
                          submits on the last input field, and puts keyboard away
@@ -305,9 +296,6 @@ const keyboardAvoidingViewProps = {
   behavior: 'padding',
 };
 
-// TODO: put keyboard away onSubmit, so it's closed on the next screen
-//       BUT NOT when press "enter/return" from TextInput field
-
 let textInputProps = {
   // autoFocus: true,     // strange behavior - don't use
   maxLength: 70,          // max number of characters allowed
@@ -316,7 +304,9 @@ let textInputProps = {
   // instead of adding a newline
 
   multiline: true,
-  // if blurOnSubmit, "return" does Not get captured by TextInput; triggers onSubmitEditing.
+
+  // if blurOnSubmit, "return" does Not get captured by TextInput;
+  //   triggers onSubmitEditing.
   // If true, the text field will blur when submitted.
   //   The default value is true for single-line fields and false for multiline fields.
   //   Note that for multiline fields, setting blurOnSubmit to true means that
@@ -327,14 +317,12 @@ let textInputProps = {
   //  Callback that is called when the text input's submit button is pressed.
   //  Invalid if multiline={true} is specified.
   //  (docs seem to have a contradiction! )
-
   blurOnSubmit: true,
-  // onsubmitEditing puts keyboard away :-) ??
-  // TODO: can I put keyboard away if SubmitButton, but not if on text field ?
+
   returnKeyType: 'send',  //'next', //'done', //TODO: next does Not work as Expected -- why?
 
   // TODO: might need to write an onKeyPress function to handle
-  //  tabbing, submitting, and putting keyboard away
+  //  removal of "tab" and "newline" keystrokes/characters
 
   autoCapitalize: 'sentences',  //this is Not Working on Android!
   placeholderTextColor: gray,
@@ -356,14 +344,10 @@ if (Platform.OS==='android'){
   }
 }
 
-//   // TODO: should I use onKeyPress instead of putting logic in onChange ??
-
+//   // TODO:
 //   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
 //   /* onBlur={(title) => this.setState({title: title.trim()})} */
 //   /* clearButtonMode={"while-editing"} */
-
-//   /* ref={ref => {this._emailInput = ref}} */
-//   /* onSubmitEditing={this._submit} */ // invalid if {multi-line === true}
 
 
 // TODO: DELETE UNUSED STYLES
