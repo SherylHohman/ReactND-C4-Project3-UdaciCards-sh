@@ -307,6 +307,10 @@ const keyboardAvoidingViewProps = {
   behavior: 'padding',
 };
 
+
+// TODO: Why is the keyboard no longer CLOSING at onSubmit ??
+//       It *does* close for NewDeck (but will not open at cDM) :-/
+
 let textInputProps = {
   // autoFocus: true,     // strange behavior - don't use
   maxLength: 70,          // max number of characters allowed
@@ -318,19 +322,16 @@ let textInputProps = {
 
   // if blurOnSubmit, "return" does Not get captured by TextInput;
   //   triggers onSubmitEditing.
-  // If true, the text field will blur when submitted.
+  //   - onSubmitEditing
+  //    Callback that is called when the text input's submit button is pressed.
+  //    Invalid if multiline={true} is specified.
+  //    (docs seem to have a contradiction! )
+  // If blurOnSubmit === true, the text field will blur when submitted.
   //   The default value is true for single-line fields and false for multiline fields.
   //   Note that for multiline fields, setting blurOnSubmit to true means that
   //   pressing return will blur the field and trigger the onSubmitEditing event
   //   instead of inserting a newline into the field.
-
-  // onSubmitEditing
-  //  Callback that is called when the text input's submit button is pressed.
-  //  Invalid if multiline={true} is specified.
-  //  (docs seem to have a contradiction! )
   blurOnSubmit: true,
-
-  returnKeyType: 'send',  //'next', //'done', //TODO: next does Not work as Expected -- why?
 
   // TODO: might need to write an onKeyPress function to handle
   //  removal of "tab" and "newline" keystrokes/characters

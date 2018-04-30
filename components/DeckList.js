@@ -67,6 +67,10 @@ import { white, gray, primaryColor }      from '../utils/colors';
     const decks = this.state.decks;
     const haveData = this.canRenderData();
 
+    // TODO: create Animation !! -- As per Requirements
+    //       "Pressing on a deck in the list should generate an animation,
+    //       and the app should route to an individual deck view."
+
     // fetching data,
     // but if have data from store, show data from store, even while re-fetching
     if (this.state.isFetching && !haveData){
