@@ -149,11 +149,6 @@ class NewCard extends React.Component {
             : ''
   }
   isUniqueErrorMessage(question){
-    let errorMssg = '';
-    if (this.state.existingQuestions.indexOf(question) !== -1){
-      errorMssg = 'This question already exists.  ';
-    }
-    return errorMssg;
     return (this.state.existingQuestions.indexOf(question) !== -1)
             ? errorMssg = 'This question already exists.  '
             : '';
@@ -300,7 +295,6 @@ let textInputProps = {
   //  tabbing, submitting, and putting keyboard away
 
   autoCapitalize: 'sentences',  //this is Not Working on Android!
-  autoCorrect: false,
   placeholderTextColor: gray,
   selectionColor: primaryColorLight,
 }
@@ -309,8 +303,8 @@ if (Platform.OS==='ios'){
     ...textInputProps,
     enablesReturnKeyAutomatically: true, // disables return key if no text
     keyboardAppearance: 'light',
-    spellCheck: true,    //ios only -- but it does Not seem to be working on ios
     autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
+    spellCheck: true,    //ios only -- but it does Not seem to be working on ios
   }
 }
 if (Platform.OS==='android'){

@@ -189,7 +189,6 @@ let textInputProps = {
   autoFocus: true,
   maxLength: 25,
   autoCapitalize: 'words',
-  autoCorrect: false,
   returnKeyType: 'send',
   placeholderTextColor: gray,
   selectionColor: primaryColorLight,
@@ -204,6 +203,7 @@ if (Platform.OS==='ios'){
     ...textInputProps,
     enablesReturnKeyAutomatically: true, // disables return key if no text
     keyboardAppearance: 'light',
+    autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
     spellCheck: true,
   }
 }
