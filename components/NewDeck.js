@@ -32,32 +32,38 @@ class NewDeck extends React.Component {
     existingTitles: [],
   }
 
-componentDidMount () {
-  //TODO: fetchDecks in App.js instead, and pass decks in to via TabNavigator
-  //      (to both tabs: NewDeck -and- DeckList)
+  componentDidMount () {
 
-  // if decks is passed in (ie link from DeckList, where decks is known to be an EMPTY array)
-  let decksArray = (this.props.navigation &&
-               this.props.navigation.state.params &&
-               this.props.navigation.state.params.decks) || undefined;
-  if (decksArray) {
-      const titles = decksArray.map( deck => title );
-      this.setState({ existingTitles: titles });
-      return;
-  }
-  else {
-  // deck not passed in (ie got here by clicking on tab, not via internal nav, or from a link)
-    console.log('NewDeck.cDM decks not passed in,so fetching" them..', this.props);
-    retrieveDecks()
-      .then((decksObj) => {
-        // not expected to change during life of this component
-        const existingTitles = decksObj && Object.keys(decksObj) || [];
-        this.setState({ existingTitles });
-      });
-  }
 
   // another attempt to get focus into TextInput, and keyboard to pop up at cDM !
   // this.textInputRef.focus()
+    //TODO: fetchDecks in App.js instead, and pass decks in to via TabNavigator
+    //      (to both tabs: NewDeck -and- DeckList)
+
+    // if decks is passed in (ie link from DeckList, where decks is known to be an EMPTY array)
+    let decksArray = (this.props.navigation &&
+                 this.props.navigation.state.params &&
+                 this.props.navigation.state.params.decks) || undefined;
+    if (decksArray) {
+        const titles = decksArray.map( deck => title );
+        this.setState({ existingTitles: titles });
+        return;
+    }
+    else {
+    // deck not passed in (ie got here by clicking on tab, not via internal nav, or from a link)
+      console.log('NewDeck.cDM decks not passed in,so fetching" them..', this.props);
+      retrieveDecks()
+        .then((decksObj) => {
+          // not expected to change during life of this component
+          const existingTitles = decksObj && Object.keys(decksObj) || [];
+          this.setState({ existingTitles });
+        });
+    }
+
+    //  opens keyboard automatically !! (in conjunction with:
+    //  ref definition(in TextInput), focusNextField, and constructor code)
+    // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
+    this.focusNextField('titleField');
 }
 
   controlledTextInput(prevTitle){
@@ -187,6 +193,11 @@ let textInputProps = {
   returnKeyType: 'send',
   placeholderTextColor: gray,
   selectionColor: primaryColorLight,
+  // If true, the text field will blur when submitted.
+  //   The default value is true for single-line fields and false for multiline fields.
+  //   Note that for multiline fields, setting blurOnSubmit to true means that
+  //   pressing return will blur the field and trigger the onSubmitEditing event
+  //   instead of inserting a newline into the field.
 }
 if (Platform.OS==='ios'){
   textInputProps = {

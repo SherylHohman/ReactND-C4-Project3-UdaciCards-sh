@@ -46,47 +46,48 @@ class NewCard extends React.Component {
     textInputContainerWidth: undefined,
   }
 
-componentDidMount () {
-  //TODO: fetchDecks in App.js instead, and pass decks in to via TabNavigator
-  //      (to both tabs: NewDeck -and- DeckList)
+  componentDidMount () {
+    //TODO: fetchDecks in App.js instead, and pass decks in to via TabNavigator
+    //      (to both tabs: NewDeck -and- DeckList)
 
-  // deck should be passed in
-  let deck = (this.props.navigation &&
-               this.props.navigation.state.params &&
-               this.props.navigation.state.params.deck) || undefined;
-  let questions = (deck && deck.questions) || undefined;
+    // deck should be passed in
+    let deck = (this.props.navigation &&
+                 this.props.navigation.state.params &&
+                 this.props.navigation.state.params.deck) || undefined;
+    let questions = (deck && deck.questions) || undefined;
 
-  if (deck && questions) {
-      const existingQuestions = questions.map( questionObj => questionObj.question );
-      this.setState({ deck, existingQuestions });
-  }
-  else {
-    console.log('NewCards.cDM, ERROR: did not receive deck, or there is an error with its questions, deck:', deck);
-  }
+    if (deck && questions) {
+        const existingQuestions = questions.map( questionObj => questionObj.question );
+        this.setState({ deck, existingQuestions });
+    }
+    else {
+      console.log('NewCards.cDM, ERROR: did not receive deck, or there is an error with its questions, deck:', deck);
+    }
 
   // another attempt to get focus into TextInput, and keyboard to pop up at cDM !
   // this.textInputRef.focus()
 }
 
-getWidth = event => {
-  // gets dimensions of View containing TextInputs,
-  //    so can set the TextInput equal to the width of their containing component
-  //    The value is calculated During FIRST render,
-  //    Then during SECOND render, the TextInput can use the values in state
-  //      to set their own width
+  getWidth = event => {
+    // gets dimensions of View containing TextInputs,
+    //    so can set the TextInput equal to the width of their containing component
+    //    The value is calculated During FIRST render,
+    //    Then during SECOND render, the TextInput can use the values in state
+    //      to set their own width
 
-  // (this is SECOND render) layout was already called, and width has been set
-  if (this.state.textInputContainerWidth) return
+    // (this is SECOND render) layout was already called, and width has been set
+    if (this.state.textInputContainerWidth) return
 
-  // FRIST render sets width
-  let { width } = event.nativeEvent.layout;
-  width = width - styles.cardContainer.paddingLeft - styles.cardContainer.paddingRight;
-  this.setState({textInputContainerWidth: width});
-}
+    // FRIST render sets width
+    let { width } = event.nativeEvent.layout;
+    width = width - styles.cardContainer.paddingLeft - styles.cardContainer.paddingRight;
+    this.setState({textInputContainerWidth: width});
+  }
 
   controlledTextInputQuestion(text){
     // no need to strip characters, as it is never used as an object/DB "key"
 
+    // TODO: tabs are not being removed
     text = collapseSpaces(text);
 
     const isInvalidErrorMessage = this.isInvalidErrorMessage(text);
@@ -149,12 +150,13 @@ getWidth = event => {
   }
   isUniqueErrorMessage(question){
     let errorMssg = '';
-    // let isValid = true;
     if (this.state.existingQuestions.indexOf(question) !== -1){
       errorMssg = 'This question already exists.  ';
-      // isValid = false;
     }
     return errorMssg;
+    return (this.state.existingQuestions.indexOf(question) !== -1)
+            ? errorMssg = 'This question already exists.  '
+            : '';
   }
 
   onBlur(field){
@@ -192,7 +194,6 @@ getWidth = event => {
 
       .catch((err) => {
         console.log('____NewDeck____, onSubmit, ERROR saving new DeckTitle, err:', err);
-        // not sure where I should call `navigate` for the case of storage error
         this.props.navigation.navigate('Deck', { deck });
         return (err);
       });
@@ -227,7 +228,8 @@ getWidth = event => {
                       />
                       <Text style={{color:'red', textAlign:'center', margin:5}}>
                       {/* space prevents input box from jumping when error message appears/disappears */}
-                      {' ' + this.state.errorMssg.question}</Text>
+                        {' ' + this.state.errorMssg.question}
+                      </Text>
 
                     <TextInput {...textInputProps} placeholder='Answer'
                       style={styles.textInput}
@@ -238,8 +240,9 @@ getWidth = event => {
                       // onBlur={this.onBlur('answer')}
                       />
                       <Text style={{color:'red', textAlign:'center', margin:5}}>
-                      {/* space prevents input box from jumping when error message appears/disappears */}
-                      {' ' + this.state.errorMssg.answer}</Text>
+                        {/* space prevents input box from jumping when error message appears/disappears */}
+                        {' ' + this.state.errorMssg.answer}
+                      </Text>
                   </View>
 
                   <StyledButton
@@ -251,9 +254,9 @@ getWidth = event => {
                       Submit
                     </Text>
                   </StyledButton>
+
                 </ScrollView>
               </KeyboardAvoidingView>
-
           </View>
       );
   }
@@ -274,14 +277,30 @@ let textInputProps = {
   numlines:   3,          // :-( no effect really ) -- does *not* initialize text box to be 3 lines
   // if multiline, "enter" key, aka TextInput's "submit" triggers onSubmitEditing,
   // instead of adding a newline
+
   multiline: true,
-  // if blurOnSubmit, "return" does Not get captured by TextInput; triggers onSubmitEditing
+  // if blurOnSubmit, "return" does Not get captured by TextInput; triggers onSubmitEditing.
+  // If true, the text field will blur when submitted.
+  //   The default value is true for single-line fields and false for multiline fields.
+  //   Note that for multiline fields, setting blurOnSubmit to true means that
+  //   pressing return will blur the field and trigger the onSubmitEditing event
+  //   instead of inserting a newline into the field.
+
+  // onSubmitEditing
+  //  Callback that is called when the text input's submit button is pressed.
+  //  Invalid if multiline={true} is specified.
+  //  (docs seem to have a contradiction! )
+
   blurOnSubmit: true,
-  // onsubmitEditing puts keyboard away :-)
+  // onsubmitEditing puts keyboard away :-) ??
   // TODO: can I put keyboard away if SubmitButton, but not if on text field ?
-  autoCapitalize: 'sentences',  //this is Not Working!
-  autoCorrect: false,
   returnKeyType: 'send',  //'next', //'done', //TODO: next does Not work as Expected -- why?
+
+  // TODO: might need to write an onKeyPress function to handle
+  //  tabbing, submitting, and putting keyboard away
+
+  autoCapitalize: 'sentences',  //this is Not Working on Android!
+  autoCorrect: false,
   placeholderTextColor: gray,
   selectionColor: primaryColorLight,
 }
@@ -390,4 +409,3 @@ const styles = StyleSheet.create({
 //                 (in order to get the deck, which should be passed in from the prior component)
 
 export default NewCard;
-
