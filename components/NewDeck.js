@@ -179,24 +179,6 @@ class NewDeck extends React.Component {
                      puts keyboard away
                   */
                   ref={(input) => {this.inputs['titleField'] = input}}
-                  returnKeyType={ "next" }
-                  blurOnSubmit={false}    // No more refs to tab thru, so true
-                  onSubmitEditing={() => {
-                    // No more refs/TextInputs to tab thru, - so submit!
-                      this.focusNextField('title');
-                    }}
-                  />
-
-                <TextInput {...textInputProps}
-                  style={styles.textInput}
-                  value={this.state.title}
-                  onChangeText={(title) => this.controlledTextInput(title)}
-
-                  /* (so can tab between input fields, while keeping keyboard up),
-                     submits on "enter", since it is the last input field,
-                     puts keyboard away
-                  */
-                  ref={(input) => {this.inputs['title'] = input}}
                   returnKeyType={ "done" }
                   blurOnSubmit={true}    // No more refs to tab thru, so true
                   onSubmitEditing={() => {

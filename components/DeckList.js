@@ -21,22 +21,6 @@ import { white, gray, primaryColor }      from '../utils/colors';
     isFetchFailure: false,
   }
 
-  canRenderData(){
-    const decks = this.state.decks;
-
-    // I don't have anything (undefined, null, '')
-    if (!decks) {return false}
-
-    // I have either fresh or stale data
-    if (decks && Array.isArray(decks)){
-      return decks.length === 0
-        ? false  // empty array is legit, but cannot render it
-        : true;  // have data !!
-    }
-
-    return false;
-  }
-
   componentDidMount(){
 
     // read data from localStore
@@ -60,6 +44,22 @@ import { white, gray, primaryColor }      from '../utils/colors';
           isFetchFailure: true,
         });
       });
+  }
+
+  canRenderData(){
+    const decks = this.state.decks;
+
+    // I don't have anything (undefined, null, '')
+    if (!decks) {return false}
+
+    // I have either fresh or stale data
+    if (decks && Array.isArray(decks)){
+      return decks.length === 0
+        ? false  // empty array is legit, but cannot render it
+        : true;  // have data !!
+    }
+
+    return false;
   }
 
   render() {
