@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { white, gray, primaryColor, primaryColorLight, primaryColorDark} from '../utils/colors';
 
-export default function TextButton({ children, onPress, customColor, disabled=false }) {
+export default function TextButton({ children, onPress=null, customColor='', disabled=false }) {
 
   const disabledColor = disabled ? gray : null;
 
