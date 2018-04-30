@@ -105,7 +105,7 @@ class Deck extends React.Component {
 
         {/* btn: Add a new Question/Answer Card */}
         <StyledButton
-          customColor={primaryColorLight}
+          customColor={primaryColor}
           onPress={() => this.props.navigation.navigate(
             'NewCard',
             /* below passes in as: this.props.navigation.state.params.deck*/
@@ -116,7 +116,8 @@ class Deck extends React.Component {
         </StyledButton>
 
         {/* btn: Rename Deck */}
-      {/*<StyledButton
+      {/* TODO: Implement..
+      <StyledButton
           customColor={primaryColor}
           onPress={() => this.onRename()}
         >
@@ -125,7 +126,8 @@ class Deck extends React.Component {
       */}
 
         {/* btn: Edit Cards */}
-      {/*<StyledButton
+      {/* TODO: Implement..
+      <StyledButton
           customColor={primaryColor}
           onPress={() => navigateToCardListScreen (does not exist yet) }
         >
@@ -134,17 +136,12 @@ class Deck extends React.Component {
       */}
 
         {/* btn: Delete Deck */}
-        <TouchableHighlight
-          style={{backgroundColor:'#rgba(255, 0, 0, 1.0)'}}  // red on hover/click
-          activeOpacity={1.0}
-          >
           <StyledButton
-            customColor='#rgba(255, 255, 255, 0.5)'         // 50% red otherwise
+            customColor='#rgba(255, 0, 0, 0.5)'
             onPress={() => this.onDelete()}
             >
             Delete (Cannot be Undone)
           </StyledButton>
-        </TouchableHighlight>
       </View>
     );
   }
