@@ -163,7 +163,7 @@ class NewDeck extends React.Component {
 
       return (
           <View style={styles.container}>
-            <View style={[styles.cardContainer, {flex: 1}]}>
+            <View style={[{flex: 1}]}>
               <Text  style={styles.instructionsText}
                 >
                 Title for your New Quiz Deck
@@ -314,13 +314,13 @@ let componentStyles = {
     marginBottom:20,
   },
   buttonsContainer: {
-    flex: 3,
+    flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
   },
   buttonContainer: {
+    flex: 1,
     justifyContent: 'center',
-    margin: 10,
   },
 
   // TEXT Styles
@@ -341,7 +341,6 @@ let componentStyles = {
     alignSelf: 'stretch',
     flexWrap:  'wrap',
     textAlign: 'center',
-    marginTop: 10,
 
     borderWidth: Platform.OS === 'ios' ? 1 : 0,
     borderColor: Platform.OS === 'ios' ? primaryColorDark : 'transparent',
