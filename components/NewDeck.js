@@ -75,8 +75,8 @@ class NewDeck extends React.Component {
     //    ref definition(in TextInput), focusNextField, and constructor code)
     // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
 
-    // this.focusNextField('titleField');
-    this.refs.titleField.focus();
+    this.focusNextField('titleField');
+    // this.refs.titleField.focus();
     // this._input.focus();
 }
 
@@ -208,8 +208,8 @@ class NewDeck extends React.Component {
                        puts keyboard away
                     */
                     // ref={(c) => this._input = c}
-                    // ref={(input) => {this.inputs['titleField'] = input;}}
-                    ref="titleField"
+                    ref={(input) => {this.inputs['titleField'] = input;}}
+                    // ref="titleField"
                     returnKeyType={ "done" }
                     blurOnSubmit={false}    // No more refs to tab thru, so true
                     onSubmitEditing={() => {
