@@ -10,11 +10,15 @@ import { white, gray, primaryColor, primaryColorLight, primaryColorDark,
          isCorrectColor, isIncorrectColor
        } from '../utils/colors';
 
+// dev  TODO: only enable this import (and its invocation) while in dev
+import { augmentStylesToVisualizeLayout } from '../utils/helpers';
+
+
 class Deck extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { title } = navigation.state.params.deck;
-    return { title: `${title} Quiz Deck`}
+    return { title: `Quiz Deck: ${title}`}
   }
 
   state = {
@@ -37,6 +41,7 @@ class Deck extends React.Component {
   }
 
   onRename(){
+    // TODO:
     // console.log('in onRename');
     // // update DB
     // storageAPI.updateDeckTitle()
@@ -84,99 +89,95 @@ class Deck extends React.Component {
     return (
       /* Deck Info */
       <View style={styles.container}>
-        <View>
-          <Text style={styles.titleText}>Deck: {deck.title}</Text>
+
+        <View style={[{paddingTop:20, paddingBottom:20}]}>
+          <Text style={styles.titleText}>{deck.title}</Text>
           <Text style={styles.infoText}>
           {numCards} {(numCards === 1) ? 'Question' : 'Questions'}
           </Text>
         </View>
 
-        {/* btn: Take Quiz btn*/}
-        <StyledButton
-          customColor={isCorrectColor}
-          onPress={() => this.props.navigation.navigate(
-            'Quiz',
-            /* below passes in as: this.props.navigation.state.params.deck*/
-            { deck }
-          )}
-        >
-        Take Quiz !
-        </StyledButton>
-
-        {/* btn: Add a new Question/Answer Card */}
-        <StyledButton
-          customColor={primaryColor}
-          onPress={() => this.props.navigation.navigate(
-            'NewCard',
-            /* below passes in as: this.props.navigation.state.params.deck*/
-            { deck }
-          )}
-        >
-        Add a New Question
-        </StyledButton>
-
-        {/* btn: Rename Deck */}
-      {/* TODO: Implement..
-      <StyledButton
-          customColor={primaryColor}
-          onPress={() => this.onRename()}
-        >
-        Rename
-        </StyledButton>
-      */}
-
-        {/* btn: Edit Cards */}
-      {/* TODO: Implement..
-      <StyledButton
-          customColor={primaryColor}
-          onPress={() => navigateToCardListScreen (does not exist yet) }
-        >
-        Edit Question/Answer Cards
-        </StyledButton>
-      */}
-
-        {/* btn: Delete Deck */}
+        <View style={styles.buttonsContainer}>
+          {/* btn: Take Quiz btn*/}
           <StyledButton
-            customColor='#rgba(255, 0, 0, 0.5)'
-            onPress={() => this.onDelete()}
-            >
-            Delete (Cannot be Undone)
+            customColor={isCorrectColor}
+            onPress={() => this.props.navigation.navigate(
+              'Quiz',
+              /* below passes in as: this.props.navigation.state.params.deck*/
+              { deck }
+            )}
+          >
+          Take Quiz !
           </StyledButton>
+
+          {/* btn: Add a new Question/Answer Card */}
+          <StyledButton
+            customColor={primaryColor}
+            onPress={() => this.props.navigation.navigate(
+              'NewCard',
+              /* below passes in as: this.props.navigation.state.params.deck*/
+              { deck }
+            )}
+          >
+          Add a New Question
+          </StyledButton>
+
+          {/* btn: Rename Deck */}
+        {/* TODO: Implement..
+        <StyledButton
+            customColor={primaryColor}
+            onPress={() => this.onRename()}
+          >
+          Rename
+          </StyledButton>
+        */}
+
+          {/* btn: Edit Cards */}
+        {/* TODO: Implement..
+        <StyledButton
+            customColor={primaryColor}
+            onPress={() => navigateToCardListScreen (does not exist yet) }
+          >
+          Edit Question/Answer Cards
+          </StyledButton>
+        */}
+
+          {/* btn: Home (DeckList) */}
+            <StyledButton
+              customColor={primaryColorLight}
+              onPress={() => this.props.navigation.navigate('Home')}
+              >
+              Home (Quiz Deck List)
+            </StyledButton>
+
+          {/* btn: Delete Deck */}
+            {/* TODO: Verification:
+                1)Modal "Are You Sure OR
+                2)TextInput type "Delete" to verify.
+           */}
+            <StyledButton
+              customColor='#rgba(255, 0, 0, 0.5)'
+              onPress={() => this.onDelete()}
+              >
+              Delete (Cannot be Undone)
+            </StyledButton>
+          </View>
+
       </View>
     );
   }
 }
 
 
-// // TODO: adjust styles to resemble Quiz.
-// //   use below to help with alignment.
-// const testing = false;
-// const borderWidth = testing ? 2 : 0;
-
-//     //TEMP
-//     borderColor: 'red'  (containers)
-//     borderWidth,
-//     borderColor: 'blue' (text)
-//     borderWidth,
-
-const styles = StyleSheet.create({
+let componentStyles = {
+  // CONTAINER styles
   container: {
     flex: 1,
     backgroundColor: white,
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-  titleText: {
-    fontSize: 27,
-    color: primaryColor,
-    alignSelf: 'center',
-  },
-  infoText: {
-    fontSize: 20,
-    color: gray,
-    alignSelf: 'center',
-  },
-  item: {
+  cardContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -196,7 +197,43 @@ const styles = StyleSheet.create({
       height: 3,
     },
   },
+  buttonsContainer: {
+    flex: 9,
+    alignSelf: 'stretch',
+    justifyContent: 'space-around',
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    margin: 10,
+  },
+  // TEXT Styles
+  titleText: {
+    fontSize: 27,
+    color: primaryColor,
+    alignSelf: 'center',
+  },
+  infoText: {
+    fontSize: 20,
+    color: gray,
+    alignSelf: 'center',
+  },
+};
+
+
+// TODO: use below to modify styles to better match DeckList, NewDeck, NewCard
+
+const viewStyleLayout = false;
+  // set to `false` for normal view, and production.
+  // set to `true`  to troubleshoot/test/visualize style layouts
+  //         Adds border outlines to styles to aid in UI layout design
+  //         Use only temporarily for editing styles/layout/UI-design.
+  if (viewStyleLayout) {componentStyles = augmentStylesToVisualizeLayout(componentStyles);}
+
+
+const styles = StyleSheet.create({
+  ...componentStyles,
 });
+
 
 Deck.propTypes = {
   // - props.navigation.navigate
