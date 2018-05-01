@@ -7,7 +7,7 @@ import { StyleSheet, Text, View,
 
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 // Components
 import DeckList from './components/DeckList';
@@ -18,7 +18,7 @@ import NewCard from  './components/NewCard';
 
 // Constants, Helpers, Api's
 import { setLocalNotification } from './utils/helpers'
-import { white, primaryColor, primaryColorDark } from './utils/colors';
+import { white, primaryColor } from './utils/colors';
 
 // hide react-native deprecation warnings in emulator
 import {YellowBox} from 'react-native';
@@ -69,9 +69,9 @@ const Tabs = TabNavigator(
     DeckList: {
       screen: DeckList,
       navigationOptions: {
-        tabBarLabel: 'Quiz Decks',
+        tabBarLabel: 'Deck List',
         tabBarIcon: ({ tintColor }) =>  // icons only show in ios
-          <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+          <Entypo name='list' size={30} color={tintColor} />
       },
     },
     NewDeck: {
@@ -79,7 +79,7 @@ const Tabs = TabNavigator(
       navigationOptions: {
         tabBarLabel: 'Create New Deck',
         tabBarIcon: ({ tintColor }) => // icons only show in ios
-          <FontAwesome name='plus-square' size={30} color={tintColor} />
+          <Entypo name='add-to-list' size={30} color={tintColor} />
       },
     },
   },
@@ -99,8 +99,8 @@ const Tabs = TabNavigator(
 
       // little underline thingy on selected tab in android
       indicatorStyle: {
-        backgroundColor: primaryColorDark,  // default is yellow
-        height: 3,  // defaults to 2
+        backgroundColor: white, //primaryColor,//primaryColorDark,  // default is yellow
+        // height: 3,  // defaults to 2
       },
 
       style: {
@@ -111,10 +111,10 @@ const Tabs = TabNavigator(
         shadowColor: 'rgba(0, 0, 0, 0.24)',
         shadowOffset: {
           width: 0,
-          height: 3
+          height:     Platform.OS === 'ios' ? 3 : 0,
         },
-        shadowRadius: 6,
-        shadowOpacity: 1
+        shadowRadius: Platform.OS === 'ios' ? 6 : 0,
+        shadowOpacity: 1,
       }
     }
   }

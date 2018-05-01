@@ -8,9 +8,9 @@ import AppHeader from '../components/AppHeader';
 import Deck      from '../components/Deck';
 import Quiz      from '../components/Quiz';
 // Constants, Helpers, Api's
-import { retrieveDecks }                     from '../utils/api';
-import { augmentStylesToVisualizeLayout } from '../utils/helpers';
-import { white, gray, primaryColor }      from '../utils/colors';
+import { retrieveDecks }                               from '../utils/api';
+import { augmentStylesToVisualizeLayout }              from '../utils/helpers';
+import { white, gray, primaryColor, primaryColorDark } from '../utils/colors';
 
  // class DeckList extends React.Component {
  class DeckList extends React.Component {
@@ -208,7 +208,7 @@ let componentStyles = {
   },
   infoText: {
     fontSize: 20,
-    color: gray,
+    color: Platform.OS === 'ios' ? gray : primaryColorDark,
   },
 };
 

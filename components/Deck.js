@@ -214,7 +214,7 @@ let componentStyles = {
   },
   infoText: {
     fontSize: 20,
-    color: gray,
+    color: primaryColorDark,
     alignSelf: 'center',
   },
 };

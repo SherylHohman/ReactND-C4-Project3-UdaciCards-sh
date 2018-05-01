@@ -63,7 +63,6 @@ class NewDeck extends React.Component {
     }
     else {
     // deck not passed in (ie got here by clicking on tab, not via internal nav, or from a link)
-      console.log('NewDeck.cDM decks not passed in,so fetching" them..', this.props);
       retrieveDecks()
         .then((decksObj) => {
           // not expected to change during life of this component
@@ -280,7 +279,7 @@ let textInputProps = {
   //  removal of "tab" and "newline" keystrokes/characters
 
   autoCapitalize: 'words',
-  placeholderTextColor: gray,
+  placeholderTextColor: primaryColorDark,
   selectionColor: primaryColorLight,
 }
 if (Platform.OS==='ios'){
@@ -336,7 +335,7 @@ let componentStyles = {
   instructionsText: {
     flex: 1,
     fontSize: 20,
-    color: primaryColorDark,
+    color: Platform.OS === 'ios' ? primaryColor : primaryColor,
 
     alignSelf: 'center',
     textAlign: 'center',

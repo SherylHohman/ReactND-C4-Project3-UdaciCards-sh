@@ -8,8 +8,7 @@ import PropTypes from 'prop-types';
 // Components
 import StyledButton from '../components/StyledButton';
 // Constants, Helpers, Api's
-import { retrieveDecks }    from '../utils/api';
-import { saveCard } from '../utils/api';
+import { retrieveDecks, saveCard } from '../utils/api';
 // Constants, Helpers
 import { titleCase, collapseSpaces }
   from '../utils/helpers';
@@ -37,7 +36,7 @@ class NewCard extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { deck } = navigation.state.params;
-    return { title: `${deck.title}: (add Q/A card)`}
+    return { title: `${deck.title}: (Question | Answer)`}
   }
 
   state = {
@@ -342,7 +341,7 @@ let textInputProps = {
   //  removal of "tab" and "newline" keystrokes/characters
 
   autoCapitalize: 'sentences',  //this is Not Working on Android!
-  placeholderTextColor: gray,
+  placeholderTextColor: primaryColorDark,
   selectionColor: primaryColorLight,
 }
 if (Platform.OS==='ios'){

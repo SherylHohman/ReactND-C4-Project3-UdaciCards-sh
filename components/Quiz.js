@@ -189,8 +189,8 @@ class Quiz extends React.Component {
             <View style={styles.label}>
               {isQuestionView
                 /* Heading: "Question" or "Answer" */
-                  ? <Text style={[styles.infoText,{color: primaryColorDark}]}>Question:</Text>
-                  : <Text style={[styles.infoText,{color: primaryColorDark}]}>Answer:</Text>
+                  ? <Text style={[styles.infoText]}>Question:</Text>
+                  : <Text style={[styles.infoText]}>Answer:</Text>
               }
             </View>
 
@@ -210,8 +210,8 @@ class Quiz extends React.Component {
               >
               {isQuestionView
                 /* button to show The Question, or The Answer */
-                ? <Text style={[styles.infoText,{color: primaryColorDark}]}>(view Answer)</Text>
-                : <Text style={[styles.infoText,{color: primaryColorDark}]}>(view Question)</Text>
+                ? <Text style={[styles.infoText]}>(view Answer)</Text>
+                : <Text style={[styles.infoText]}>(view Question)</Text>
               }
             </TouchableOpacity>
 
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 20,
-    color: gray,
+    color: primaryColorDark,
     alignSelf: 'center',
   },
 

@@ -3,7 +3,8 @@ import { StyleSheet, Text, View , TouchableOpacity} from 'react-native';
 import { Platform } from 'react-native';
 import PropTypes from 'prop-types';
 // Constants, Helpers, Api's
-import { white, gray, primaryColor, primaryColorLight, primaryColorDark } from '../utils/colors';
+import { white, gray, primaryColor, primaryColorLight, primaryColorDark,
+       } from '../utils/colors';
 
 const AppHeader = ({ children }) => {
     return (
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     marginBottom: 10,
-    borderRadius: Platform.OS === 'ios' ? 10 : 4,
+    borderRadius: Platform.OS === 'ios' ? 4 : 0,
   },
   iosHeaderShadow: {
     shadowRadius: 2,
