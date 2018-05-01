@@ -77,9 +77,6 @@ export function saveDeckTitle(title){
       console.log('mergeItem ERROR:', err);
       return err;
     });
-
-  console.log('api.saveDeckTitle, should not get this far.. exiting saveDeckTitle, newDeck:', newDeck);
-  return newDeck;
 };
 
 // // Note, `title` *could* be ambiguous, so I'm taking in `id` instead
@@ -122,6 +119,12 @@ export function saveCard(deckData, questionObject){
 
     return deckData;
 };
+
+
+//  TODO: implement:
+//        - delete      Card
+//        - edit/update Card
+//        - rename      Deck
 
 
 // export function updateCard( {deckId, cardIndex, card} ){

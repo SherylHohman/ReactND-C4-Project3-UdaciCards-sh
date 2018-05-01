@@ -174,8 +174,6 @@ class NewDeck extends React.Component {
         this.props.navigation.navigate('Home');
         return (err);
       });
-
-    console.log('..exiting NewDeck onSubmit (but the async saveDeckTitle is probably still running)');
   }
 
   render() {

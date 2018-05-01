@@ -34,7 +34,6 @@ class Deck extends React.Component {
   }
 
   componentDidMount(){
-    console.log('\n __Decks.cDM__, this.props:', this.props, '\n');
     // for convenience
     const deck = this.props.navigation.state.params.deck;
     this.setState({ deck });
@@ -52,7 +51,6 @@ class Deck extends React.Component {
 
   onDelete(){
     const id = this.state.deck.title;
-    console.log('____Deck.js____, onDelete, deck id:', id);
 
     // update DB
     storageAPI.removeDeck(id)
