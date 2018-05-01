@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity,
-         TextInput, KeyboardAvoidingView,
+         TextInput, KeyboardAvoidingView, ScrollView,
          StyleSheet, Platform,
        } from 'react-native';
 import PropTypes from 'prop-types';
@@ -48,8 +48,9 @@ class NewDeck extends React.Component {
     //  opens keyboard automatically !! (in conjunction with:
     //  ref definition(in TextInput), focusNextField, and constructor code)
     // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
-    this.focusNextField('titleField');
 
+    // this.focusNextField('titleField');
+    // this.refs.titleField.focus();
 
     // if decks is passed in (ie link from DeckList, where decks is known to be an EMPTY array)
     let decksArray = (this.props.navigation &&
@@ -74,7 +75,10 @@ class NewDeck extends React.Component {
     // SHOULD Open keyboard automatically !! (in conjunction with:
     //    ref definition(in TextInput), focusNextField, and constructor code)
     // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
-    this.focusNextField('titleField');
+
+    // this.focusNextField('titleField');
+    this.refs.titleField.focus();
+    // this._input.focus();
 }
 
   // for automatically "tabbing" through fields, and setting focus fiels at cDM
@@ -180,53 +184,65 @@ class NewDeck extends React.Component {
       return (
           <View style={styles.container}>
             <View style={[{flex: 1}]}>
+              <KeyboardAvoidingView {...keyboardAvoidingViewProps}>
               <Text  style={styles.instructionsText}
                 >
                 Title for your New Deck
               </Text>
 
-              <KeyboardAvoidingView {...keyboardAvoidingViewProps}>
-                <TextInput {...textInputProps}
-                  style={styles.textInput}
-                  width={this.state.textInputContainerWidth || 300}
-                  value={this.state.title}
-                  onChangeText={(title) => this.controlledTextInput(title)}
+                <ScrollView
+                  // scrollview is Not Needed. Added *in case* this was the difference that allowed
+                  // keyboard to auto pop-up in NewCard, but Not Here in NewDeck.
+                  // did not help.  I set EVERY prop and style and method to be
+                  // the same as NewDeck, yet keyboard does Not auto pop-up,
+                  // and TextInput does Not auto focus! I Give Up!
+                  // ..but for now I'm leaving these code attempts in place
+                  // (some commented out, others not)
+                  keyboardShouldPersistTaps='handled'
+                  >
+                  <TextInput {...textInputProps} placeholder='Quiz Deck Title'
+                    style={styles.textInput}
+                    width={this.state.textInputContainerWidth || 300}
+                    value={this.state.title}
+                    onChangeText={(title) => this.controlledTextInput(title)}
 
-                  /* (so can tab between input fields, while keeping keyboard up),
-                     submits on "enter", since it is the last input field,
-                     puts keyboard away
-                  */
-                  ref={(input) => {this.inputs['titleField'] = input}}
-                  returnKeyType={ "done" }
-                  blurOnSubmit={true}    // No more refs to tab thru, so true
-                  onSubmitEditing={() => {
-                    // No more refs/TextInputs to tab thru, - so submit!
-                    this.onSubmit();
-                  }}
-                  />
+                    /* (so can tab between input fields, while keeping keyboard up),
+                       submits on "enter", since it is the last input field,
+                       puts keyboard away
+                    */
+                    // ref={(c) => this._input = c}
+                    // ref={(input) => {this.inputs['titleField'] = input;}}
+                    ref="titleField"
+                    returnKeyType={ "done" }
+                    blurOnSubmit={false}    // No more refs to tab thru, so true
+                    onSubmitEditing={() => {
+                      // No more refs/TextInputs to tab thru, - so submit!
+                      this.onSubmit();
+                    }}
+                    />
 
-                <Text style={{color:'red', textAlign:'center', margin:5}}>
-                  {/* space prevents input box from jumping when error message appears/disappears */}
-                  {' ' + this.state.errorMessage}
-                </Text>
+                  <Text style={{color:'red', textAlign:'center', margin:5}}>
+                    {/* space prevents input box from jumping when error message appears/disappears */}
+                    {' ' + this.state.errorMessage}
+                  </Text>
+                </ScrollView>
+                </KeyboardAvoidingView>
+              </View>
 
-              </KeyboardAvoidingView>
-            </View>
-
-            <KeyboardAvoidingView
-              {...keyboardAvoidingViewProps}
-              style={[styles.buttonsContainer]}
-              >
-              <StyledButton
-                style={[styles.buttonContainer, style={flex: 2}]}
-                onPress={ () => this.onSubmit()}
-                disabled={!this.canSubmit()}
+              <KeyboardAvoidingView
+                {...keyboardAvoidingViewProps}
+                style={[styles.buttonsContainer]}
                 >
-                <Text>
-                  Submit
-                </Text>
-              </StyledButton>
-            </KeyboardAvoidingView>
+                <StyledButton
+                  style={[styles.buttonContainer]}
+                  onPress={ () => this.onSubmit()}
+                  disabled={!this.canSubmit()}
+                  >
+                  <Text>
+                    Submit
+                  </Text>
+                </StyledButton>
+               </KeyboardAvoidingView>
           </View>
       );
 
@@ -234,11 +250,14 @@ class NewDeck extends React.Component {
 }
 
 let textInputProps = {
-  placeholder: 'Quiz Deck Title',
   // autoFocus: true,
 
   maxLength: 25,
-  returnKeyType: 'send',
+  // numlines: 2,
+  // multiline: true,  //temp to see if I can get keyboard to pop up
+
+  // if multiline, "enter" key, aka TextInput's "submit" triggers ,
+  //   onSubmitEditing, instead of adding a newline
 
   // if blurOnSubmit, "return" does Not get captured by TextInput;
   //   instead, it triggers onSubmitEditing.
@@ -255,10 +274,8 @@ let textInputProps = {
   //    Invalid if multiline={true} is specified.
   //    (docs seem to have a contradiction! )
 
-  // blurOnSubmit: false,
+  // blurOnSubmit: true,
 
-  //   // if multiline, "enter" key will "submit", instead of adding a newline
-  //   blurOnSubmit=true,
   // TODO: might need to write an onKeyPress function to handle
   //  removal of "tab" and "newline" keystrokes/characters
 
