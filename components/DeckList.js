@@ -132,7 +132,6 @@ import { white, gray, primaryColor }      from '../utils/colors';
     }
 
     // Show Quiz Deck List
-      // <View style={styles.container}>
     return (
       <ScrollView contentContainerStyle={styles.contentContainer}>
           <AppHeader>
@@ -213,16 +212,18 @@ let componentStyles = {
   },
 };
 
-// set to `false` for normal view, and production.
-// set to `true`  to troubleshoot/test/visualize style layouts
-//         Adds border outlines to styles to aid in UI layout design
-//         Use only temporarily for editing styles/layout/UI-design.
 const viewStyleLayout = false;
-if (viewStyleLayout) {componentStyles = augmentStylesToVisualizeLayout(componentStyles);}
+  // set to `false` for normal view, and production.
+  // set to `true`  to troubleshoot/test/visualize style layouts
+  //         Adds border outlines to styles to aid in UI layout design
+  //         Use only temporarily for editing styles/layout/UI-design.
+  if (viewStyleLayout) {componentStyles = augmentStylesToVisualizeLayout(componentStyles);}
+
 
 const styles = StyleSheet.create({
   ...componentStyles,
 });
+
 
 DeckList.propTypes = {
   // - props.navigation.navigate

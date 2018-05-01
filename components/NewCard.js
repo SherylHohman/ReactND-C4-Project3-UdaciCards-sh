@@ -193,6 +193,7 @@ class NewCard extends React.Component {
     if (!this.canSubmit()) {return;}
 
     // Force Close the keyboard !!
+    // In DeckList, it closes automatically. Dunno why it was NOT closing here..
     Keyboard.dismiss();
 
     const { deck } = this.state;
@@ -202,9 +203,12 @@ class NewCard extends React.Component {
     // send to "DB"
     saveCard(deck, { question, answer })
       .then((deck)=>{
-        // add new title to existing titles, so cannot be-resubmitted if
-        //  user clicks "back" button and the "submit title" screen appears
-        //  with the same info that had just submitted.
+
+        // add new title to existing titles, so cannot be-resubmitted
+        //  WHY: if user clicks "back" button and the "submit title" screen
+        //  appears with the same info that had just submitted, allowing it to
+        //  be submitted again, duplicating the card.
+        //  This ensures a re-submit would be invalid, as the Q is known to already exist.
         this.setState(prevState => {
           return {
             existingQuestions: prevState.existingQuestions.concat([this.state.question]),
@@ -212,7 +216,7 @@ class NewCard extends React.Component {
         });
 
         // if was using redux, could navigate without waiting on a `then`..
-        //  since I'm not,  must get updated value for deck from AsyncStorage
+        //  since I'm not, must wait for AsyncStorage to update value for deck
         this.props.navigation.navigate('Deck', { deck });
       })
 
@@ -311,17 +315,13 @@ const keyboardAvoidingViewProps = {
   behavior: 'padding',
 };
 
-
-// TODO: Why is the keyboard no longer CLOSING at onSubmit ??
-//       It *does* close for NewDeck (but will not open at cDM) :-/
-
 let textInputProps = {
   // autoFocus: true,     // strange behavior - don't use
   maxLength: 70,          // max number of characters allowed
   numlines:   3,          // :-( no effect really ) -- does *not* initialize text box to be 3 lines
+
   // if multiline, "enter" key, aka TextInput's "submit" triggers onSubmitEditing,
   // instead of adding a newline
-
   multiline: true,
 
   // if blurOnSubmit, "return" does Not get captured by TextInput;
@@ -356,17 +356,14 @@ if (Platform.OS==='ios'){
 if (Platform.OS==='android'){
   textInputProps = {
     ...textInputProps,
-    underlineColorAndroid: primaryColorDark,
+    underlineColorAndroid: primaryColorLight,
   }
 }
+// TODO:
+   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
+   /* onBlur={(title) => this.setState({title: title.trim()})} */
+   /* clearButtonMode={"while-editing"} */
 
-//   // TODO:
-//   /* onEndEditing={(title) => this.setState({title: title.trim()})} */
-//   /* onBlur={(title) => this.setState({title: title.trim()})} */
-//   /* clearButtonMode={"while-editing"} */
-
-
-// TODO: DELETE UNUSED STYLES
 
 let componentStyles = {
   // CONTAINER styles
@@ -424,20 +421,23 @@ let componentStyles = {
     paddingBottom: 10,
 
     borderWidth: Platform.OS === 'ios' ? 1 : 0,
-    borderColor: Platform.OS === 'ios' ? gray : 'transparent',
+    borderColor: Platform.OS === 'ios' ? primaryColorDark : 'transparent',
   },
 };
 
-// set to `false` for normal view, and production.
-// set to `true`  to troubleshoot/test/visualize style layouts
-//         Adds border outlines to styles to aid in UI layout design
-//         Use only temporarily for editing styles/layout/UI-design.
+
 const viewStyleLayout = false;
-if (viewStyleLayout) {componentStyles = augmentStylesToVisualizeLayout(componentStyles);}
+  // set to `false` for normal view, and production.
+  // set to `true`  to troubleshoot/test/visualize style layouts
+  //         Adds border outlines to styles to aid in UI layout design
+  //         Use only temporarily for editing styles/layout/UI-design.
+  if (viewStyleLayout) {componentStyles = augmentStylesToVisualizeLayout(componentStyles);}
+
 
 const styles = StyleSheet.create({
   ...componentStyles,
 });
+
 
 NewCard.propTypes = {
   // - props.navigation.navigate
