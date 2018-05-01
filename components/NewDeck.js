@@ -198,10 +198,10 @@ class NewDeck extends React.Component {
 
             <KeyboardAvoidingView
               {...keyboardAvoidingViewProps}
-              style={[styles.buttonsContainer, styles.buttonContainer]}
+              style={[styles.buttonsContainer]}
               >
               <StyledButton
-                style={[styles.item, style={flex: 2}]}
+                style={[styles.buttonContainer, style={flex: 2}]}
                 onPress={ () => this.onSubmit()}
                 disabled={!this.canSubmit()}
                 >
@@ -257,7 +257,7 @@ if (Platform.OS==='ios'){
 if (Platform.OS==='android'){
   textInputProps = {
     ...textInputProps,
-    underlineColorAndroid: primaryColorDark,
+    underlineColorAndroid: primaryColorLight,
   }
 }
 
@@ -327,7 +327,7 @@ let componentStyles = {
   instructionsText: {
     flex: 1,
     fontSize: 20,
-    color: gray,
+    color: primaryColorDark,//gray,
 
     alignSelf: 'center',
     textAlign: 'center',

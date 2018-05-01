@@ -37,7 +37,7 @@ class NewCard extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { deck } = navigation.state.params;
-    return { title: `${deck.title}`}
+    return { title: `${deck.title}: (add Q/A card)`}
   }
 
   state = {
@@ -293,7 +293,7 @@ class NewCard extends React.Component {
                   </View>
 
                   <StyledButton
-                    style={[styles.item, style={flex: 2}]}
+                    style={[styles.buttonsContainer, styles.buttonContainer]}
                     onPress={() => this.onSubmit()}
                     disabled={!this.canSubmit()}
                     >
@@ -399,7 +399,7 @@ let componentStyles = {
     marginBottom:20,
   },
   buttonsContainer: {
-    flex: 3,
+    flex: 2,
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
   },
