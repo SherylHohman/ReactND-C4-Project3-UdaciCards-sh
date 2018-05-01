@@ -53,7 +53,7 @@ class NewCard extends React.Component {
       answer:   false,
     },
 
-    // not expected to change after component mounts
+    // not expected to change after component mounts, until it has been saved to "DB"
     // (if using redux, these would be props instead, and set by selectors in mSTP)
     deck: null,
     existingQuestions: [],
@@ -78,9 +78,9 @@ class NewCard extends React.Component {
     else {
       console.log('NewCards.cDM, ERROR: did not receive deck, or there is an error with its questions, deck:', deck);
     }
+  //  ref definitions, focusNextField, and constructor code)
 
   //  opens keyboard automatically !! (in conjunction with:
-  //  ref definitions, focusNextField, and constructor code)
     this.focusNextField('question');
   }
 
@@ -317,12 +317,13 @@ const keyboardAvoidingViewProps = {
 
 let textInputProps = {
   // autoFocus: true,     // strange behavior - don't use
-  maxLength: 70,          // max number of characters allowed
+
+  maxLength: 70,          // max number of Characters allowed
   numlines:   3,          // :-( no effect really ) -- does *not* initialize text box to be 3 lines
 
-  // if multiline, "enter" key, aka TextInput's "submit" triggers onSubmitEditing,
-  // instead of adding a newline
   multiline: true,
+  // if multiline, "enter" key, aka TextInput's "submit" triggers
+  //   onSubmitEditing, instead of adding a newline
 
   // if blurOnSubmit, "return" does Not get captured by TextInput;
   //   triggers onSubmitEditing.

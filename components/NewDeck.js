@@ -36,20 +36,20 @@ class NewDeck extends React.Component {
     beenTouched: false,
     errorMessage: '',
 
-    // not expected to change once decks is "fetched" in cDM
-    // (if using redux, this would be in props instead, and determined by mSTP selector)
+    // not expected to change after component mounts, until it has been saved to "DB"
+    // (if using redux, these would be props instead, and set by selectors in mSTP)
     existingTitles: [],
   }
 
   componentDidMount () {
+    //TODO: fetchDecks in App.js instead, and pass decks in to via TabNavigator
+    //      (to both tabs: NewDeck -and- DeckList)
 
     //  opens keyboard automatically !! (in conjunction with:
     //  ref definition(in TextInput), focusNextField, and constructor code)
     // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
     this.focusNextField('titleField');
 
-    //TODO: fetchDecks in App.js instead, and pass decks in to via TabNavigator
-    //      (to both tabs: NewDeck -and- DeckList)
 
     // if decks is passed in (ie link from DeckList, where decks is known to be an EMPTY array)
     let decksArray = (this.props.navigation &&
@@ -71,7 +71,7 @@ class NewDeck extends React.Component {
         });
     }
 
-    // Opens keyboard automatically !! (in conjunction with:
+    // SHOULD Open keyboard automatically !! (in conjunction with:
     //    ref definition(in TextInput), focusNextField, and constructor code)
     // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
     this.focusNextField('titleField');
@@ -83,7 +83,7 @@ class NewDeck extends React.Component {
   }
 
   controlledTextInput(prevTitle){
-    // used as a "DB" key, so stripping characters
+    // used as a "DB"/storage key, so stripping characters
     const title = titleCase(stripInvalidChars(prevTitle));
 
     const isEmptyStringErrorMessage = this.isEmptyStringErrorMessage(title);
@@ -219,11 +219,9 @@ class NewDeck extends React.Component {
 let textInputProps = {
   placeholder: 'Quiz Deck Title',
   // autoFocus: true,
+
   maxLength: 25,
-  autoCapitalize: 'words',
   returnKeyType: 'send',
-  placeholderTextColor: gray,
-  selectionColor: primaryColorLight,
 
   // if blurOnSubmit, "return" does Not get captured by TextInput;
   //   instead, it triggers onSubmitEditing.
@@ -244,6 +242,10 @@ let textInputProps = {
 
   //   // if multiline, "enter" key will "submit", instead of adding a newline
   //   blurOnSubmit=true,
+
+  autoCapitalize: 'words',
+  placeholderTextColor: gray,
+  selectionColor: primaryColorLight,
 }
 if (Platform.OS==='ios'){
   textInputProps = {
@@ -260,14 +262,6 @@ if (Platform.OS==='android'){
     underlineColorAndroid: primaryColorLight,
   }
 }
-
-    // TODO: get height of soft Kyeboard
-    //       - edit layout design to render in the area unoccupied by the
-    //         keyboard (even when it is not showing),
-    //         but allow it to take up more vertical space if needed,
-    //         (but only while keyboard is *not* showing)
-    //         also add scrollView just in case, so user can access hidden content.
-
     // TODO:
     /* onEndEditing={(title) => this.setState({title: title.trim()})} */
     /* onBlur={(title) => this.setState({title: title.trim()})} */
@@ -292,27 +286,6 @@ let componentStyles = {
     paddingTop: 30,
     paddingBottom: 5,
   },
-  cardContainer: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignSelf: 'stretch',
-    backgroundColor: '#fefefe',
-
-    padding:     20,
-    marginLeft:  30,
-    marginRight: 30,
-    marginTop:   10,
-    borderRadius: Platform.OS === 'ios' ? 20 : 10,
-
-    shadowRadius: 3,
-    shadowOpacity: 0.8,
-    shadowColor: 'rgba(0, 0, 0, 0.24)',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    marginBottom:20,
-  },
   buttonsContainer: {
     flex: 1,
     alignSelf: 'stretch',
@@ -327,7 +300,7 @@ let componentStyles = {
   instructionsText: {
     flex: 1,
     fontSize: 20,
-    color: primaryColorDark,//gray,
+    color: primaryColorDark,
 
     alignSelf: 'center',
     textAlign: 'center',
@@ -358,6 +331,7 @@ const viewStyleLayout = false;
 const styles = StyleSheet.create({
   ...componentStyles,
 });
+
 
 NewDeck.propTypes = {
   // - props.navigation.navigate
