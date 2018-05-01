@@ -29,8 +29,6 @@ class NewDeck extends React.Component {
     this.inputs = {};
   }
 
-  // TODO: static.. add TabNavigator Header (optional)
-
   state = {
     title: '',
     beenTouched: false,
@@ -39,6 +37,8 @@ class NewDeck extends React.Component {
     // not expected to change after component mounts, until it has been saved to "DB"
     // (if using redux, these would be props instead, and set by selectors in mSTP)
     existingTitles: [],
+
+    textInputContainerWidth: undefined,
   }
 
   componentDidMount () {
@@ -80,6 +80,22 @@ class NewDeck extends React.Component {
   // for automatically "tabbing" through fields, and setting focus fiels at cDM
   focusNextField(id) {
     this.inputs[id].focus();
+  }
+
+  getWidth = event => {
+    // gets dimensions of View containing TextInputs,
+    //    so can set the TextInput equal to the width of their containing component
+    //    The value is calculated During FIRST render,
+    //    Then during SECOND render, the TextInput can use the values in state
+    //      to set their own width
+
+    // (this is SECOND render) layout was already called, and width has been set
+    if (this.state.textInputContainerWidth) return
+
+    // FRIST render sets width
+    let { width } = event.nativeEvent.layout;
+    width = width - styles.cardContainer.paddingLeft - styles.cardContainer.paddingRight;
+    this.setState({textInputContainerWidth: width});
   }
 
   controlledTextInput(prevTitle){
@@ -166,12 +182,13 @@ class NewDeck extends React.Component {
             <View style={[{flex: 1}]}>
               <Text  style={styles.instructionsText}
                 >
-                Title for your New Quiz Deck
+                Title for your New Deck
               </Text>
 
               <KeyboardAvoidingView {...keyboardAvoidingViewProps}>
                 <TextInput {...textInputProps}
                   style={styles.textInput}
+                  width={this.state.textInputContainerWidth || 300}
                   value={this.state.title}
                   onChangeText={(title) => this.controlledTextInput(title)}
 
@@ -242,6 +259,8 @@ let textInputProps = {
 
   //   // if multiline, "enter" key will "submit", instead of adding a newline
   //   blurOnSubmit=true,
+  // TODO: might need to write an onKeyPress function to handle
+  //  removal of "tab" and "newline" keystrokes/characters
 
   autoCapitalize: 'words',
   placeholderTextColor: gray,
