@@ -1,5 +1,31 @@
 {
   "expo": {
-    "sdkVersion": "26.0.0"
+    "sdkVersion": "26.0.0",
+    "name": "UdaciCards-sh",
+    "description": "A FlashCard-like app for android and ios",
+    "slug": "sh-udacicards",
+    "privacy": "public",
+    "version": "1.2",
+    "githubUrl": "https://github.com/SherylHohman/ReactND-C4-Project3-UdaciCards-sh",
+    "orientation": "portrait",
+    "primaryColor": "#f26f28",
+    "icon": "https://github.com/SherylHohman/ReactND-C4-Project3-UdaciCards-sh/blob/master/UdaciCards-SH-icon.png",
+    "notification": {
+      "icon": "https://github.com/SherylHohman/ReactND-C4-Project3-UdaciCards-sh/blob/master/UdaciCards-SH-icon-small.png",
+      "color": "#f26f28",
+    },
+    "ios": {
+      "bundleIdentifier": "com.yahoo.SherylHohman.udacicards.exp"
+    },
+    "android": {
+      "package": "com.yahoo.SherylHohman.udacicards.exp"
+    }
   }
 }
+
+/* Package names (linked to by expo docs)
+https://stackoverflow.com/questions/6273892/android-package-name-convention
+especially this answer:
+https://stackoverflow.com/a/12502019/5411817
+*/
+
