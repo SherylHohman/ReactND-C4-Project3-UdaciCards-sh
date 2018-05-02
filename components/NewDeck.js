@@ -25,12 +25,23 @@ class NewDeck extends React.Component {
     super(props);
 
   // for automatically "tabbing" through fields
-    this.focusNextField = this.focusNextField.bind(this);
-    this.inputs = {};
+    // this.focusNextField = this.focusNextField.bind(this);
+    // this.inputs = {};
 
     // this.titleRef = React.createRef();
     // console.log('NewDeck.constructor, titleRef', this.titleRef);
     // this.focusTextInput = this.focusTextInput.bind(this);
+
+    this.textInput = null;
+
+    this.setTextInputRef = element => {
+      this.textInput = element;
+    };
+
+    this.focusTextInput = () => {
+      // Focus the text input using the raw DOM API
+      if (this.textInput) this.textInput.focus();
+    };
   }
 
   state = {
@@ -79,7 +90,10 @@ class NewDeck extends React.Component {
     //    ref definition(in TextInput), focusNextField, and constructor code)
     // TODO: why does this *Not* bring keyboard up ?? It *does* in NewCard.. !!??
 
-    this.focusNextField('titleField');
+    // this.focusNextField('titleField');
+
+    //---
+
     // this.refs.titleField.focus();
     // this._input.focus();
 
@@ -106,6 +120,13 @@ class NewDeck extends React.Component {
     // this.focusTextInput();
 
     // console.log('..called focusTextInput. \n');
+
+    //---
+
+    // autofocus the input on mount
+    this.focusTextInput();
+
+
 }
 
   focusTextInput() {
@@ -116,10 +137,10 @@ class NewDeck extends React.Component {
     }
   }
 
-  // for automatically "tabbing" through fields, and setting focus fiels at cDM
-  focusNextField(id) {
-    this.inputs[id].focus();
-  }
+  // for automatically setting focus field at cDM
+  // focusNextField(id) {
+  //   this.inputs[id].focus();
+  // }
 
   getWidth = event => {
     // gets dimensions of View containing TextInputs,
@@ -275,7 +296,8 @@ class NewDeck extends React.Component {
                        puts keyboard away
                     */
                     // ref={(c) => this._input = c}
-                    ref={(input) => {this.inputs['titleField'] = input;}}
+                    // ref={(input) => {this.inputs['titleField'] = input;}}
+                    ref={this.setTextInputRef}
                     // ref="titleField"
                     // ref={this.titleRef}
                     returnKeyType={ "done" }
