@@ -27,6 +27,10 @@ class NewDeck extends React.Component {
   // for automatically "tabbing" through fields
     this.focusNextField = this.focusNextField.bind(this);
     this.inputs = {};
+
+    // this.titleRef = React.createRef();
+    // console.log('NewDeck.constructor, titleRef', this.titleRef);
+    // this.focusTextInput = this.focusTextInput.bind(this);
   }
 
   state = {
@@ -78,7 +82,39 @@ class NewDeck extends React.Component {
     this.focusNextField('titleField');
     // this.refs.titleField.focus();
     // this._input.focus();
+
+    // console.log('\n in NewDeck.cDM');
+    // if (this.titleRef) {
+    //   console.log('titleRef');
+    //   // console.log('titleRef', this.titleRef);
+    //   if (this.titleRef.focus){
+    //     console.log('titleRef.focus');
+    //     this.titleRef.focus();
+    //   }
+    // }
+    // // "current" is to get the DOM node - probably only at 2nd render
+    // if (this.titleRef.current) {
+    //   console.log('titleRef.current');
+    //   // console.log('titleRef.current', this.titleRef.current);
+    //   if (this.titleRef.current.focus){
+    //     console.log('titleRef.current.focus');
+    //     this.titleRef.current.focus();
+    //   }
+    // }
+    // console.log('this.inputs:', this.inputs);
+
+    // this.focusTextInput();
+
+    // console.log('..called focusTextInput. \n');
 }
+
+  focusTextInput() {
+    // Explicitly focus the text input using the raw DOM API
+    // Note: we're accessing "current" to get the DOM node
+    if (this.textInput && textInput.current && textInput.current.focus){
+      this.textInput.current.focus();
+    }
+  }
 
   // for automatically "tabbing" through fields, and setting focus fiels at cDM
   focusNextField(id) {
@@ -184,6 +220,29 @@ class NewDeck extends React.Component {
 
   render() {
 
+    // console.log('\n in NewDeck.render');
+    // // this.focusTextInput();
+
+    // if (this.titleRef) {
+    //   console.log('titleRef', this.titleRef);
+    //   if (this.titleRef.focus){
+    //     console.log('titleRef.focus');
+    //     // this.titleRef.focus();
+    //   }
+    // }
+    // // "current" is to get the DOM node - mabye only after 1st render
+    // if (this.titleRef.current) {
+    //   console.log('titleRef.current', this.titleRef.current);
+    //   if (this.titleRef.current.focus){
+    //     console.log('titleRef.current.focus');
+    //     // this.titleRef.current.focus();
+    //   }
+    // }
+
+    // console.log('NewDeck.render, titleRef', this.titleRef);
+    // console.log('this.inputs:', this.inputs);
+    // console.log('\n');
+
       return (
           <View style={styles.container}>
             <View style={[{flex: 1}]}>
@@ -218,6 +277,7 @@ class NewDeck extends React.Component {
                     // ref={(c) => this._input = c}
                     ref={(input) => {this.inputs['titleField'] = input;}}
                     // ref="titleField"
+                    // ref={this.titleRef}
                     returnKeyType={ "done" }
                     blurOnSubmit={false}    // No more refs to tab thru, so true
                     onSubmitEditing={() => {
@@ -308,7 +368,7 @@ if (Platform.OS==='android'){
   }
 }
     // TODO:
-    /* onEndEditing={(title) => this.setState({title: title.trim()})} */
+    // STILL trying to get the keyboard to Open and TextInput to Focus at Load
 
 
 const keyboardAvoidingViewProps = {
