@@ -127,13 +127,19 @@ class NewDeck extends React.Component {
             : ''
   }
 
-  // onBlur(){
-  //   // title = this.state.title.trim();
-  //   // const unique = makeStringUnique(title, this.props.existingTitles);
-  //   // // TODO: if unique !== title, highlight this to the user, so they can edit
-  //   // //       if they don't like the revised title
-  //   // this.setState({ title: unique });
-  // }
+  onKeyPress({ nativeEvent }) {
+    // ios and Android seem to handle Tab and Return/Enter differently.
+    // ios sometimes enters a newline or tab, whereas androis sometimes
+    // processes it as a space (or ignores it?), vs processes the tab as Tabbing.
+    // It may take on different behavior on each platform depending on if
+    // multiline is true or false.
+    // I think it was ios that I wanted to remove newlines from. This is my attempt.
+    // if (nativeEvent["key"] === 'Tab' || '\t' || '\n') {
+    if (nativeEvent["key"] === 'Tab') {
+      nativeEvent["key"] = ' ';
+    }
+    return { nativeEvent };
+  }
 
   canSubmit(){
     return (!this.state.errorMessage && this.state.beenTouched) &&
@@ -201,6 +207,8 @@ class NewDeck extends React.Component {
                     style={styles.textInput}
                     width={this.state.textInputContainerWidth || 300}
                     value={this.state.title}
+                    onKeyPress={({ nativeEvent: { key: keyValue } }) =>
+                      this.onKeyPress({ nativeEvent: { key: keyValue } })}
                     onChangeText={(title) => this.controlledTextInput(title)}
 
                     /* (so can tab between input fields, while keeping keyboard up),
@@ -247,7 +255,7 @@ class NewDeck extends React.Component {
 }
 
 let textInputProps = {
-  // autoFocus: true,
+  autoFocus: true,
 
   maxLength: 25,
   // numlines: 2,
@@ -279,6 +287,8 @@ let textInputProps = {
   autoCapitalize: 'words',
   placeholderTextColor: primaryColorDark,
   selectionColor: primaryColorLight,
+  caretHidden: true,
+
 }
 if (Platform.OS==='ios'){
   textInputProps = {
@@ -287,25 +297,24 @@ if (Platform.OS==='ios'){
     keyboardAppearance: 'light',
     autoCorrect: false,  //ios only -- but it does Not seem to be working
     spellCheck: true,    //ios only -- but it does Not seem to be working
+    clearButtonMode:  'while-editing',
   }
 }
 if (Platform.OS==='android'){
   textInputProps = {
     ...textInputProps,
     underlineColorAndroid: primaryColorLight,
+    returnKeyLabel: 'Submit',
   }
 }
     // TODO:
     /* onEndEditing={(title) => this.setState({title: title.trim()})} */
-    /* onBlur={(title) => this.setState({title: title.trim()})} */
-    /* clearButtonMode={"while-editing"} */
 
 
 const keyboardAvoidingViewProps = {
   // Options for `behavior` : enum('height', 'position', 'padding')
   behavior: 'padding',
 };
-// TODO: DELETE UNUSED STYLES
 
 let componentStyles = {
   // CONTAINER styles

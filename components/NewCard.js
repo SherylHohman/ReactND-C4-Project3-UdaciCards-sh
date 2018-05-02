@@ -188,6 +188,20 @@ class NewCard extends React.Component {
            (this.state.existingQuestions.indexOf(this.state.question) === -1);
   }
 
+  onKeyPress({ nativeEvent }) {
+    // ios and Android seem to handle Tab and Return/Enter differently.
+    // ios sometimes enters a newline or tab, whereas androis sometimes
+    // processes it as a space (or ignores it?), vs processes the tab as Tabbing.
+    // It may take on different behavior on each platform depending on if
+    // multiline is true or false.
+    // I think it was ios that I wanted to remove newlines from. This is my attempt.
+    // if (nativeEvent["key"] === 'Tab' || '\t' || '\n') {
+    if (nativeEvent["key"] === 'Tab') {
+      nativeEvent["key"] = ' ';
+    }
+    return { nativeEvent };
+  }
+
   onSubmit(){
     if (!this.canSubmit()) {return;}
 
@@ -242,6 +256,8 @@ class NewCard extends React.Component {
                       style={styles.textInput}
                       width={this.state.textInputContainerWidth || 300}
                       value={this.state.question}
+                      onKeyPress={({ nativeEvent: { key: keyValue } }) =>
+                        this.onKeyPress({ nativeEvent: { key: keyValue } })}
                       onChangeText={(question) =>
                         this.controlledTextInputQuestion(question)}
                       // TODO:
@@ -351,6 +367,7 @@ if (Platform.OS==='ios'){
     keyboardAppearance: 'light',
     autoCorrect: false,  //ios only -- but it does Not seem to be working on ios
     spellCheck: true,    //ios only -- but it does Not seem to be working on ios
+    clearButtonMode:  'while-editing',
   }
 }
 if (Platform.OS==='android'){
@@ -362,7 +379,6 @@ if (Platform.OS==='android'){
 // TODO:
    /* onEndEditing={(title) => this.setState({title: title.trim()})} */
    /* onBlur={(title) => this.setState({title: title.trim()})} */
-   /* clearButtonMode={"while-editing"} */
 
 
 let componentStyles = {
